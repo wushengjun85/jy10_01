@@ -13,9 +13,14 @@ Work::Work(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    findlokk_work = new FindLook();//初始化查询对象
+
+    time_work = new Timesetup();//初始化设置对象
+
+
     resize(1024,600);
     Work::move(0,0);//回到原来主窗口的位置
-    setWindowFlags(windowFlags()|Qt::FramelessWindowHint|Qt::WindowTitleHint);//删除 最小化、最大化、关闭按钮
+   // setWindowFlags(windowFlags()|Qt::FramelessWindowHint|Qt::WindowTitleHint);//删除 最小化、最大化、关闭按钮
 
 
     QTimer *dialogtime = new QTimer(this);
@@ -39,6 +44,22 @@ void Work::paintEvent(QPaintEvent *event)
 {
     QPainter dp(this);
     QPixmap dppix;
-    dppix.load("./imagejy/02.bmp");
+    dppix.load("./imagejy/work.bmp");
     dp.drawPixmap(0,0,1024,600,dppix);
+}
+
+void Work::on_pushButton_4_clicked()//查询按钮
+{
+    this->close();
+    findlokk_work->show();
+    findlokk_work->exec();
+    this->show();
+}
+
+void Work::on_pushButton_2_clicked()// 设置按钮
+{
+    this->close();
+    time_work->show();
+    time_work->exec();
+    this->close();
 }

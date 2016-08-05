@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include<QDate>
+#include"timesetuptrue.h"
 
 namespace Ui {
 class Timesetup;
@@ -17,15 +18,14 @@ public:
     ~Timesetup();
     
 private slots:
-    void funsetuptime();
-    void on_dateEdit_dateChanged(const QDate &date);
-
-    void on_timeEdit_timeChanged(const QTime &timed);
 
     void on_pushButton_clicked();
 
+    void on_pushButton_2_clicked();
+
 private:
     Ui::Timesetup *ui;
+    TimesetupTrue *time_timeset;
 protected:
     void paintEvent(QPaintEvent *);
 };

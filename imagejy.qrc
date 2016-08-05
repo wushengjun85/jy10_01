@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/new/prefix1">
+        <file>imagejy/find.png</file>
+        <file>imagejy/laba.png</file>
+        <file>imagejy/setup.png</file>
+        <file>imagejy/back.png</file>
+        <file>imagejy/qihuan.png</file>
+        <file>imagejy/03-1.png</file>
+        <file>imagejy/jiaozhun.png</file>
+        <file>imagejy/timeseticon.png</file>
+    </qresource>
+</RCC>

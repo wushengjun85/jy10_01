@@ -13,10 +13,13 @@ Timesetup::Timesetup(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    Timesetup::move(0,0);//回到原来主窗口的位置
+    //setWindowFlags(windowFlags()|Qt::FramelessWindowHint|Qt::WindowTitleHint);//删除 最小化、最大化、关闭按钮
+
+    time_timeset = new TimesetupTrue();
+
 
     QTimer *tm = new QTimer(this);
-   // connect(tm, SIGNAL(timeout()), this, SLOT(funsetuptime()));  //连接信号槽，定时器超时触发窗体更新
-    connect(ui->dateEdit,SIGNAL(dateChanged(QDate)),this,SLOT(funsetuptime()));
     tm->start(500);
 }
 
@@ -25,46 +28,25 @@ Timesetup::~Timesetup()
     delete ui;
 }
 
-void Timesetup::funsetuptime()
-{
-
-    //QString dateStr = QDate::currentDate().toString("yyyy-MM-dd");
-    //ui->lcdNumber->display(dateStr);
-}
-
-
-void Timesetup::on_dateEdit_dateChanged(const QDate &date)
-{
-
-    QString lsdate = date.toString("yyyy-MM-dd");
-    ui->lcdNumber->display(lsdate);
-}
-
-void Timesetup::on_timeEdit_timeChanged(const QTime &timed)
-{
-    QString timeStr= timed.toString();     //绘制当前的时间
-    ui->lcdNumber_2->display(timeStr);
-
-    QString str1 = """";
-         str1 += "date -s ";
-         str1 += timeStr;
-         str1 += """";
-
-         //system("clock -w");
-         system("hwclock --hctosys");
-         system(str1.toLatin1().data());//str1.toLatin1().data()
-}
 
 void Timesetup::paintEvent(QPaintEvent *)
 {
     QTime time = QTime::currentTime();   //获取当前的时间
     QPainter painter(this);
     QPixmap pix;
-    pix.load("./imagejy/03.bmp");
+    pix.load("./imagejy/setup.bmp");
     painter.drawPixmap(0,0,1024,600,pix);
 }
 
-void Timesetup::on_pushButton_clicked()
+void Timesetup::on_pushButton_clicked()//返回按钮
 {
     this->close();
+}
+
+void Timesetup::on_pushButton_2_clicked() //时间设置界面按钮
+{
+    this->close();
+    time_timeset->show();
+    time_timeset->exec();
+    this->show();
 }

@@ -4,7 +4,7 @@
 #include<QTime>
 #include<QTimer>
 #include<QPainter>
-
+#include<QMouseEvent>
 #include"signalcan.h"
 
 /***************************************************************************************************************/
@@ -62,13 +62,13 @@ unsigned char  myindex[15] = {0};
 unsigned char  countBuff = 0;
 
 
-unsigned char flagLeft = 0;  //左转
+unsigned char flagLeft = 1;  //左转
 unsigned char countLeft = 0; //左转
 
-unsigned char flagBattery = 0;//电瓶指示灯
+unsigned char flagBattery = 1;//电瓶指示灯
 unsigned char countBattery = 0;//电瓶指示灯
 
-unsigned char flagWidthlamp = 0; //示宽灯
+unsigned char flagWidthlamp = 1; //示宽灯
 unsigned char countWidthlamp = 0;//示宽灯
 
 unsigned char  flagYG = 0; //远光灯
@@ -228,6 +228,9 @@ Widget::Widget(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    Widget::move(0,0);//回到原来主窗口的位置
+    //setWindowFlags(windowFlags()|Qt::FramelessWindowHint|Qt::WindowTitleHint);//删除 最小化、最大化、关闭按钮
+
     //初始化 work子界面
     work = new Work();
     //初始化 Timesetup子界面
@@ -278,13 +281,13 @@ void Widget::paintEvent(QPaintEvent *event)
 
     if (flaglanguage)
     {
-    pix.load("./img2/xingzou2.bmp");
+    pix.load("./imagejy/xingzou2.bmp");
     painter.drawPixmap(0,0,800,600,pix);
 
     }
     else
     {
-    pix.load("./imagejy/01.bmp");
+    pix.load("./imagejy/xingzou.bmp");
     painter.drawPixmap(0,0,1024,600,pix);
     }
 
@@ -384,9 +387,195 @@ void Widget::paintEvent(QPaintEvent *event)
 /************************************************************************************************/
 //2016.7.8
 //加载里程图片
+
+
+
+    /************************************************************************************************/
+    //2016.7.8
+    //加载里程图片
+        QPainter paintLicheng(this);
+        QPixmap pixLicheng;
+
+        pixLicheng.load("./img2/35.png");//14.jpg
+        paintLicheng.drawPixmap(625,380,96,27,pixLicheng);
+
+
+    /************************************************************************************************/
+    //2016.6.25  定义数值
+
+#if 0
+        ui->label->setText(QString::number(YouLiang)); //油量（油量）
+        ui->label_3->setText(QString::number(jiyouyali)); //机油压力
+        ui->label_2->setText(QString::number(Yeyayouwen));//液压油油温（液压油油温）
+        ui->label_4->setText(QString::number(SuiWen));//水温；
+        //ui->label_5->setText(QString::number(KL)); //机油温度
+        ui->label_6->setText(QString::number(CongDian));//充放电
+        ui->label_7->setText(QString::number(fmi));//FMI
+        ui->label_8->setText(QString::number(spn));//SPN
+
+        ui->label_9->setText(QString::number(zhouliuguntong));//轴流滚筒
+        ui->label_10->setText(QString::number(futuoqi)); //复脱器
+        ui->label_11->setText(QString::number(shengyunqi));//升运器
+        ui->label_12->setText(QString::number(MiJi));  //里程
+        ui->label_13->setText(QString::number(XiaoshiJi));//小时计
+#endif
+
+    #if 1
+        ui->label->setText("6");
+        ui->label_2->setText("88");
+        ui->label_3->setText("99");
+        ui->label_4->setText("11");
+        ui->label_5->setText("77");
+
+    #endif
+
+
+
+
+        //加载上方图标 闪烁用到
+        //zuo zhuandeng
+        QPainter paintLeft(this);
+        QPixmap pixLeft;
+
+        if((DC==1)&&(wsjtmpflag == 0))
+        {
+
+            //DC = 0;
+            //emit sendcamersignal();
+             //ok = true;
+
+             QMouseEvent* press=new QMouseEvent(QEvent::MouseButtonPress,QPoint(2,2), Qt::LeftButton,Qt::LeftButton,Qt::NoModifier);
+             QApplication::postEvent(ui->ptn_back,press);
+             QMouseEvent* release=new QMouseEvent(QEvent::MouseButtonRelease,QPoint(2,2),Qt::LeftButton,Qt::LeftButton,Qt::NoModifier);
+             QApplication::postEvent(ui->ptn_back,release);
+
+             wsjtmpflag = 1;
+
+        }
+    /************************************************************************************************/
+    //闪烁不同步问题解决办法。
+    //利用消息队列 和 for 循环解决。
+    //2016.7.25
+    #if 1
+
+        QPainter paintShanshuo(this);
+        QPixmap pixShanshuo;
+        if(1) //左转灯闪烁
+        {
+            countLeft++;
+            if (countLeft>1)
+                countLeft = 0;
+            switch(countLeft)
+            {
+                case 1:
+                if(flagLeft)//左转灯闪烁
+                {
+                    pixShanshuo.load("./imagejy/01.png");//14.jpg
+                    paintShanshuo.drawPixmap(0,0,43,34,pixShanshuo);
+                }
+                if(flagBattery)//电瓶指示灯
+                {
+                    pixShanshuo.load("./imagejy/03.png");//14.jpg
+                    paintShanshuo.drawPixmap(51,0,43,34,pixShanshuo);//正上方图片显示
+                    paintShanshuo.drawPixmap(20,335,43,34,pixShanshuo);//左边图片显示
+                }
+
+                if(flagSW)//水温 0~120度  95度以上报警。
+                {
+                     pixShanshuo.load("./imagejy/07.png");//14.jpg
+                     paintShanshuo.drawPixmap(204,0,35,35,pixShanshuo);//正上方位置显示的图标
+                }
+
+                if(flagJY) //机油  油压报警 0～1 MPa,在0.1 MPa 以下为报警区。
+                {
+                     pixShanshuo.load("./imagejy/22.png");//14.jpg
+                     paintShanshuo.drawPixmap(306,0,43,43,pixShanshuo);//正上方位置显示的图标
+                     paintShanshuo.drawPixmap(20,180,43,43,pixShanshuo);//左边显示的图标
+                }
+
+                if(flagLCM)//flagLCM = 1; //粮仓满
+                {
+                    pixShanshuo.load("./imagejy/7.png");//14.jpg
+                    paintShanshuo.drawPixmap(357,0,43,43,pixShanshuo);
+                }
+
+                if(flagFDJYR)//flagFDJYR = 1; //发动机预热
+                {
+                    pixShanshuo.load("./imagejy/17.png");//14.jpg
+                    paintShanshuo.drawPixmap(357,0,43,43,pixShanshuo);
+                }
+
+                if(flagGL)//过滤
+                {
+                    pixShanshuo.load("./imagejy/20.png");//14.jpg
+                    paintShanshuo.drawPixmap(408,0,43,43,pixShanshuo);
+                }
+                if (flagyouxiangman|flagyouliangdi)//油量
+                {
+                    pixShanshuo.load("./imagejy/23.png");//14.jpg
+                    paintShanshuo.drawPixmap(459,0,43,43,pixShanshuo);
+                    paintShanshuo.drawPixmap(20,120,43,43,pixShanshuo);
+                }
+                if(flagYeyayouwen)//液压油温
+                {
+                     pixShanshuo.load("./imagejy/16.png");//14.jpg
+                     paintShanshuo.drawPixmap(523,0,43,43,pixShanshuo);//上边图标
+                     paintShanshuo.drawPixmap(20,230,43,43,pixShanshuo);//左边图标
+                }
+                if(flagECU)//ecu
+                {
+                    pixShanshuo.load("./imagejy/91.png");//14.jpg
+                    paintShanshuo.drawPixmap(585,0,43,32,pixShanshuo);
+                }
+
+                if(flagFDJGZ)//发动机故障
+                {
+                    pixShanshuo.load("./imagejy/8.png");//14.jpg
+                    paintShanshuo.drawPixmap(697,0,43,37,pixShanshuo);
+                }
+
+                if(flagRight)//右转
+                {
+                    pixShanshuo.load("./imagejy/right.png");//14.jpg
+                    paintShanshuo.drawPixmap(752,0,48,48,pixShanshuo);
+                }
+                break;
+            }
+
+            //不用闪烁
+            if(flagWidthlamp)//示宽灯
+            {
+                pixShanshuo.load("./imagejy/06.png");//14.jpg
+                paintShanshuo.drawPixmap(102,0,43,34,pixShanshuo);
+            }
+
+            if(flagJG)//近光灯flagJG
+            {
+                pixShanshuo.load("./imagejy/15.png");//14.jpg
+                paintShanshuo.drawPixmap(255,0,38,41,pixShanshuo);
+            }
+
+            if(flagYG)//远光灯
+            {
+                pixShanshuo.load("./imagejy/24.png");//14.jpg
+                paintShanshuo.drawPixmap(153,0,43,34,pixShanshuo);
+            }
+
+            if(flagPark)//停车 刹车
+            {
+                pixShanshuo.load("./imagejy/18.png");//14.jpg
+                paintShanshuo.drawPixmap(640,0,43,34,pixShanshuo);
+            }
+
+        }
+
+    #endif
+
+
+
 }
 
-void Widget::on_pushButton_timesetup_clicked()
+void Widget::on_pushButton_timesetup_clicked() //设置按钮
 {
     this->close();
     timeObj->show();

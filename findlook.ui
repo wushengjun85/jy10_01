@@ -18,12 +18,15 @@
     <rect>
      <x>900</x>
      <y>540</y>
-     <width>121</width>
-     <height>61</height>
+     <width>48</width>
+     <height>28</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/new/prefix1/imagejy/back.png);</string>
+   </property>
    <property name="text">
-    <string>back</string>
+    <string/>
    </property>
   </widget>
  </widget>

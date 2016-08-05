@@ -12,6 +12,9 @@ FindLook::FindLook(QWidget *parent) :
     ui(new Ui::FindLook)
 {
     ui->setupUi(this);
+
+    FindLook::move(0,0);//回到原来主窗口的位置
+    //setWindowFlags(windowFlags()|Qt::FramelessWindowHint|Qt::WindowTitleHint);//删除 最小化、最大化、关闭按钮
 }
 
 FindLook::~FindLook()
@@ -29,7 +32,7 @@ void FindLook::paintEvent(QPaintEvent *)
     QTime time = QTime::currentTime();   //获取当前的时间
     QPainter painter(this);
     QPixmap pix;
-    pix.load("./imagejy/04.bmp");
+    pix.load("./imagejy/findlook.bmp");
     painter.drawPixmap(0,0,1024,600,pix);
 
 }

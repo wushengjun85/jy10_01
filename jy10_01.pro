@@ -8,12 +8,18 @@ DEPENDPATH += .
 INCLUDEPATH += .
 
 # Input
-HEADERS += canread.h findlook.h signalcan.h timesetup.h widget.h work.h
-FORMS += findlook.ui timesetup.ui widget.ui work.ui
+HEADERS += canread.h findlook.h signalcan.h timesetup.h widget.h work.h \
+    timesetuptrue.h
+FORMS += findlook.ui timesetup.ui widget.ui work.ui \
+    timesetuptrue.ui
 SOURCES += canread.cpp \
            findlook.cpp \
            main.cpp \
            signalcan.cpp \
            timesetup.cpp \
            widget.cpp \
-           work.cpp
+           work.cpp \
+    timesetuptrue.cpp
+
+RESOURCES += \
+    imagejy.qrc
