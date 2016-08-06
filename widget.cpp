@@ -93,10 +93,10 @@ unsigned char   countFDJYR = 0; //发动机预热
 unsigned char   flagGL = 0; //过滤
 unsigned char   countGL = 0; //过滤
 
-unsigned char   flagYL = 0; //油量
+unsigned char   flagYL = 1; //油量
 unsigned char    countYL = 0;//油量
 
-unsigned char  flagYeyayouwen = 0;//液压油温
+unsigned char  flagYeyayouwen = 1;//液压油温
 unsigned char  countYeyayouwen = 0; //液压油温
 
 unsigned char    flagECU = 0;//ecu
@@ -112,7 +112,7 @@ unsigned char   flagRight = 0; //右转
 unsigned char    countRight = 0;//右转
 
 
-unsigned char  flagyouxiangman = 0; //油量满
+unsigned char  flagyouxiangman = 1; //油量满
 unsigned char  flagyouliangdi  = 0; // 油量低
 
 
@@ -512,15 +512,17 @@ void Widget::paintEvent(QPaintEvent *event)
                 }
                 if (flagyouxiangman|flagyouliangdi)//油量
                 {
-                    pixShanshuo.load("./imagejy/23.png");//14.jpg
-                    paintShanshuo.drawPixmap(459,0,43,43,pixShanshuo);
-                    paintShanshuo.drawPixmap(20,120,43,43,pixShanshuo);
+                    pixShanshuo.load("./imagejy/09.png");//14.jpg
+                    paintShanshuo.drawPixmap(459,0,31,36,pixShanshuo);
+
+                     paintShanshuo.drawPixmap(400,172,31,36,pixShanshuo);
+
                 }
                 if(flagYeyayouwen)//液压油温
                 {
-                     pixShanshuo.load("./imagejy/16.png");//14.jpg
+                     pixShanshuo.load("./imagejy/14.png");//14.jpg
                      paintShanshuo.drawPixmap(523,0,43,43,pixShanshuo);//上边图标
-                     paintShanshuo.drawPixmap(20,230,43,43,pixShanshuo);//左边图标
+                     //paintShanshuo.drawPixmap(423,216,49,38,pixShanshuo);//左边图标
                 }
                 if(flagECU)//ecu
                 {
@@ -565,6 +567,13 @@ void Widget::paintEvent(QPaintEvent *event)
             {
                 pixShanshuo.load("./imagejy/18.png");//14.jpg
                 paintShanshuo.drawPixmap(640,0,43,34,pixShanshuo);
+            }
+
+            //油量格数
+            if (flagyouxiangman|flagyouliangdi)//油量
+            {
+                pixShanshuo.load("./imagejy/yl08.png");//14.jpg
+                paintShanshuo.drawPixmap(446,182,166,26,pixShanshuo);
             }
 
         }

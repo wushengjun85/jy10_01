@@ -46,6 +46,19 @@ void Work::paintEvent(QPaintEvent *event)
     QPixmap dppix;
     dppix.load("./imagejy/work.bmp");
     dp.drawPixmap(0,0,1024,600,dppix);
+
+
+
+
+    /**************************************************************************************************************/
+    //显示时间 。2016.7.12
+        QString timeStr1= QTime::currentTime().toString();     //绘制当前的时间
+        QString dateStr1 = QDate::currentDate().toString("yyyy-MM-dd");
+
+        ui->lcdNumber_2->display(dateStr1);
+        ui->lcdNumber->display(timeStr1);
+    /**************************************************************************************************************/
+
 }
 
 void Work::on_pushButton_4_clicked()//查询按钮
