@@ -44,25 +44,19 @@ extern uchar KL;  //空滤报警开关（空滤-） 2,
 extern uchar CongDian; //充电指示灯-  1,
 
 
+
+
+
 //第三个字节
-extern uchar kg6;//开关6 6，
-extern uchar kg5;//开关5 5，
-extern uchar kg4;//开关4 4,
-extern uchar kg3;//开关3 3,
-extern uchar kg2;//开关2 2,
-extern uchar kg1;//开关1 1,
+
 
 
 //第二个字节
-extern ushort out6;//输出6 6，
-extern ushort out5;//输出5 5,
-extern ushort out4;//输出4 4,
+
 
 
 //第一个字节
-extern ushort out3;//输出3 3,
-extern ushort out2;//输出2 2,
-extern ushort out1;//输出1 1,
+
 
 //频率量
 extern ushort  shengyunqi;    //升运器
@@ -104,6 +98,74 @@ extern uchar yurezhishideng;//18FEE400
 //18FEE500
 extern unsigned int XiaoshiJi; //小时计
 
+
+
+//新增相关变量
+
+
+extern uchar qianbulihezhishi;  //前部离合指示输入, 8
+
+extern uchar tuolilihezhishi;  //脱粒离合指示输入, 7
+
+extern uchar xieliangtongbaijin;//卸粮筒摆进限位开关 6
+
+extern uchar Shoubing;//界面切换输入（手柄控制）4
+//
+extern uchar liangman70;//粮满 70, 1
+
+//byte3
+extern uchar xielianglihe_input;//卸粮离合开关输入 2
+extern uchar guoqiaofanzhuan_input;//过桥反转指示输入 1
+
+
+//byte4
+
+extern uchar getaisheng_input;//割台升输入; 8
+extern uchar getaijiang_input;//割台降输入; 7
+
+extern uchar xltbj_input;//卸粮筒摆进输入 6
+extern uchar xltbc_input;//卸粮筒摆出输入 5
+
+extern uchar bhls_input;//拨禾轮升输入 4
+extern uchar bhlj_input; //拨禾轮降输入; 3
+extern uchar tltjiashu_input;//脱粒滚筒加速输入; 2
+
+extern uchar tltjianshu_input;//脱粒滚筒减速输入 1
+
+
+//byte5
+
+extern uchar getaisheng_out;//割台升输出; 8
+extern uchar getaijiang_out;//割台降输出; 7
+
+extern uchar xltbj_out;//卸粮筒摆进输出 6
+extern uchar xltbc_out;//卸粮筒摆出输出 5
+
+extern uchar bhls_out;//拨禾轮升输出 4
+extern uchar bhlj_out; //拨禾轮降输出; 3
+extern uchar tltjiashu_out;//脱粒滚筒加速输出; 2
+
+extern uchar tltjianshu_out;//脱粒滚筒减速输出 1
+
+
+
+extern uchar xiehefa_out;// 卸荷阀输出
+extern uchar  xielianglihe_out;//卸粮离合输出; 1
+
+
+
+
+
+
+
+//
+extern ushort  qiesuiqizhuansu;//切碎器转速
+extern ushort fengjizhuansu;//切碎器转速
+extern ushort guoqiaozhuansu;//过桥转速；
+
+extern ushort tuoliguntong;//脱粒滚筒转速
+extern ushort fenliguntong;//分离滚筒转速
+//extern ushort
 /********************************************************************************************************************/
 
 
@@ -222,16 +284,16 @@ void Canread::shutdownfd(int fd)
          filter[1].can_id = 0x20F | CAN_EFF_FLAG;
          filter[1].can_mask = 0xFFF;
 
-         filter[2].can_id = 0x18ff01f6;
+         filter[2].can_id = 0x18FF01F6;
          filter[2].can_mask = 0xfff;
 
-         filter[3].can_id = 0x18FF03F6;
+         filter[3].can_id = 0x18FF11F6;
          filter[3].can_mask = 0xfff;
 
-         filter[4].can_id = 0x18FEEE00;
+         filter[4].can_id = 0x18FF21F6;
          filter[4].can_mask = 0xfff;
 
-         filter[5].can_id = 0x18FEEF00;
+         filter[5].can_id = 0x18FF31F6;
          filter[5].can_mask = 0xfff;
 
 
@@ -346,67 +408,138 @@ void Canread::shutdownfd(int fd)
             //仪表值 有可以不用定义的变量，目前来说只是实验，等到正式产品的时候可以精简一下。
             /********************************************************************/
             //byte1 移位操作
-            DC = (frdup.data[0]>>6)&0x01; //倒车信号（倒车+） 7,
-            flagGL = DC;
+            YuanGuang = (frdup.data[0]>>7)&0x01; //远光指示灯（远光指示灯） 8,
+            flagYG = YuanGuang;
+
+            Jinguang = (frdup.data[0]>>6)&0x01; //近光指示灯（近光指示灯） 7,
+            flagJG = Jinguang;
 
             SK = (frdup.data[0]>>5)&0x01; //位置灯（位置灯+） 6,
             flagWidthlamp =SK;
 
-
-            SouSa = (frdup.data[0]>>4)&0x01; //手刹指示灯（手刹指示灯+） 5,
-             flagPark= SouSa;
-
-            Zuozhuan = (frdup.data[0]>>3)&0x01; //左转向灯（左转向灯）4,
+            Zuozhuan = (frdup.data[0]>>4)&0x01; //左转向灯（左转向灯）5,
             flagLeft = Zuozhuan;
 
-            Youzhuan = (frdup.data[0]>>2)&0x01; //右转向灯（右转向灯）3,
+            Youzhuan = (frdup.data[0]>>3)&0x01; //右转向灯（右转向灯）4,
             flagRight = Youzhuan;
 
-            YuanGuang = (frdup.data[0]>>1)&0x01; //远光指示灯（远光指示灯） 2,
-            flagYG = YuanGuang;
+            SouSa = (frdup.data[0]>>2)&0x01; //手刹指示灯（手刹指示灯+） 3,
+            flagPark= SouSa;
 
-            Jinguang = frdup.data[0]&0x01; //近光指示灯（近光指示灯） 1,
-            flagJG = Jinguang;
+            DC = (frdup.data[0]>>1)&0x01; //倒车信号（倒车+） 2,
+            flagGL = DC;
+
+            yure = frdup.data[0]&0x01;  //预热  1,
+
 
 
             //byte2
+#if 0
             youshuifenli = (frdup.data[1]>>5)&0x01;  //油水分离 6,
             flagBattery = youshuifenli;
 
             fadongjiguzhang = (frdup.data[1]>>4)&0x01;//发动机故障 5,
 
-            yure = (frdup.data[1]>>3)&0x01;  //预热 4,
+#endif
 
-            liangman = (frdup.data[1]>>2)&0x01; //粮满 3,
+            qianbulihezhishi = (frdup.data[1]>>7)&0x01;  //前部离合指示输入, 8
 
-            KL = (frdup.data[1]>>1)&0x01;   //空滤报警开关（空滤-） 2,
+            tuolilihezhishi =  (frdup.data[1]>>6)&0x01;  //脱粒离合指示输入, 7
 
-            CongDian = frdup.data[1]&0x01;  //充电指示灯-  1,
+            xieliangtongbaijin = (frdup.data[1]>>5)&0x01;//卸粮筒摆进限位开关 6
+
+            CongDian = (frdup.data[1]>>4)&0x01;  //充电指示灯-  5,
+
+            Shoubing = (frdup.data[1]>>3)&0x01;  //界面切换输入（手柄控制）4
+
+            KL = (frdup.data[1]>>2)&0x01;   //空滤报警开关（空滤-） 3,
+
+            liangman = (frdup.data[1]>>1)&0x01; //粮满100 , 2
+
+            liangman70 = frdup.data[1]&0x01; //粮满 70, 1
 
 
             //byte3
+            xielianglihe_input = (frdup.data[2]>>1)&0x01;//卸粮离合开关输入 2
+            guoqiaofanzhuan_input = (frdup.data[2])&0x01;    //过桥反转指示输入 1
 
-            kg6  = (frdup.data[2]>>5)&0x01;//开关6 6，
-            kg5  = (frdup.data[2]>>4)&0x01;//开关5 5，
-            kg4 = (frdup.data[2]>>3)&0x01; //开关4 4,
-            kg3 = (frdup.data[2]>>2)&0x01; //开关3 3,
-            kg2 = (frdup.data[2]>>1)&0x01; //开关2 2,
-            kg1 = (frdup.data[2])&0x01;    //开关1 1,
+
+            //byte4
+
+            getaisheng_input = (frdup.data[3]>>7)&0x01;//割台升输入; 8
+            getaijiang_input = (frdup.data[3]>>6)&0x01;//割台降输入; 7
+
+            xltbj_input = (frdup.data[3]>>5)&0x01;//卸粮筒摆进输入 6
+            xltbc_input = (frdup.data[3]>>4)&0x01;//卸粮筒摆出输入 5
+
+            bhls_input = (frdup.data[3]>>3)&0x01;//拨禾轮升输入 4
+            bhlj_input = (frdup.data[3]>>2)&0x01; //拨禾轮降输入; 3
+            tltjiashu_input = (frdup.data[3]>>1)&0x01;//脱粒滚筒加速输入; 2
+
+            tltjianshu_input = frdup.data[3]&0x01;//脱粒滚筒减速输入 1
+
+
+            //byte5
+
+            getaisheng_out = (frdup.data[4]>>7)&0x01;//割台升输出; 8
+            getaijiang_out = (frdup.data[4]>>6)&0x01;//割台降输出; 7
+
+            xltbj_out = (frdup.data[4]>>5)&0x01;//卸粮筒摆进输出 6
+            xltbc_out = (frdup.data[4]>>4)&0x01;//卸粮筒摆出输出 5
+
+            bhls_out = (frdup.data[4]>>3)&0x01;//拨禾轮升输出 4
+            bhlj_out = (frdup.data[4]>>2)&0x01; //拨禾轮降输出; 3
+            tltjiashu_out = (frdup.data[4]>>1)&0x01;//脱粒滚筒加速输出; 2
+
+            tltjianshu_out = frdup.data[4]&0x01;//脱粒滚筒减速输出 1
+
+            //byte6
+
+            xiehefa_out = (frdup.data[5]>>1)&0x01;//卸荷阀输出; 2
+
+            xielianglihe_out = frdup.data[5]&0x01;//卸粮离合输出; 1
 
             break;
 
 
-            //18FF02F6
-       case 0x18FF02F6:
-            out1 = ((frdup.data[0]>>1)<<1)|(frdup.data[0]&0x01);
-            out2 = ((frdup.data[0]>>3)<<1)|((frdup.data[0]>>2)&0x01);
-            out3 = ((frdup.data[0]>>5)<<1)|((frdup.data[0]>>4)&0x01);
+      case  0x18FF11F6:
+            futuoqi  = frdup.data[7]<<8|frdup.data[6];// 复脱器转速
+            shengyunqi = frdup.data[5]<<8|frdup.data[4];//升运器转速
 
-            out4 = ((frdup.data[0]>>1)<<1)|(frdup.data[0]&0x01);
-            out5 = ((frdup.data[0]>>3)<<1)|((frdup.data[0]>>2)&0x01);
-            out6 = ((frdup.data[0]>>5)<<1)|((frdup.data[0]>>4)&0x01);
+            fenliguntong = frdup.data[3]<<8|frdup.data[2];//分离滚筒转速
+            tuoliguntong = frdup.data[1]<<8|frdup.data[0];//脱粒滚筒转速
+            break;
+
+
+           //频率量
+     case  0x18FF21F6:
+
+           shisu = frdup.data[7]<<8|frdup.data[6];//时速
+           guoqiaozhuansu = frdup.data[5]<<8|frdup.data[4];////过桥转速；
+
+           fengjizhuansu =  frdup.data[3]<<8|frdup.data[2];//风机转速
+           qiesuiqizhuansu = frdup.data[1]<<8|frdup.data[0];//切碎器转速
 
             break;
+
+
+//             //频率量
+//            //18FF02F6
+//       case 0x18FF02F6:
+//            out1 = ((frdup.data[0]>>1)<<1)|(frdup.data[0]&0x01);
+//            out2 = ((frdup.data[0]>>3)<<1)|((frdup.data[0]>>2)&0x01);
+//            out3 = ((frdup.data[0]>>5)<<1)|((frdup.data[0]>>4)&0x01);
+
+//            out4 = ((frdup.data[0]>>1)<<1)|(frdup.data[0]&0x01);
+//            out5 = ((frdup.data[0]>>3)<<1)|((frdup.data[0]>>2)&0x01);
+//            out6 = ((frdup.data[0]>>5)<<1)|((frdup.data[0]>>4)&0x01);
+
+//            break;
+
+
+
+
+
             //频率量
             //18FF03F6
        case 0x18FF03F6:
@@ -416,8 +549,8 @@ void Canread::shutdownfd(int fd)
             shisu = frdup.data[7]<<8|frdup.data[6];
             break;
 
-           //模拟量 18FF04F6
-       case 0x18FF04F6:
+           //模拟量 18FF31F6
+       case 0x18FF31F6:
            YouLiang = frdup.data[0]; //油量（油量）
            if(frdup.data[0]>= 100)
            {

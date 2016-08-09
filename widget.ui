@@ -50,15 +50,18 @@
     <rect>
      <x>530</x>
      <y>470</y>
-     <width>271</width>
+     <width>251</width>
      <height>61</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 0, 0);</string>
    </property>
    <property name="frameShape">
     <enum>QFrame::NoFrame</enum>
    </property>
    <property name="digitCount">
-    <number>10</number>
+    <number>8</number>
    </property>
    <property name="segmentStyle">
     <enum>QLCDNumber::Filled</enum>
@@ -182,24 +185,27 @@
   <widget class="QLabel" name="label_6">
    <property name="geometry">
     <rect>
-     <x>330</x>
+     <x>320</x>
      <y>540</y>
-     <width>231</width>
+     <width>351</width>
      <height>51</height>
     </rect>
    </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:22pt; color:#ff0000;&quot;&gt;豪威尔&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:22pt; color:#ff0000;&quot;&gt;豪威尔豪威尔豪威尔豪威尔&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
   <widget class="QLCDNumber" name="lcdNumber_2">
    <property name="geometry">
     <rect>
-     <x>250</x>
+     <x>220</x>
      <y>470</y>
-     <width>271</width>
+     <width>331</width>
      <height>61</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 0, 0);</string>
    </property>
    <property name="frameShape">
     <enum>QFrame::NoFrame</enum>

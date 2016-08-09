@@ -7,6 +7,8 @@
 #include<QMouseEvent>
 #include"signalcan.h"
 
+#include"canread.h"
+
 /***************************************************************************************************************/
 //2016.8.1  变量定义
 bool flaglanguage = false; //中英文切换标志变量。
@@ -15,12 +17,6 @@ bool flaglanguage = false; //中英文切换标志变量。
 
 
 /***************************************************************************************************************/
-
-
-
-
-
-
 int num = 0;
 int numtmp = 0;
 
@@ -71,26 +67,26 @@ unsigned char countBattery = 0;//电瓶指示灯
 unsigned char flagWidthlamp = 1; //示宽灯
 unsigned char countWidthlamp = 0;//示宽灯
 
-unsigned char  flagYG = 0; //远光灯
+unsigned char  flagYG = 1; //远光灯
 unsigned char  countYG = 0;//远光灯
 
-unsigned char  flagSW  = 0; //水温
+unsigned char  flagSW  = 1; //水温
 unsigned char  countSW = 0; //水温
 
-unsigned char  flagJG = 0; //近光灯
+unsigned char  flagJG = 1; //近光灯
 unsigned char  countJG = 0; //近光灯
 
 
-unsigned char  flagJY = 0; //机油
+unsigned char  flagJY = 1; //机油
 unsigned char  countJY = 0; //机油
 
-unsigned char  flagLCM = 0; //粮仓满
+unsigned char  flagLCM = 1; //粮仓满
 unsigned char  countLCM = 0; //粮仓满
 
-unsigned char   flagFDJYR = 0; //发动机预热
+unsigned char   flagFDJYR = 1; //发动机预热
 unsigned char   countFDJYR = 0; //发动机预热
 
-unsigned char   flagGL = 0; //过滤
+unsigned char   flagGL = 1; //过滤
 unsigned char   countGL = 0; //过滤
 
 unsigned char   flagYL = 1; //油量
@@ -102,13 +98,13 @@ unsigned char  countYeyayouwen = 0; //液压油温
 unsigned char    flagECU = 0;//ecu
 unsigned char    countECU = 0;//ecu
 
-unsigned char    flagPark = 0;//停车
+unsigned char    flagPark = 1;//停车
 unsigned char    countPark = 0; //停车
 
-unsigned char   flagFDJGZ = 0; //发动机故障
+unsigned char   flagFDJGZ = 1; //发动机故障
 unsigned char   countFDJGZ = 0; //发动机故障
 
-unsigned char   flagRight = 0; //右转
+unsigned char   flagRight = 1; //右转
 unsigned char    countRight = 0;//右转
 
 
@@ -157,26 +153,6 @@ uchar KL;  //空滤报警开关（空滤-） 2,
 uchar CongDian; //充电指示灯-  1,
 
 
-//第三个字节
-uchar kg6;//开关6 6，
-uchar kg5;//开关5 5，
-uchar kg4;//开关4 4,
-uchar kg3;//开关3 3,
-uchar kg2;//开关2 2,
-uchar kg1;//开关1 1,
-
-
-//第二个字节
-uchar out6;//输出6 6，
-uchar out5;//输出5 5,
-uchar out4;//输出4 4,
-
-
-//第一个字节
-uchar out3;//输出3 3,
-uchar out2;//输出2 2,
-uchar out1;//输出1 1,
-
 //频率量
 ushort  shengyunqi;    //升运器
 ushort  futuoqi;       //复脱器
@@ -220,6 +196,76 @@ uchar yurezhishideng;//18FEE400
 unsigned int XiaoshiJi; //小时计
 
 /********************************************************************************************************************/
+//新增相关变量
+
+uchar qianbulihezhishi;  //前部离合指示输入, 8
+
+uchar tuolilihezhishi;  //脱粒离合指示输入, 7
+
+uchar xieliangtongbaijin;//卸粮筒摆进限位开关 6
+
+uchar Shoubing;//界面切换输入（手柄控制）4
+
+//
+uchar liangman70;//粮满 70, 1
+
+//byte3
+uchar xielianglihe_input;//卸粮离合开关输入 2
+uchar guoqiaofanzhuan_input;//过桥反转指示输入 1
+
+
+//byte4
+
+uchar getaisheng_input;//割台升输入; 8
+uchar getaijiang_input;//割台降输入; 7
+
+uchar xltbj_input;//卸粮筒摆进输入 6
+uchar xltbc_input;//卸粮筒摆出输入 5
+
+uchar bhls_input;//拨禾轮升输入 4
+uchar bhlj_input; //拨禾轮降输入; 3
+uchar tltjiashu_input;//脱粒滚筒加速输入; 2
+
+uchar tltjianshu_input;//脱粒滚筒减速输入 1
+
+
+//byte5
+
+uchar getaisheng_out;//割台升输出; 8
+uchar getaijiang_out;//割台降输出; 7
+
+uchar xltbj_out;//卸粮筒摆进输出 6
+uchar xltbc_out;//卸粮筒摆出输出 5
+
+uchar bhls_out;//拨禾轮升输出 4
+uchar bhlj_out; //拨禾轮降输出; 3
+uchar tltjiashu_out;//脱粒滚筒加速输出; 2
+
+uchar tltjianshu_out;//脱粒滚筒减速输出 1
+
+
+
+uchar xiehefa_out;// 卸荷阀输出
+uchar  xielianglihe_out;//卸粮离合输出; 1
+
+
+//
+ushort  qiesuiqizhuansu;//切碎器转速
+ushort fengjizhuansu;//切碎器转速
+ushort guoqiaozhuansu;//过桥转速；
+
+ushort tuoliguntong;//脱粒滚筒转速
+ushort fenliguntong;//分离滚筒转速
+
+/********************************************************************************************************************/
+
+
+
+
+
+
+
+
 
 
 Widget::Widget(QWidget *parent) :
@@ -385,47 +431,14 @@ void Widget::paintEvent(QPaintEvent *event)
     painter.translate(-405,-432);//平移到左上角
 
 /************************************************************************************************/
-//2016.7.8
-//加载里程图片
 
-
-
-    /************************************************************************************************/
-    //2016.7.8
-    //加载里程图片
-        QPainter paintLicheng(this);
-        QPixmap pixLicheng;
-
-        pixLicheng.load("./img2/35.png");//14.jpg
-        paintLicheng.drawPixmap(625,380,96,27,pixLicheng);
-
-
-    /************************************************************************************************/
     //2016.6.25  定义数值
-
-#if 0
-        ui->label->setText(QString::number(YouLiang)); //油量（油量）
-        ui->label_3->setText(QString::number(jiyouyali)); //机油压力
-        ui->label_2->setText(QString::number(Yeyayouwen));//液压油油温（液压油油温）
-        ui->label_4->setText(QString::number(SuiWen));//水温；
-        //ui->label_5->setText(QString::number(KL)); //机油温度
-        ui->label_6->setText(QString::number(CongDian));//充放电
-        ui->label_7->setText(QString::number(fmi));//FMI
-        ui->label_8->setText(QString::number(spn));//SPN
-
-        ui->label_9->setText(QString::number(zhouliuguntong));//轴流滚筒
-        ui->label_10->setText(QString::number(futuoqi)); //复脱器
-        ui->label_11->setText(QString::number(shengyunqi));//升运器
-        ui->label_12->setText(QString::number(MiJi));  //里程
-        ui->label_13->setText(QString::number(XiaoshiJi));//小时计
-#endif
-
     #if 1
-        ui->label->setText("6");
-        ui->label_2->setText("88");
-        ui->label_3->setText("99");
-        ui->label_4->setText("11");
-        ui->label_5->setText("77");
+        ui->label->setText("6");//机油温度
+        ui->label_2->setText(QString::number(Yeyayouwen));//液压油油温（液压油油温）
+        ui->label_3->setText(QString::number(SuiWen));//水温；
+        ui->label_4->setText(QString::number(jiyouyali)); //机油压力
+        ui->label_5->setText(QString::number(XiaoshiJi));//小时计
 
     #endif
 
@@ -442,7 +455,7 @@ void Widget::paintEvent(QPaintEvent *event)
 
             //DC = 0;
             //emit sendcamersignal();
-             //ok = true;
+            //ok = true;
 
              QMouseEvent* press=new QMouseEvent(QEvent::MouseButtonPress,QPoint(2,2), Qt::LeftButton,Qt::LeftButton,Qt::NoModifier);
              QApplication::postEvent(ui->ptn_back,press);
@@ -471,75 +484,75 @@ void Widget::paintEvent(QPaintEvent *event)
                 if(flagLeft)//左转灯闪烁
                 {
                     pixShanshuo.load("./imagejy/01.png");//14.jpg
-                    paintShanshuo.drawPixmap(0,0,43,34,pixShanshuo);
+                    paintShanshuo.drawPixmap(0,0,44,46,pixShanshuo);
                 }
                 if(flagBattery)//电瓶指示灯
                 {
                     pixShanshuo.load("./imagejy/03.png");//14.jpg
-                    paintShanshuo.drawPixmap(51,0,43,34,pixShanshuo);//正上方图片显示
-                    paintShanshuo.drawPixmap(20,335,43,34,pixShanshuo);//左边图片显示
+                    paintShanshuo.drawPixmap(60,0,46,32,pixShanshuo);//正上方图片显示
+                    //paintShanshuo.drawPixmap(20,335,43,34,pixShanshuo);//左边图片显示
                 }
 
                 if(flagSW)//水温 0~120度  95度以上报警。
                 {
-                     pixShanshuo.load("./imagejy/07.png");//14.jpg
-                     paintShanshuo.drawPixmap(204,0,35,35,pixShanshuo);//正上方位置显示的图标
+                     pixShanshuo.load("./imagejy/07.png");//07.jpg
+                     paintShanshuo.drawPixmap(118,0,45,40,pixShanshuo);//正上方位置显示的图标
                 }
 
                 if(flagJY) //机油  油压报警 0～1 MPa,在0.1 MPa 以下为报警区。
                 {
-                     pixShanshuo.load("./imagejy/22.png");//14.jpg
-                     paintShanshuo.drawPixmap(306,0,43,43,pixShanshuo);//正上方位置显示的图标
-                     paintShanshuo.drawPixmap(20,180,43,43,pixShanshuo);//左边显示的图标
+                     pixShanshuo.load("./imagejy/08.png");//08.jpg
+                     paintShanshuo.drawPixmap(396,0,59,24,pixShanshuo);//正上方位置显示的图标
+                     //paintShanshuo.drawPixmap(20,180,43,43,pixShanshuo);//左边显示的图标
                 }
 
                 if(flagLCM)//flagLCM = 1; //粮仓满
                 {
-                    pixShanshuo.load("./imagejy/7.png");//14.jpg
-                    paintShanshuo.drawPixmap(357,0,43,43,pixShanshuo);
+                    pixShanshuo.load("./imagejy/13.png");//13.jpg
+                    paintShanshuo.drawPixmap(542,0,42,41,pixShanshuo);
                 }
 
                 if(flagFDJYR)//flagFDJYR = 1; //发动机预热
                 {
-                    pixShanshuo.load("./imagejy/17.png");//14.jpg
-                    paintShanshuo.drawPixmap(357,0,43,43,pixShanshuo);
+                    pixShanshuo.load("./imagejy/15.png");//15.jpg
+                    paintShanshuo.drawPixmap(761,0,46,27,pixShanshuo);
                 }
 
-                if(flagGL)//过滤
+                if(flagGL)//空 滤
                 {
-                    pixShanshuo.load("./imagejy/20.png");//14.jpg
-                    paintShanshuo.drawPixmap(408,0,43,43,pixShanshuo);
+                    pixShanshuo.load("./imagejy/04.png");//04.jpg
+                    paintShanshuo.drawPixmap(469,0,42,43,pixShanshuo);
                 }
                 if (flagyouxiangman|flagyouliangdi)//油量
                 {
                     pixShanshuo.load("./imagejy/09.png");//14.jpg
-                    paintShanshuo.drawPixmap(459,0,31,36,pixShanshuo);
+                    paintShanshuo.drawPixmap(615,0,31,36,pixShanshuo);
 
-                     paintShanshuo.drawPixmap(400,172,31,36,pixShanshuo);
+                    // paintShanshuo.drawPixmap(409,172,31,36,pixShanshuo);
 
                 }
                 if(flagYeyayouwen)//液压油温
                 {
-                     pixShanshuo.load("./imagejy/14.png");//14.jpg
-                     paintShanshuo.drawPixmap(523,0,43,43,pixShanshuo);//上边图标
+                     pixShanshuo.load("./imagejy/10.png");//10.jpg
+                     paintShanshuo.drawPixmap(688,0,48,38,pixShanshuo);//上边图标
                      //paintShanshuo.drawPixmap(423,216,49,38,pixShanshuo);//左边图标
                 }
                 if(flagECU)//ecu
                 {
-                    pixShanshuo.load("./imagejy/91.png");//14.jpg
-                    paintShanshuo.drawPixmap(585,0,43,32,pixShanshuo);
+                    pixShanshuo.load("./imagejy/91.png");//03.jpg
+                    paintShanshuo.drawPixmap(594,0,43,32,pixShanshuo);
                 }
 
                 if(flagFDJGZ)//发动机故障
                 {
-                    pixShanshuo.load("./imagejy/8.png");//14.jpg
-                    paintShanshuo.drawPixmap(697,0,43,37,pixShanshuo);
+                    pixShanshuo.load("./imagejy/16.png");//16.jpg
+                    paintShanshuo.drawPixmap(907,0,47,30,pixShanshuo);
                 }
 
                 if(flagRight)//右转
                 {
-                    pixShanshuo.load("./imagejy/right.png");//14.jpg
-                    paintShanshuo.drawPixmap(752,0,48,48,pixShanshuo);
+                    pixShanshuo.load("./imagejy/02.png");//14.jpg
+                    paintShanshuo.drawPixmap(980,0,44,46,pixShanshuo);
                 }
                 break;
             }
@@ -547,26 +560,26 @@ void Widget::paintEvent(QPaintEvent *event)
             //不用闪烁
             if(flagWidthlamp)//示宽灯
             {
-                pixShanshuo.load("./imagejy/06.png");//14.jpg
-                paintShanshuo.drawPixmap(102,0,43,34,pixShanshuo);
+                pixShanshuo.load("./imagejy/06.png");//06.jpg
+                paintShanshuo.drawPixmap(177,0,57,32,pixShanshuo);
             }
 
             if(flagJG)//近光灯flagJG
             {
-                pixShanshuo.load("./imagejy/15.png");//14.jpg
-                paintShanshuo.drawPixmap(255,0,38,41,pixShanshuo);
+                pixShanshuo.load("./imagejy/12.png");//12.jpg
+                paintShanshuo.drawPixmap(250,0,46,37,pixShanshuo);
             }
 
             if(flagYG)//远光灯
             {
-                pixShanshuo.load("./imagejy/24.png");//14.jpg
-                paintShanshuo.drawPixmap(153,0,43,34,pixShanshuo);
+                pixShanshuo.load("./imagejy/05.png");//05.jpg
+                paintShanshuo.drawPixmap(323,0,46,37,pixShanshuo);
             }
 
             if(flagPark)//停车 刹车
             {
-                pixShanshuo.load("./imagejy/18.png");//14.jpg
-                paintShanshuo.drawPixmap(640,0,43,34,pixShanshuo);
+                pixShanshuo.load("./imagejy/11.png");//11.jpg
+                paintShanshuo.drawPixmap(834,0,48,37,pixShanshuo);
             }
 
             //油量格数
@@ -602,8 +615,14 @@ void Widget::on_ptn_back_clicked()// 进入子界面，并返回按键事件
 
 void Widget::diplaytime()
 {
-    QString time_display =  QTime::currentTime().toString();     //绘制当前的时间
-    ui->lcdNumber->display(time_display);
+//    QString time_display =  QTime::currentTime().toString();     //绘制当前的时间
+//    ui->lcdNumber->display(time_display);
+
+    QString timeStr= QTime::currentTime().toString();     //绘制当前的时间
+    QString dateStr = QDate::currentDate().toString("yyyy-MM-dd");
+
+    ui->lcdNumber_2->display(dateStr);
+    ui->lcdNumber->display(timeStr);
 }
 
 void Widget::on_pushButton_timesetup_2_clicked()  //查询按钮
