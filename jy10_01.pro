@@ -9,7 +9,11 @@ INCLUDEPATH += .
 
 # Input
 HEADERS += canread.h findlook.h signalcan.h timesetup.h widget.h work.h \
-    timesetuptrue.h
+    timesetuptrue.h \
+    videodevice.h \
+    common.h \
+    camera_thread.h \
+    camera.h
 FORMS += findlook.ui timesetup.ui widget.ui work.ui \
     timesetuptrue.ui
 SOURCES += canread.cpp \
@@ -19,7 +23,10 @@ SOURCES += canread.cpp \
            timesetup.cpp \
            widget.cpp \
            work.cpp \
-    timesetuptrue.cpp
+    timesetuptrue.cpp \
+    videodevice.cpp \
+    camera_thread.cpp \
+    camera.cpp
 
 RESOURCES += \
     imagejy.qrc

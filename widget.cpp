@@ -261,13 +261,6 @@ ushort fenliguntong;//分离滚筒转速
 
 
 
-
-
-
-
-
-
-
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget)

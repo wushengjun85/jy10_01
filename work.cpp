@@ -6,6 +6,12 @@
 #include<QString>
 #include<QTime>
 #include<QTimer>
+#include<QDebug>
+
+#include"camera_thread.h"
+
+
+//extern QImage *img;
 
 
 
@@ -259,17 +265,51 @@ Work::Work(QWidget *parent) :
     Work::move(0,0);//回到原来主窗口的位置
    // setWindowFlags(windowFlags()|Qt::FramelessWindowHint|Qt::WindowTitleHint);//删除 最小化、最大化、关闭按钮
 
-
+#if 1
     QTimer *dialogtime = new QTimer(this);
     connect(dialogtime, SIGNAL(timeout()), this, SLOT(update()));  //连接信号槽，定时器超时触发窗体更新
+#endif
+
+       connect(this,SIGNAL(camerastartsignal()),this,SLOT(start_thread()));//摄像头程序打开
 
     dialogtime->start(500);
+
 }
+
 
 Work::~Work()
 {
     delete ui;
 }
+
+
+void Work::start_thread()
+{
+    video = new Camera_thread();
+    video->start();
+    connect(video,SIGNAL(image_data(QImage *)),this,SLOT(show_picture(QImage *)));
+}
+void Work::show_picture(QImage *img)
+{
+
+
+     ui->show_label1->setPixmap(QPixmap::fromImage(*img));
+     ui->show_label1->setScaledContents(true);//图片自适应label大小 等比例大小,缩放问题解决。
+
+     //全屏显示 要加条件判断
+#if 0
+//     ui->show_label1->resize(img->width(),img->height());
+//     ui->show_label1->resize(1024,600);
+//     ui->show_label1->move(0,0);
+#endif
+}
+void Work::stop_thread()
+{
+    delete video;
+}
+
+
+
 
 void Work::on_pushButton_clicked()
 {
@@ -477,4 +517,9 @@ void Work::on_pushButton_2_clicked()// 设置按钮
     time_work->show();
     time_work->exec();
     this->close();
+}
+
+void Work::on_pushButton_5_clicked()
+{
+    emit camerastartsignal();
 }
