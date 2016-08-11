@@ -28,6 +28,8 @@ private slots:
 
     void on_pushButton_timesetup_2_clicked();
 
+    void on_pushButton_timesetup_3_clicked();
+
 private:
     Ui::Widget *ui;
     Work *work;

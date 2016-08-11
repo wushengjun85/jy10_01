@@ -11,11 +11,18 @@
 #include"camera_thread.h"
 
 
-//extern QImage *img;
+/***************************************************************************************************************/
+//2016.8.11  变量定义
+//bool flaglanguage = false; //中英文切换标志变量。
+
+//uchar numtmp = 0; //临时 测试所用。
+
+extern  bool beep_flag;// 蜂鸣器标志
+/***************************************************************************************************************/
 
 
 
-bool ok;
+bool ok = true;
 
 extern  unsigned char wsjtmpflag;
 
@@ -28,14 +35,7 @@ uchar numjy = 0;
 //extern unsigned char KL;
 //extern unsigned char SK;
 
-
-
-
-
 extern unsigned char flagWidthlamp;
-
-
-
 
 //2016.6.22  extern widget.cpp 中的变量。
 /********************************************************************************************************************/
@@ -170,11 +170,6 @@ extern uchar xiehefa_out;// 卸荷阀输出
 extern uchar  xielianglihe_out;//卸粮离合输出; 1
 
 
-
-
-
-
-
 //
 extern ushort  qiesuiqizhuansu;//切碎器转速
 extern ushort fengjizhuansu;//切碎器转速
@@ -263,7 +258,7 @@ Work::Work(QWidget *parent) :
 
     resize(1024,600);
     Work::move(0,0);//回到原来主窗口的位置
-   // setWindowFlags(windowFlags()|Qt::FramelessWindowHint|Qt::WindowTitleHint);//删除 最小化、最大化、关闭按钮
+    setWindowFlags(windowFlags()|Qt::FramelessWindowHint|Qt::WindowTitleHint);//删除 最小化、最大化、关闭按钮
 
 #if 1
     QTimer *dialogtime = new QTimer(this);
@@ -298,9 +293,9 @@ void Work::show_picture(QImage *img)
 
      //全屏显示 要加条件判断
 #if 0
-//     ui->show_label1->resize(img->width(),img->height());
-//     ui->show_label1->resize(1024,600);
-//     ui->show_label1->move(0,0);
+     ui->show_label1->resize(img->width(),img->height());
+     ui->show_label1->resize(1024,600);
+     ui->show_label1->move(0,0);
 #endif
 }
 void Work::stop_thread()
@@ -333,7 +328,28 @@ void Work::paintEvent(QPaintEvent *event)
         ui->lcdNumber->display(timeStr1);
     /**************************************************************************************************************/
 
-    //2016.8.8  定义数值
+    /**************************************************************************************************************/
+        //测试摄像头直接采集图像并显示
+        //
+        #if 1
+            if ((ok == true)&&(numjy == 0))
+            {
+                 numjy = 1;
+                 emit camerastartsignal();
+            }
+            else if ((ok == false)&&(numjy==1))
+            {
+
+                numjy = 0;
+                qDebug()<<"stopcamera::"<<ok<<DC<<endl;
+                //emit stopcamerasignal();
+            }
+
+        #endif
+
+   /************************************************************************************************/
+
+            //2016.8.8  定义数值
 
             #if 1
                 ui->label->setText("6"); //r/min
@@ -354,26 +370,28 @@ void Work::paintEvent(QPaintEvent *event)
 
             #endif
 
+                /************************************************************************************************/
+                    if((DC == 0)&&(wsjtmpflag == 1)) //返回主界面。
+                    {
+                        //emit back();
+                        QMouseEvent* pressdialog=new QMouseEvent(QEvent::MouseButtonPress,QPoint(2,2), Qt::LeftButton,Qt::LeftButton,Qt::NoModifier);
+                        QApplication::postEvent(ui->pushButton,pressdialog);
+                        QMouseEvent* releasedialog=new QMouseEvent(QEvent::MouseButtonRelease,QPoint(2,2),Qt::LeftButton,Qt::LeftButton,Qt::NoModifier);
+                        QApplication::postEvent(ui->pushButton,releasedialog);
+                        wsjtmpflag = 0;
+                    }
+
+                /************************************************************************************************/
+
+
+
+
                 //加载上方图标 闪烁用到
                 //zuo zhuandeng
-                QPainter paintLeft(this);
-                QPixmap pixLeft;
+//                QPainter paintLeft(this);
+//                QPixmap pixLeft;
 
-                if((DC==1)&&(wsjtmpflag == 0))
-                {
 
-                    //DC = 0;
-                    //emit sendcamersignal();
-                    //ok = true;
-
-                     QMouseEvent* press=new QMouseEvent(QEvent::MouseButtonPress,QPoint(2,2), Qt::LeftButton,Qt::LeftButton,Qt::NoModifier);
-                     QApplication::postEvent(ui->pushButton,press);
-                     QMouseEvent* release=new QMouseEvent(QEvent::MouseButtonRelease,QPoint(2,2),Qt::LeftButton,Qt::LeftButton,Qt::NoModifier);
-                     QApplication::postEvent(ui->pushButton,release);
-
-                     wsjtmpflag = 1;
-
-                }
             /************************************************************************************************/
             //闪烁不同步问题解决办法。
             //利用消息队列 和 for 循环解决。
@@ -463,6 +481,27 @@ void Work::paintEvent(QPaintEvent *event)
                             pixShanshuo.load("./imagejy/02.png");//14.jpg
                             paintShanshuo.drawPixmap(980,0,44,46,pixShanshuo);
                         }
+
+
+                        //添加蜂鸣器报警
+                        if(beep_flag)
+                        {
+
+                            if(flagBattery|flagSW|flagLCM|flagFDJYR|flagGL|flagyouxiangman|flagyouliangdi|flagYeyayouwen|flagFDJGZ)
+                            {
+                                //beep_on();//打开蜂鸣器
+                            }
+                            else
+                            {
+                                //beep_off();//关闭蜂鸣器
+                            }
+                        }
+                        else
+                        {
+                            //beep_off();
+                        }
+
+
                         break;
                     }
 
@@ -494,9 +533,51 @@ void Work::paintEvent(QPaintEvent *event)
                     //油量格数
                     if (flagyouxiangman|flagyouliangdi)//油量
                     {
-                        pixShanshuo.load("./imagejy/yl08.png");//14.jpg
-                      paintShanshuo.drawPixmap(106,225,166,26,pixShanshuo);
-                    }
+                        switch(flagyouxiangman)
+                        {
+
+                        case 0:
+                            pixShanshuo.load("./imagejy/yl00.png");//14.jpg
+                            paintShanshuo.drawPixmap(106,225,166,26,pixShanshuo);
+                            break;
+
+                        case 1:
+                            pixShanshuo.load("./imagejy/yl01.png");//14.jpg
+                            paintShanshuo.drawPixmap(106,225,166,26,pixShanshuo);
+                            break;
+
+                        case 2:
+                            pixShanshuo.load("./imagejy/yl02.png");//14.jpg
+                            paintShanshuo.drawPixmap(106,225,166,26,pixShanshuo);
+                            break;
+
+                        case 3:
+                            pixShanshuo.load("./imagejy/yl03.png");//14.jpg
+                            paintShanshuo.drawPixmap(106,225,166,26,pixShanshuo);
+                            break;
+                        case 4:
+                            pixShanshuo.load("./imagejy/yl04.png");//14.jpg
+                            paintShanshuo.drawPixmap(106,225,166,26,pixShanshuo);
+                            break;
+                        case 5:
+                            pixShanshuo.load("./imagejy/yl05.png");//14.jpg
+                            paintShanshuo.drawPixmap(106,225,166,26,pixShanshuo);
+                            break;
+                        case 6:
+                            pixShanshuo.load("./imagejy/yl06.png");//14.jpg
+                            paintShanshuo.drawPixmap(106,225,166,26,pixShanshuo);
+                            break;
+                        case 7:
+                            pixShanshuo.load("./imagejy/yl07.png");//14.jpg
+                            paintShanshuo.drawPixmap(106,225,166,26,pixShanshuo);
+                            break;
+                        case 8:
+                            pixShanshuo.load("./imagejy/yl08.png");//14.jpg
+                            paintShanshuo.drawPixmap(106,225,166,26,pixShanshuo);
+                            break;
+                        }
+
+                    }//end off //油量格数
 
                 }
 
@@ -519,7 +600,16 @@ void Work::on_pushButton_2_clicked()// 设置按钮
     this->close();
 }
 
-void Work::on_pushButton_5_clicked()
+void Work::on_pushButton_3_clicked()//喇叭按钮
 {
-    emit camerastartsignal();
+    if(beep_flag)
+    {
+        beep_flag = false;
+        qDebug()<<"beep_flag = "<<beep_flag<<endl;
+    }
+    else
+    {
+        beep_flag = true;
+        qDebug()<<"beep_flag = "<<beep_flag<<endl;
+    }
 }

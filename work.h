@@ -30,10 +30,7 @@ private slots:
     void start_thread(void);
     void stop_thread();
 
-
-
-
-    void on_pushButton_5_clicked();
+    void on_pushButton_3_clicked();
 
 private:
     Ui::Work *ui;

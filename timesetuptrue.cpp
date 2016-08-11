@@ -9,7 +9,7 @@ TimesetupTrue::TimesetupTrue(QWidget *parent) :
     ui->setupUi(this);
 
     TimesetupTrue::move(0,0);//回到原来主窗口的位置
-    //setWindowFlags(windowFlags()|Qt::FramelessWindowHint|Qt::WindowTitleHint);//删除 最小化、最大化、关闭按钮
+    setWindowFlags(windowFlags()|Qt::FramelessWindowHint|Qt::WindowTitleHint);//删除 最小化、最大化、关闭按钮
 
     QTimer *tm_set = new QTimer(this);
    // connect(tm, SIGNAL(timeout()), this, SLOT(funsetuptime()));  //连接信号槽，定时器超时触发窗体更新

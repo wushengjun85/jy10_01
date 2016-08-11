@@ -23,7 +23,7 @@ void Camera_thread::run()
     while(1)
     {
         camera_hw.tmtt(img);
-        usleep(40000); //停留40毫秒
+        usleep(4000); //停留40毫秒
         emit image_data(img);
     }
 

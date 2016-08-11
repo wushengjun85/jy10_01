@@ -9,13 +9,15 @@
 
 #include"canread.h"
 
+
+
 /***************************************************************************************************************/
 //2016.8.1  变量定义
 bool flaglanguage = false; //中英文切换标志变量。
 
 //uchar numtmp = 0; //临时 测试所用。
 
-
+bool beep_flag = true;
 /***************************************************************************************************************/
 int num = 0;
 int numtmp = 0;
@@ -293,7 +295,7 @@ Widget::Widget(QWidget *parent) :
 
     //解析现象，当去掉 setWindowFlags(windowFlags()|Qt::FramelessWindowHint|Qt::WindowTitleHint); 这一句，在开发板子上能显示上方图标，但是不闪烁，
     //不注释则可以在板子上闪烁。
-   // setWindowFlags(windowFlags()|Qt::FramelessWindowHint|Qt::WindowTitleHint); //删除 最小化、最大化、关闭按钮
+    setWindowFlags(windowFlags()|Qt::FramelessWindowHint|Qt::WindowTitleHint); //删除 最小化、最大化、关闭按钮
 
     //倒车摄像头信号与槽
     //connect(this,SIGNAL(sendcamersignal()),this,SLOT(cameraslot()));
@@ -436,19 +438,14 @@ void Widget::paintEvent(QPaintEvent *event)
     #endif
 
 
-
-
-        //加载上方图标 闪烁用到
-        //zuo zhuandeng
-        QPainter paintLeft(this);
-        QPixmap pixLeft;
-
+     /************************************************************************************************/
+    //返回主界面。
         if((DC==1)&&(wsjtmpflag == 0))
         {
 
             //DC = 0;
             //emit sendcamersignal();
-            //ok = true;
+             ok = true;
 
              QMouseEvent* press=new QMouseEvent(QEvent::MouseButtonPress,QPoint(2,2), Qt::LeftButton,Qt::LeftButton,Qt::NoModifier);
              QApplication::postEvent(ui->ptn_back,press);
@@ -547,6 +544,24 @@ void Widget::paintEvent(QPaintEvent *event)
                     pixShanshuo.load("./imagejy/02.png");//14.jpg
                     paintShanshuo.drawPixmap(980,0,44,46,pixShanshuo);
                 }
+
+
+                if(beep_flag)
+                {
+                    //添加蜂鸣器报警
+                    if(flagBattery|flagSW|flagLCM|flagFDJYR|flagGL|flagyouxiangman|flagyouliangdi|flagYeyayouwen|flagFDJGZ)
+                    {
+                        //beep_on();//打开蜂鸣器
+                    }
+                    else
+                    {
+                        //beep_off();//关闭蜂鸣器
+                    }
+                }
+                else
+                {
+                    //beep_off();
+                }
                 break;
             }
 
@@ -578,9 +593,51 @@ void Widget::paintEvent(QPaintEvent *event)
             //油量格数
             if (flagyouxiangman|flagyouliangdi)//油量
             {
-                pixShanshuo.load("./imagejy/yl08.png");//14.jpg
-                paintShanshuo.drawPixmap(446,182,166,26,pixShanshuo);
-            }
+                switch(flagyouxiangman)
+                {
+
+                case 0:
+                    pixShanshuo.load("./imagejy/yl00.png");//14.jpg
+                    paintShanshuo.drawPixmap(446,182,166,26,pixShanshuo);
+                    break;
+
+                case 1:
+                    pixShanshuo.load("./imagejy/yl01.png");//14.jpg
+                    paintShanshuo.drawPixmap(446,182,166,26,pixShanshuo);
+                    break;
+
+                case 2:
+                    pixShanshuo.load("./imagejy/yl02.png");//14.jpg
+                    paintShanshuo.drawPixmap(446,182,166,26,pixShanshuo);
+                    break;
+
+                case 3:
+                    pixShanshuo.load("./imagejy/yl03.png");//14.jpg
+                    paintShanshuo.drawPixmap(446,182,166,26,pixShanshuo);
+                    break;
+                case 4:
+                    pixShanshuo.load("./imagejy/yl04.png");//14.jpg
+                    paintShanshuo.drawPixmap(446,182,166,26,pixShanshuo);
+                    break;
+                case 5:
+                    pixShanshuo.load("./imagejy/yl05.png");//14.jpg
+                    paintShanshuo.drawPixmap(446,182,166,26,pixShanshuo);
+                    break;
+                case 6:
+                    pixShanshuo.load("./imagejy/yl06.png");//14.jpg
+                    paintShanshuo.drawPixmap(446,182,166,26,pixShanshuo);
+                    break;
+                case 7:
+                    pixShanshuo.load("./imagejy/yl07.png");//14.jpg
+                    paintShanshuo.drawPixmap(446,182,166,26,pixShanshuo);
+                    break;
+                case 8:
+                    pixShanshuo.load("./imagejy/yl08.png");//14.jpg
+                    paintShanshuo.drawPixmap(446,182,166,26,pixShanshuo);
+                    break;
+                }
+
+            }//end off //油量格数
 
         }
 
@@ -624,4 +681,16 @@ void Widget::on_pushButton_timesetup_2_clicked()  //查询按钮
     findlook->show();
     findlook->exec();
     this->show();
+}
+
+void Widget::on_pushButton_timesetup_3_clicked()//喇叭按钮
+{
+    if(beep_flag)
+    {
+        beep_flag = false;
+    }
+    else
+    {
+        beep_flag = true;
+    }
 }
