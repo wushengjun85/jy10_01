@@ -10,6 +10,8 @@
 
 #include"camera_thread.h"
 
+#include <QtSql>
+#include <QTextCodec>
 
 /***************************************************************************************************************/
 //2016.8.11  变量定义
@@ -18,6 +20,11 @@
 //uchar numtmp = 0; //临时 测试所用。
 
 extern  bool beep_flag;// 蜂鸣器标志
+
+
+
+
+uint matchine[7] = {0}; //保存风机，复托器，升运器，等转速
 /***************************************************************************************************************/
 
 
@@ -331,7 +338,7 @@ void Work::paintEvent(QPaintEvent *event)
     /**************************************************************************************************************/
         //测试摄像头直接采集图像并显示
         //
-        #if 1
+        #if 0
             if ((ok == true)&&(numjy == 0))
             {
                  numjy = 1;
@@ -502,6 +509,101 @@ void Work::paintEvent(QPaintEvent *event)
                         }
 
 
+
+
+                        //读取数据库信息
+                        //
+                        QTextCodec::setCodecForTr(QTextCodec::codecForLocale());//汉字显示
+
+                       QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+                       db.setDatabaseName("my.db");
+                       if (!db.open())
+                       {
+                           qDebug()<<"open database failed ---"<<db.lastError().text()<<"/n";
+                       }
+                       QSqlQuery query;
+                    //   bool ok = query.exec("CREATE TABLE IF NOT EXISTS  myjy10 (id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    //                                      "name VARCHAR(20) NOT NULL,"
+                    //                                      "age INTEGER NULL)");
+
+                       bool ok = query.exec("create table myjy10(id INTEGER,name varchar,age INTEGER)");
+                       if (ok)
+                       {
+                           qDebug()<<"ceate table partition success"<<endl;
+                       }
+                       else
+                       {
+                           qDebug()<<"ceate table partition failed"<<endl;
+                       }
+
+                            query.prepare("INSERT INTO myjy10 (id, name, age) VALUES (:id, :name, :age)");
+
+                            uchar i = 0;
+                            query.exec("select id, name, age from myjy10");
+                            while (query.next())
+                            {
+
+                               //qDebug()<<"id("<<query.value(0).toInt()<<")  name:"<<query.value(1).toString()<<"  age:"<<query.value(2).toInt();
+                                //qDebug()<<query.value(2).toInt();
+
+                                matchine[i++] = query.value(2).toInt();
+                            }
+
+                            i = 0;
+                            for (i = 0; i < 7; i++)
+                                {
+                                    qDebug()<<matchine[i]<<endl;
+                                }
+                            i = 0;
+
+                            query.exec(QObject::tr("drop myjy10"));
+
+
+        /*******************************************************************/
+        //比较can传过来的值 ，实现闪烁
+                            if(tuoliguntong<matchine[0])//脱粒滚筒转速
+                            {
+                                pixShanshuo.load("./imagejy/tlgt.png");//11.jpg
+                                paintShanshuo.drawPixmap(740,430,113,21,pixShanshuo);
+                            }
+
+                            if(qiesuiqizhuansu<matchine[1])//切碎器转速
+                            {
+                                pixShanshuo.load("./imagejy/qsq.png");//11.jpg
+                                paintShanshuo.drawPixmap(740,349,94,21,pixShanshuo);
+                            }
+
+                            if(fengjizhuansu<matchine[2])//风机转速
+                            {
+                                pixShanshuo.load("./imagejy/fj.png");//11.jpg
+                                paintShanshuo.drawPixmap(740,165,75,21,pixShanshuo);
+                            }
+                            if(futuoqi<matchine[3])//复脱器堵塞转速
+                            {
+                                pixShanshuo.load("./imagejy/ftq.png");//11.jpg
+                                paintShanshuo.drawPixmap(740,250,94,21,pixShanshuo);
+                            }
+                            if(shengyunqi<matchine[4])//升运器堵塞转速
+                            {
+                                pixShanshuo.load("./imagejy/syq.png");//11.jpg
+                                paintShanshuo.drawPixmap(740,299,93,22,pixShanshuo);
+                            }
+                            if(guoqiaozhuansu<matchine[5])//过桥转速
+                            {
+                                pixShanshuo.load("./imagejy/gqzs.png");//11.jpg
+                                paintShanshuo.drawPixmap(740,118,75,21,pixShanshuo);
+                            }
+                            if(fenliguntong<matchine[6])//分离滚筒转速
+                            {
+                                pixShanshuo.load("./imagejy/flgt.png");//11.jpg
+                                paintShanshuo.drawPixmap(740,479,113,21,pixShanshuo);
+                            }
+
+
+        /*******************************************************************/
+
+
+
                         break;
                     }
 
@@ -579,9 +681,9 @@ void Work::paintEvent(QPaintEvent *event)
 
                     }//end off //油量格数
 
-                }
+                }//endof 闪烁
 
-            #endif
+            #endif       
 }
 
 void Work::on_pushButton_4_clicked()//查询按钮

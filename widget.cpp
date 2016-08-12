@@ -642,9 +642,6 @@ void Widget::paintEvent(QPaintEvent *event)
         }
 
     #endif
-
-
-
 }
 
 void Widget::on_pushButton_timesetup_clicked() //设置按钮

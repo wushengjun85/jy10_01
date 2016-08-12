@@ -25,6 +25,8 @@ private slots:
 
     void on_timeEdit_timeChanged(const QTime &timed);
 
+    void on_dateTimeEdit_dateTimeChanged(const QDateTime &date);
+
 private:
     Ui::TimesetupTrue *ui;
 

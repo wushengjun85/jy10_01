@@ -67,43 +67,78 @@ void Timesetup::on_pushButton_2_clicked() //时间设置界面按钮
 }
 
 
-
-
 void Timesetup::on_pushButton_16_clicked()//一键设定
 {
+
+    system("rm my.db");
     QTextCodec::setCodecForTr(QTextCodec::codecForLocale());//汉字显示
-    QSqlDatabase dbconn=QSqlDatabase::addDatabase("QSQLITE");    //添加数据库驱动
-    dbconn.setDatabaseName("mytest.db");  //在工程目录新建一个mytest.db的文件
-    if(!dbconn.open())    {
-    qDebug()<<"fdsfds";
-    }
-   QSqlQuery query;//以下执行相关QSL语句
-   query.exec("create table student(id varchar,name varchar,age varchar)");    //新建student表，id设置为主键，还有一个name项
-   //query.exec(QObject::tr("insert into student values(1,'李刚','ui')"));
 
-   query.exec(QObject::tr("insert into student values(2,'脱粒滚筒转速',500)"));
+   QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+   db.setDatabaseName("my.db");
+   if (!db.open())
+   {
+       qDebug()<<"open database failed ---"<<db.lastError().text()<<"/n";
+   }
+   QSqlQuery query;
+//   bool ok = query.exec("CREATE TABLE IF NOT EXISTS  myjy10 (id INTEGER PRIMARY KEY AUTOINCREMENT,"
+//                                      "name VARCHAR(20) NOT NULL,"
+//                                      "age INTEGER NULL)");
 
+   bool ok = query.exec("create table myjy10(id INTEGER,name varchar,age INTEGER)");
+   if (ok)
+   {
+       qDebug()<<"ceate table partition success"<<endl;
+   }
+   else
+   {
+       qDebug()<<"ceate table partition failed"<<endl;
+   }
 
+          query.prepare("INSERT INTO myjy10 (id, name, age) VALUES (:id, :name, :age)");
 
-   //insert into mytable(id,name,age) values(2,"李四","23");
+          query.bindValue(":id",1);
+          query.bindValue(":name", QObject::tr("脱粒滚筒转速"));
+          query.bindValue(":age", ui->label->text().toInt());
+          query.exec();
 
-//     query.exec(QObject::tr("insert into student values(2,'苹果')"));
-//      query.exec(QObject::tr("insert into student values(3,'葡萄')"));
-//      query.exec(QObject::tr("insert into student values(3,'李子')"));
-//      query.exec(QObject::tr("insert into student values(4,’橘子')"));
-//      query.exec(QObject::tr("insert into student values(5,'核桃')"));
-//      query.exec(QObject::tr("insert into student values(6,'芒果')"));
-//         //query.exec(QObject::tr("select id,name from student where id>=1"));
-     query.exec("select id,name,age from student where id>=1");
-      while(query.next())//query.next()指向查找到的第一条记录，然后每次后移一条记录
-      {
+          query.bindValue(":id",2);
+          query.bindValue(":name", QObject::tr("切碎器转速"));
+          query.bindValue(":age", ui->label_2->text().toInt());
+          query.exec();
 
-             ele0=query.value(0).toInt();//query.value(0)是id的值，将其转换为int型
-             QString ele1=query.value(1).toString();
-             int ele2=query.value(2).toInt();
-             qDebug()<<ele0<<ele1<<ele2;//输出两个值
-      }
-   query.exec(QObject::tr("drop student"));
+          query.bindValue(":id",3);
+          query.bindValue(":name", QObject::tr("风机转速"));
+          query.bindValue(":age", ui->label_5->text().toInt());
+          query.exec();
+
+          query.bindValue(":id",4);
+          query.bindValue(":name", QObject::tr("复脱器堵塞转速"));
+          query.bindValue(":age", ui->label_7->text().toInt());
+          query.exec();
+
+          query.bindValue(":id",5);
+          query.bindValue(":name", QObject::tr("升运器堵塞转速"));
+          query.bindValue(":age", ui->label_3->text().toInt());
+          query.exec();
+
+          query.bindValue(":id",6);
+          query.bindValue(":name", QObject::tr("过桥转速"));
+          query.bindValue(":age", ui->label_4->text().toInt());
+          query.exec();
+
+          query.bindValue(":id",7);
+          query.bindValue(":name", QObject::tr("分离滚筒转速"));
+          query.bindValue(":age", ui->label_6->text().toInt());
+          query.exec();
+
+        query.exec("select id, name, age from myjy10");
+        while (query.next())
+        {
+
+           qDebug()<<"id("<<query.value(0).toInt()<<")  name:"<<query.value(1).toString()<<"  age:"<<query.value(2).toInt();
+        }
+
+        query.exec(QObject::tr("drop myjy10"));
 }
 
 

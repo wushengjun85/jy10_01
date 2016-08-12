@@ -36,6 +36,8 @@ void TimesetupTrue::paintEvent(QPaintEvent *)
     QPixmap pix;
     pix.load("./imagejy/beijingtu.bmp");
     painter.drawPixmap(0,0,1024,600,pix);
+
+
 }
 
 void TimesetupTrue::on_dateEdit_dateChanged(const QDate &date)
@@ -57,4 +59,9 @@ void TimesetupTrue::on_timeEdit_timeChanged(const QTime &timed)
          //system("clock -w");
          system("hwclock --hctosys");
          system(str1.toLatin1().data());//str1.toLatin1().data()
+}
+
+void TimesetupTrue::on_dateTimeEdit_dateTimeChanged(const QDateTime &date)
+{
+
 }

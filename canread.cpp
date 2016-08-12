@@ -160,7 +160,7 @@ extern uchar  xielianglihe_out;//卸粮离合输出; 1
 
 //
 extern ushort  qiesuiqizhuansu;//切碎器转速
-extern ushort fengjizhuansu;//切碎器转速
+extern ushort fengjizhuansu;//风机转速
 extern ushort guoqiaozhuansu;//过桥转速；
 
 extern ushort tuoliguntong;//脱粒滚筒转速
