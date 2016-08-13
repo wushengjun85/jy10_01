@@ -60,57 +60,57 @@ unsigned char  myindex[15] = {0};
 unsigned char  countBuff = 0;
 
 
-unsigned char flagLeft = 1;  //左转
+unsigned char flagLeft = 0;  //左转
 unsigned char countLeft = 0; //左转
 
-unsigned char flagBattery = 1;//电瓶指示灯
+unsigned char flagBattery = 0;//电瓶指示灯
 unsigned char countBattery = 0;//电瓶指示灯
 
-unsigned char flagWidthlamp = 1; //示宽灯
+unsigned char flagWidthlamp = 0; //示宽灯
 unsigned char countWidthlamp = 0;//示宽灯
 
-unsigned char  flagYG = 1; //远光灯
+unsigned char  flagYG = 0; //远光灯
 unsigned char  countYG = 0;//远光灯
 
-unsigned char  flagSW  = 1; //水温
+unsigned char  flagSW  = 0; //水温
 unsigned char  countSW = 0; //水温
 
-unsigned char  flagJG = 1; //近光灯
+unsigned char  flagJG = 0; //近光灯
 unsigned char  countJG = 0; //近光灯
 
 
-unsigned char  flagJY = 1; //机油
+unsigned char  flagJY = 0; //机油
 unsigned char  countJY = 0; //机油
 
-unsigned char  flagLCM = 1; //粮仓满
+unsigned char  flagLCM = 0; //粮仓满
 unsigned char  countLCM = 0; //粮仓满
 
-unsigned char   flagFDJYR = 1; //发动机预热
+unsigned char   flagFDJYR = 0; //发动机预热
 unsigned char   countFDJYR = 0; //发动机预热
 
-unsigned char   flagGL = 1; //过滤
+unsigned char   flagGL = 0; //过滤
 unsigned char   countGL = 0; //过滤
 
-unsigned char   flagYL = 1; //油量
+unsigned char   flagYL = 0; //油量
 unsigned char    countYL = 0;//油量
 
-unsigned char  flagYeyayouwen = 1;//液压油温
+unsigned char  flagYeyayouwen = 0;//液压油温
 unsigned char  countYeyayouwen = 0; //液压油温
 
 unsigned char    flagECU = 0;//ecu
 unsigned char    countECU = 0;//ecu
 
-unsigned char    flagPark = 1;//停车
+unsigned char    flagPark = 0;//停车
 unsigned char    countPark = 0; //停车
 
-unsigned char   flagFDJGZ = 1; //发动机故障
+unsigned char   flagFDJGZ = 0; //发动机故障
 unsigned char   countFDJGZ = 0; //发动机故障
 
-unsigned char   flagRight = 1; //右转
+unsigned char   flagRight = 0; //右转
 unsigned char    countRight = 0;//右转
 
 
-unsigned char  flagyouxiangman = 1; //油量满
+unsigned char  flagyouxiangman = 0; //油量满
 unsigned char  flagyouliangdi  = 0; // 油量低
 
 
@@ -355,11 +355,11 @@ void Widget::paintEvent(QPaintEvent *event)
     painter.setBrush(Qt::red);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.save();
-    painter.rotate(6.0 *time.second());  //设旋转(角度 = 6° * (分钟 + 秒 / 60))
-    painter.rotate(-132);
-    painter.rotate(6.0 *numtmp);  //设置旋转(6° * 秒)
-    painter.rotate(numtmp++);  //设置旋转(6° * 秒)
-    //painter.rotate(4.0 *shisu);
+   // painter.rotate(6.0 *time.second());  //设旋转(角度 = 6° * (分钟 + 秒 / 60))
+    painter.rotate(-133);
+//    painter.rotate(6.0 *numtmp);  //设置旋转(6° * 秒)
+//    painter.rotate(numtmp++);  //设置旋转(6° * 秒)
+    painter.rotate(4.0 *shisu);
 
     painter.drawConvexPolygon(hourHand, 4);  //填充分针部分
 
@@ -392,8 +392,10 @@ void Widget::paintEvent(QPaintEvent *event)
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.save();
 
-    painter.rotate(6.0 *time.second());  //设旋转(角度 = 6° * (分钟 + 秒 / 60))
-    painter.rotate(-132);
+    //painter.rotate(6.0 *time.second());  //设旋转(角度 = 6° * (分钟 + 秒 / 60))
+
+    painter.rotate(4.0*shisu);  //设旋转(角度 = 6° * )
+    painter.rotate(-133);
    // painter.rotate(4.0 *shisu);  //设旋转(角度 = 6° * (分钟 + 秒 / 60))
     //内测用
     /****************************************************************************/
