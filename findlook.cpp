@@ -94,7 +94,7 @@ void FindLook::paintEvent(QPaintEvent *)
     //2016.7.6 radiobutton input and output;
 
 
-    bhls_input = 1;
+    //bhls_input = 1;
 
     QPainter point1_in(this);
     QPixmap pointpix1_in;
@@ -106,7 +106,7 @@ void FindLook::paintEvent(QPaintEvent *)
         point1_in.drawPixmap(402,200,15,15,pointpix1_in);
     }
 
-    bhls_out = 1;
+    //bhls_out = 1;
 
     if (bhls_out)//拨禾轮升输出 4
     {
@@ -115,14 +115,14 @@ void FindLook::paintEvent(QPaintEvent *)
     }
 
 
-    bhlj_input = 1;
+    //bhlj_input = 1;
     if (bhlj_input) //拨禾轮降输入; 3
     {
         pointpix1_in.load("./imagejy/deng2.png");
         point1_in.drawPixmap(402,227,15,15,pointpix1_in);
     }
 
-    bhlj_out = 1;
+    //bhlj_out = 1;
     if (bhlj_out)//拨禾轮降输出; 3
     {
         pointpix1_in.load("./imagejy/deng2.png");
@@ -130,7 +130,7 @@ void FindLook::paintEvent(QPaintEvent *)
     }
 
 
-    getaisheng_input = 1;
+    //getaisheng_input = 1;
     if (getaisheng_input)//割台升输入;
     {
         pointpix1_in.load("./imagejy/deng2.png");
@@ -138,21 +138,21 @@ void FindLook::paintEvent(QPaintEvent *)
     }
 
 
-    getaisheng_out = 1;
+    //getaisheng_out = 1;
     if (getaisheng_out)//割台升输出;
     {
         pointpix1_in.load("./imagejy/deng2.png");
         point1_in.drawPixmap(453,254,15,15,pointpix1_in);
     }
 
-    getaijiang_input = 1;
+    //getaijiang_input = 1;
     if (getaijiang_input)//割台降输入; 7
     {
         pointpix1_in.load("./imagejy/deng2.png");
         point1_in.drawPixmap(402,281,15,15,pointpix1_in);
     }
 
-    getaijiang_out = 1;
+    //getaijiang_out = 1;
     if (getaijiang_out)//割台降输出; 7
     {
         pointpix1_in.load("./imagejy/deng2.png");
@@ -162,14 +162,14 @@ void FindLook::paintEvent(QPaintEvent *)
 
 
 
-    xltbj_input = 1;
+    //xltbj_input = 1;
     if (xltbj_input)//卸粮筒摆进输入 6
     {
         pointpix1_in.load("./imagejy/deng2.png");
         point1_in.drawPixmap(402,308,15,15,pointpix1_in);
     }
 
-    xltbj_out = 1;
+    //xltbj_out = 1;
     if (xltbj_out)//卸粮筒摆进输出 6
     {
         pointpix1_in.load("./imagejy/deng2.png");
@@ -177,14 +177,14 @@ void FindLook::paintEvent(QPaintEvent *)
     }
 
 
-    xltbc_input = 1;
+    //xltbc_input = 1;
     if (xltbc_input)//卸粮筒摆出输入 5
     {
         pointpix1_in.load("./imagejy/deng2.png");
         point1_in.drawPixmap(402,335,15,15,pointpix1_in);
     }
 
-    xltbc_out = 1;
+    //xltbc_out = 1;
     if (xltbc_out)//卸粮筒摆出输出 5
     {
         pointpix1_in.load("./imagejy/deng2.png");
@@ -193,28 +193,28 @@ void FindLook::paintEvent(QPaintEvent *)
 
 
 
-    tltjiashu_input = 1;
+    //tltjiashu_input = 1;
     if (tltjiashu_input)//脱粒滚筒加速输入;
     {
         pointpix1_in.load("./imagejy/deng2.png");
         point1_in.drawPixmap(402,362,15,15,pointpix1_in);
     }
 
-    tltjiashu_out = 1;
+    //tltjiashu_out = 1;
     if (tltjiashu_out)//脱粒滚筒加速输出;
     {
         pointpix1_in.load("./imagejy/deng2.png");
         point1_in.drawPixmap(453,362,15,15,pointpix1_in);
     }
 
-    tltjianshu_input = 1;
-    if (tltjianshu_input);//脱粒滚筒减速输入 1
+    //tltjianshu_input = 1;
+    if (tltjianshu_input)//脱粒滚筒减速输入 1
     {
         pointpix1_in.load("./imagejy/deng2.png");
         point1_in.drawPixmap(402,390,15,15,pointpix1_in);
     }
 
-    tltjianshu_out = 1;
+    //tltjianshu_out = 1;
     if (tltjianshu_out)//脱粒滚筒减速输出 1
     {
         pointpix1_in.load("./imagejy/deng2.png");
@@ -222,35 +222,35 @@ void FindLook::paintEvent(QPaintEvent *)
     }
 
 
-    Shoubing = 1;
+    //Shoubing = 1;
     if (Shoubing)//界面切换输入（手柄控制）4
     {
         pointpix1_in.load("./imagejy/deng2.png");
         point1_in.drawPixmap(798,200,15,15,pointpix1_in);
     }
 
-    qianbulihezhishi = 1;
+    //qianbulihezhishi = 1;
     if (qianbulihezhishi)//前部离合指示输入, 8
     {
         pointpix1_in.load("./imagejy/deng2.png");
         point1_in.drawPixmap(798,227,15,15,pointpix1_in);
     }
 
-    guoqiaofanzhuan_input = 1;
+    //guoqiaofanzhuan_input = 1;
     if (guoqiaofanzhuan_input)//过桥反转指示输入 1
     {
         pointpix1_in.load("./imagejy/deng2.png");
         point1_in.drawPixmap(798,254,15,15,pointpix1_in);
     }
 
-    xieliangtongbaijin = 1;
+    //xieliangtongbaijin = 1;
     if (xieliangtongbaijin)//卸粮筒摆进限位开关 6
     {
         pointpix1_in.load("./imagejy/deng2.png");
         point1_in.drawPixmap(798,281,15,15,pointpix1_in);
     }
 
-    tuolilihezhishi =1;
+    //tuolilihezhishi =1;
     if ( tuolilihezhishi)//脱粒离合指示输入, 7
     {
         pointpix1_in.load("./imagejy/deng2.png");
@@ -258,7 +258,7 @@ void FindLook::paintEvent(QPaintEvent *)
     }
 
 
-    xielianglihe_input =1;
+    //xielianglihe_input =1;
     if (xielianglihe_input)//卸粮离合输入; 1
     {
         pointpix1_in.load("./imagejy/deng2.png");
@@ -266,7 +266,7 @@ void FindLook::paintEvent(QPaintEvent *)
     }
 
 
-    xielianglihe_out = 1;
+    //xielianglihe_out = 1;
     if (xielianglihe_out)//卸粮离合输出; 1
     {
         pointpix1_in.load("./imagejy/deng2.png");
@@ -274,7 +274,7 @@ void FindLook::paintEvent(QPaintEvent *)
     }
 
 
-    xiehefa_out =1;
+    //xiehefa_out =1;
 
     if (xiehefa_out)// 卸荷阀输出
     {

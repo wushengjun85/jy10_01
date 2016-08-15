@@ -1,6 +1,9 @@
 #ifndef _DEV_LIB_H_
 #define _DEV_LIB_H_
 
+extern "C" {
+
+
 //打开蜂鸣器
 //return:1,成功;-1\-2,失败
 int beep_on();
@@ -41,4 +44,5 @@ int Acc_Sig_on(int channel);
 //return:1,成功;0,失败
 int Acc_Sig_off(int channel);
 
+}
 #endif

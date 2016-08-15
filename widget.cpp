@@ -1,6 +1,7 @@
 #include "widget.h"
 #include "ui_widget.h"
 
+#include<QDebug>
 #include<QTime>
 #include<QTimer>
 #include<QPainter>
@@ -8,6 +9,14 @@
 #include"signalcan.h"
 
 #include"canread.h"
+
+
+//添加动态链接库
+#include"hwlib/devlib.h"
+
+
+
+#include"mylib.h"
 
 
 
@@ -81,6 +90,7 @@ unsigned char  countJG = 0; //近光灯
 
 unsigned char  flagJY = 0; //机油
 unsigned char  countJY = 0; //机油
+
 
 unsigned char  flagLCM = 0; //粮仓满
 unsigned char  countLCM = 0; //粮仓满
@@ -228,7 +238,7 @@ uchar bhls_input;//拨禾轮升输入 4
 uchar bhlj_input; //拨禾轮降输入; 3
 uchar tltjiashu_input;//脱粒滚筒加速输入; 2
 
-uchar tltjianshu_input;//脱粒滚筒减速输入 1
+uchar tltjianshu_input = 0;//脱粒滚筒减速输入 1
 
 
 //byte5
@@ -258,6 +268,9 @@ ushort guoqiaozhuansu;//过桥转速；
 
 ushort tuoliguntong;//脱粒滚筒转速
 ushort fenliguntong;//分离滚筒转速
+
+
+ushort jiyouwendu;//机油温度
 
 /********************************************************************************************************************/
 
@@ -305,6 +318,10 @@ Widget::Widget(QWidget *parent) :
     mycan = new SignalCan();
     mycan->start();
 
+    //测试库调用
+    //beep_on();
+
+    //P();
 
 }
 
@@ -431,7 +448,7 @@ void Widget::paintEvent(QPaintEvent *event)
 
     //2016.6.25  定义数值
     #if 1
-        ui->label->setText("6");//机油温度
+        ui->label->setText(QString::number(jiyouwendu));//机油温度
         ui->label_2->setText(QString::number(Yeyayouwen));//液压油油温（液压油油温）
         ui->label_3->setText(QString::number(SuiWen));//水温；
         ui->label_4->setText(QString::number(jiyouyali)); //机油压力
@@ -548,22 +565,7 @@ void Widget::paintEvent(QPaintEvent *event)
                 }
 
 
-                if(beep_flag)
-                {
-                    //添加蜂鸣器报警
-                    if(flagBattery|flagSW|flagLCM|flagFDJYR|flagGL|flagyouxiangman|flagyouliangdi|flagYeyayouwen|flagFDJGZ)
-                    {
-                        //beep_on();//打开蜂鸣器
-                    }
-                    else
-                    {
-                        //beep_off();//关闭蜂鸣器
-                    }
-                }
-                else
-                {
-                    //beep_off();
-                }
+
                 break;
             }
 
@@ -593,7 +595,8 @@ void Widget::paintEvent(QPaintEvent *event)
             }
 
             //油量格数
-            if (flagyouxiangman|flagyouliangdi)//油量
+            //if (flagyouxiangman|flagyouliangdi)//油量
+            if (1)
             {
                 switch(flagyouxiangman)
                 {
@@ -641,7 +644,229 @@ void Widget::paintEvent(QPaintEvent *event)
 
             }//end off //油量格数
 
+#if 0
+            if(beep_flag)
+            {
+                //添加蜂鸣器报警
+                if(flagBattery|flagSW|flagLCM|flagFDJYR|flagGL|flagyouxiangman|flagyouliangdi|flagYeyayouwen|flagFDJGZ)
+                {
+                    beep_on();//打开蜂鸣器
+                }
+                else
+                {
+                    beep_off();//关闭蜂鸣器
+                }
+            }
+            else
+            {
+                beep_off();
+            }
+#endif
+
+
+
+            /****************************************************************************************************/
+                  //故障码解析  后期要单独解析 暂时先放到这。
+
+                  if((spn==522000)&&(fmi==12)) //Can 通信故障
+                  {
+                      flagCanfault = 1;
+
+                  }
+                  if(((spn==105)&&(fmi ==3))|((spn==105)&&(fmi ==4))) //进气温度传感器故障
+                  {
+                      flagJinqifault = 1;
+                  }
+                  if(spn == 102)//增压压力传感器故障
+                  {
+                      flagYalisenserfault = 1;
+                  }
+
+                  if(spn == 110)//水温传感器故障
+                  {
+                      flagSwSenserfault = 1;
+                  }
+
+                  if(spn == 4201)//凸轮轴故障
+                  {
+                       flagTulunzhoufault = 1;
+                  }
+
+                  if(spn == 4203)//曲轴故障
+                  {
+                       flagQulunzhoufault = 1;
+                  }
+
+
+
+                  /*****************************************************************************************************/
+                  //正下方长方形图标显示
+                  //2016.7.16
+
+                  QPainter paintBuff(this);
+                  QPixmap pixBuff;
+
+                  /**********************************************************************************************************/
+
+                          //临时添加 做测试用
+                          //2016.7.16
+                          mybufflag[0] =   1;//flagSW;//水温报警
+                          mybufflag[1] = 1;//flagJY;//机油  油压报警 0～1 MPa,在0.1 MPa 以下为报警区。
+
+                          mybufflag[2] = 1;//flagYeyayouwen;//flagYeyayouwen = 1;//液压油温
+                          mybufflag[3] = 1;//flagGL;//空气 过滤阻塞报警
+
+                          mybufflag[4] =  flagyouxiangman; //油箱满 报警
+                          //mybufflag[5] =  ;  //液压油温偏高请检查
+
+                          mybufflag[6] =  flagyouliangdi;//及时加油 油量低报警
+                          mybufflag[7] =  flagCanfault;  //通信故障
+
+                          mybufflag[8] = flagPark;//手刹 报警
+                          mybufflag[9] = flagJinqifault;//进气温度传感器故障
+
+                          mybufflag[10] = flagYalisenserfault;//增压压力传感器故障
+                          mybufflag[11] = flagTulunzhoufault; //凸轮轴故障
+
+                          mybufflag[12] =  flagQulunzhoufault;//曲轴故障
+                          mybufflag[13] =  flagBattery;//蓄电池故障
+
+                          mybufflag[14] =  flagSwSenserfault;//水温传感器故障
+
+
+                          //建立索引 对mybufflag进行提取。
+                          for (mm = 0; mm < 15; mm++)
+                          {
+                              if(mybufflag[mm])
+                              {
+                                  myindex[jflag] = mm;
+                                  jflag++;
+
+                              }
+
+                          }
+                  /**********************************************************************************************************/
+
+                  if(jflag == 0)
+                  {
+                      memset(myindex,0,15);
+                  }
+
+
+                  jjjflag = jflag;
+                  jflag = 0;
+
+              if (j >= jjjflag)
+              {
+                  j = 0;
+                  memset(myindex,0,15);
+              }
+              countBuff++;
+              if (countBuff>1)
+                  countBuff = 0;
+              switch(countBuff)
+              {
+                case 1:
+                 // printf("===== flagyeyayouwen:: %d,midex[j] = %d\r\n",flagYeyayouwen,myindex[j]);
+                  switch(myindex[j])
+                  {
+                      //qDebug()<<"flagyeyayouwen::"<<flagYeyayouwen<<"  myindex[j]:"<<myindex[j]<<endl;
+                      case 0:
+                           if (flagSW)
+                           {
+                               pixBuff.load("./img2/41.png");//41.jpg
+                               paintBuff.drawPixmap(280,535,255,50,pixBuff); //正下方图标闪烁
+                            }
+                           break;
+
+                      case 1:
+//                           pixBuff.load("./img2/42.png");//42.jpg
+//                           paintBuff.drawPixmap(280,535,255,50,pixBuff); //正下方图标闪烁
+
+                      ui->label_6->setText("yuv");
+                      break;
+
+                      case 2:
+//                          pixBuff.load("./img2/43.png");//43.jpg
+//                          paintBuff.drawPixmap(280,535,255,50,pixBuff); //正下方图标闪烁
+                      ui->label_6->setText("wsj");
+
+                      break;
+
+                      case 3:
+                          pixBuff.load("./img2/44.png");//44.jpg
+                          paintBuff.drawPixmap(280,535,255,50,pixBuff); //正下方图标闪烁
+                      break;
+
+                      case 4:
+                           pixBuff.load("./img2/45.png");//45.jpg
+                           paintBuff.drawPixmap(280,535,255,50,pixBuff); //正下方图标闪烁
+                      break;
+
+                      case 5:
+                           pixBuff.load("./img2/46.png");//46.jpg
+                           paintBuff.drawPixmap(280,535,255,50,pixBuff); //正下方图标闪烁
+                      break;
+
+                      case 6:
+                          pixBuff.load("./img2/47.png");//47.jpg
+                          paintBuff.drawPixmap(280,535,255,50,pixBuff); //正下方图标闪烁
+                      break;
+
+                      case 7:
+                          pixBuff.load("./img2/48.png");//48.jpg
+                          paintBuff.drawPixmap(280,535,255,50,pixBuff); //正下方图标闪烁
+                      break;
+
+
+                      case 8:
+                           pixBuff.load("./img2/49.png");//49.jpg
+                           paintBuff.drawPixmap(280,535,255,50,pixBuff); //正下方图标闪烁
+                      break;
+
+                      case 9:
+                           pixBuff.load("./img2/50.png");//50.jpg
+                           paintBuff.drawPixmap(280,535,255,50,pixBuff); //正下方图标闪烁
+                      break;
+
+                      case 10:
+                          pixBuff.load("./img2/51.png");//51.jpg
+                          paintBuff.drawPixmap(280,535,255,50,pixBuff); //正下方图标闪烁
+                      break;
+
+                      case 11:
+                          pixBuff.load("./img2/52.png");//52.jpg
+                          paintBuff.drawPixmap(280,535,255,50,pixBuff); //正下方图标闪烁
+                      break;
+
+
+                      case 12:
+                           pixBuff.load("./img2/53.png");//53.jpg
+                           paintBuff.drawPixmap(280,535,255,50,pixBuff); //正下方图标闪烁
+                      break;
+
+                      case 13:
+                           pixBuff.load("./img2/54.png");//54.jpg
+                           paintBuff.drawPixmap(280,535,255,50,pixBuff); //正下方图标闪烁
+                      break;
+
+                      case 14:
+                          pixBuff.load("./img2/55.png");//55.jpg
+                          paintBuff.drawPixmap(280,535,255,50,pixBuff); //正下方图标闪烁
+                      break;
+
+                  }
+                  j++;
+                  break;
+              }
+           /******************************************************************************************************/
+
+
+
+
+
         }
+
 
     #endif
 }
@@ -684,12 +909,17 @@ void Widget::on_pushButton_timesetup_2_clicked()  //查询按钮
 
 void Widget::on_pushButton_timesetup_3_clicked()//喇叭按钮
 {
+
+#if 0
     if(beep_flag)
     {
         beep_flag = false;
+        qDebug()<<"beep_flag = "<<beep_flag<<endl;
     }
     else
     {
         beep_flag = true;
+        qDebug()<<"beep_flag = "<<beep_flag<<endl;
     }
+#endif
 }

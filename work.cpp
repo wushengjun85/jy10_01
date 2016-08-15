@@ -9,7 +9,7 @@
 #include<QDebug>
 
 #include"camera_thread.h"
-
+#include"hwlib/devlib.h"
 #include <QtSql>
 #include <QTextCodec>
 
@@ -25,6 +25,8 @@ extern  bool beep_flag;// 蜂鸣器标志
 
 
 uint matchine[7] = {0}; //保存风机，复托器，升运器，等转速
+
+extern ushort jiyouwendu;//机油温度
 /***************************************************************************************************************/
 
 
@@ -365,7 +367,7 @@ void Work::paintEvent(QPaintEvent *event)
                 ui->label_3->setText(QString::number(XiaoshiJi));//小时计
                 ui->label_4->setText(QString::number(SuiWen));//水温
                 ui->label_5->setText(QString::number(Yeyayouwen));//液压油油温（液压油油温）
-                ui->label_6->setText("1");//机油温度
+                ui->label_6->setText(QString::number(jiyouwendu));//机油温度
                 ui->label_7->setText(QString::number(jiyouyali));//机油压力
                 ui->label_8->setText(QString::number(guoqiaozhuansu));//过桥转速
                 ui->label_9->setText(QString::number(fengjizhuansu));//风机转速
@@ -490,23 +492,7 @@ void Work::paintEvent(QPaintEvent *event)
                         }
 
 
-                        //添加蜂鸣器报警
-                        if(beep_flag)
-                        {
 
-                            if(flagBattery|flagSW|flagLCM|flagFDJYR|flagGL|flagyouxiangman|flagyouliangdi|flagYeyayouwen|flagFDJGZ)
-                            {
-                                //beep_on();//打开蜂鸣器
-                            }
-                            else
-                            {
-                                //beep_off();//关闭蜂鸣器
-                            }
-                        }
-                        else
-                        {
-                            //beep_off();
-                        }
 
 
 
@@ -633,7 +619,8 @@ void Work::paintEvent(QPaintEvent *event)
                     }
 
                     //油量格数
-                    if (flagyouxiangman|flagyouliangdi)//油量
+                   // if (flagyouxiangman|flagyouliangdi)//油量
+                    if (1)//油量
                     {
                         switch(flagyouxiangman)
                         {
@@ -683,6 +670,26 @@ void Work::paintEvent(QPaintEvent *event)
 
                 }//endof 闪烁
 
+#if 0
+                //添加蜂鸣器报警
+                if(beep_flag)
+                {
+
+                    if(flagBattery|flagSW|flagLCM|flagFDJYR|flagGL|flagyouxiangman|flagyouliangdi|flagYeyayouwen|flagFDJGZ)
+                    {
+                        beep_on();//打开蜂鸣器
+                    }
+                    else
+                    {
+                        beep_off();//关闭蜂鸣器
+                    }
+                }
+                else
+                {
+                    beep_off();
+                }
+#endif
+
             #endif       
 }
 
@@ -704,6 +711,7 @@ void Work::on_pushButton_2_clicked()// 设置按钮
 
 void Work::on_pushButton_3_clicked()//喇叭按钮
 {
+#if 0
     if(beep_flag)
     {
         beep_flag = false;
@@ -714,4 +722,5 @@ void Work::on_pushButton_3_clicked()//喇叭按钮
         beep_flag = true;
         qDebug()<<"beep_flag = "<<beep_flag<<endl;
     }
+#endif
 }

@@ -13,7 +13,7 @@ extern unsigned short int speed = 0;
 //unsigned short int
 extern unsigned char daoche = 0;
 
-
+extern ushort jiyouwendu;
 /********************************************************************************************************************/
 
 
@@ -151,12 +151,6 @@ extern uchar tltjianshu_out;//脱粒滚筒减速输出 1
 
 extern uchar xiehefa_out;// 卸荷阀输出
 extern uchar  xielianglihe_out;//卸粮离合输出; 1
-
-
-
-
-
-
 
 //
 extern ushort  qiesuiqizhuansu;//切碎器转速
@@ -522,24 +516,6 @@ void Canread::shutdownfd(int fd)
 
             break;
 
-
-//             //频率量
-//            //18FF02F6
-//       case 0x18FF02F6:
-//            out1 = ((frdup.data[0]>>1)<<1)|(frdup.data[0]&0x01);
-//            out2 = ((frdup.data[0]>>3)<<1)|((frdup.data[0]>>2)&0x01);
-//            out3 = ((frdup.data[0]>>5)<<1)|((frdup.data[0]>>4)&0x01);
-
-//            out4 = ((frdup.data[0]>>1)<<1)|(frdup.data[0]&0x01);
-//            out5 = ((frdup.data[0]>>3)<<1)|((frdup.data[0]>>2)&0x01);
-//            out6 = ((frdup.data[0]>>5)<<1)|((frdup.data[0]>>4)&0x01);
-
-//            break;
-
-
-
-
-
             //频率量
             //18FF03F6
        case 0x18FF03F6:
@@ -593,7 +569,7 @@ void Canread::shutdownfd(int fd)
 
            //发动机 数据
            //18FEEE00
-       case 0x18FEEE00:
+       case 0x18FEEE00:      //机油温度，水温
            SuiWen = frdup.data[0]; //水温；
            if(SuiWen > 90)
            {
@@ -603,6 +579,9 @@ void Canread::shutdownfd(int fd)
            {
                 flagSW = 0;
            }
+
+
+           jiyouwendu = frdup.data[4]<<8|frdup.data[3]; //机油温度
            break;
 
            //发动机 数据
@@ -619,7 +598,6 @@ void Canread::shutdownfd(int fd)
                 flagJY = 0;
            }
            break;
-
 
            //发动机 数据
            //0CF00400
