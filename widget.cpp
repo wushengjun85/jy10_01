@@ -10,6 +10,8 @@
 
 #include"canread.h"
 
+#include <QPalette>
+#include <QFont>
 
 //添加动态链接库
 #include"hwlib/devlib.h"
@@ -273,8 +275,365 @@ ushort fenliguntong;//分离滚筒转速
 ushort jiyouwendu;//机油温度
 
 /********************************************************************************************************************/
+//故障码 标志定义
+//用于数据库存储
+
+uchar gzm_001;//空调压缩机开路
+uchar gzm_002;//空调压缩机对电源短路
+uchar gzm_003;//空调压缩机对地短路
+uchar gzm_004;//油门与刹车信号不可信
+uchar gzm_005;//空气质量流量传感器电压超上限
+uchar gzm_006;//空气质量流量传感器电压超下限
+uchar gzm_007;//进气加热常开故障
+uchar gzm_008;//油门踏板1与油门踏板2的两倍的信号关系不可信
+uchar gzm_009;//油门踏板1电压值高出上限门槛值
+uchar gzm_010;//油门踏板1电压值低于下限门槛值
 
 
+
+
+
+uchar gzm_011;//油门踏板2与油门踏板1的1/2的信号关系不可信
+uchar gzm_012;//油门踏板2电压值高出上限门槛值
+uchar gzm_013;//油门踏板2电压值低于下限门槛值
+uchar gzm_014;//大气压力传感器信号不可信
+uchar gzm_015;//大气压力传感器电压高出上限门槛
+uchar gzm_016;//大气压力传感器电压低于下限门槛
+uchar gzm_017;//进气加热器开路
+uchar gzm_018;//进气加热器对电源开路
+uchar gzm_019;//进气加热器对地开路
+uchar gzm_020;//电池电压原始值低于下限门槛
+
+uchar gzm_021;//电池电压原始值超出上限门槛
+uchar gzm_022;//进气压力传感器信号不可信
+uchar gzm_023;//进气压力传感器电压超出上限门槛值
+uchar gzm_024;//进气压力传感器电压低于下限门槛值
+uchar gzm_025;//巡航控制要求的识别错误，使得故障灯常亮
+uchar gzm_026;//制动踏板踩下前，巡航控制抑制错误
+uchar gzm_027;//刹车信号不可信
+uchar gzm_028;//刹车信号错误
+uchar gzm_029;//冷却水温在一定时间内上升幅度没有达到最小值
+uchar gzm_030;//冷却水温在一定时间内没有达到最小值
+
+uchar gzm_031;//水温信号不可用
+uchar gzm_032;//发动机转速信号不可用
+uchar gzm_033;//离合器状态信号不可用
+uchar gzm_034;//OBD扭矩限制激活错误
+uchar gzm_035;//冷启动指示灯开路
+uchar gzm_036;//冷启动指示灯对电源短路
+uchar gzm_037;//冷启动指示灯对地短路
+uchar gzm_038;//冷却水温度与机油温度信号不可信
+uchar gzm_039;//水温传感器工作正常但水温超出门槛值
+uchar gzm_040;//冷却水温度传感器电压超出上限门槛
+
+uchar gzm_041;//冷却水温度传感器电压低于下限门槛
+uchar gzm_042;//车下启动/停止按钮卡住
+uchar gzm_043;//只有凸轮轴信号，进入跛形回家状态
+uchar gzm_044;//凸轮轴信号缺失
+uchar gzm_045;//凸轮轴周期错误
+uchar gzm_046;//凸轮轴同步错误
+uchar gzm_047;//凸轮轴与曲轴同步错误
+uchar gzm_048;//曲轴信号缺失
+uchar gzm_049;//曲轴同步错误
+uchar gzm_050;//曲轴齿数错误
+
+uchar gzm_051;//曲轴齿周期错误
+uchar gzm_052;//齿数与凸轮轴信号偏差超出门槛值
+uchar gzm_053;//发动机转速超限
+uchar gzm_054;//发动机转速信号开路
+uchar gzm_055;//发动机转速信号对电源短路
+uchar gzm_056;//发动机转速信号对地短路
+uchar gzm_057;//排气制动蝶阀开路
+uchar gzm_058;//排气制动蝶阀对电源短路
+uchar gzm_059;//排气制动蝶阀对地短路
+uchar gzm_060;//风扇执行器（PWM波）开路
+
+uchar gzm_061;//风扇执行器(PWM波)对电源短路
+uchar gzm_062;//风扇执行器(PWM波)对地短路
+uchar gzm_063;//风扇执行器(数字信号)开路
+uchar gzm_064;//风扇执行器(数字信号)对电源短路
+uchar gzm_065;//风扇执行器(数字信号)对地短路
+uchar gzm_066;//冷却风扇速度高出上限门槛值
+uchar gzm_067;//冷却风扇速度低于下限门槛值
+uchar gzm_068;//燃油加热继电器(数字信号)开路
+uchar gzm_069;//燃油加热继电器(数字信号)对电源短路
+uchar gzm_070;//燃油加热继电器(数字信号)对地短路
+
+uchar gzm_071;//燃油加热继执行器(PWM波)对地短路
+uchar gzm_072;//燃油加热继执行器(PWM波)对电源短路
+uchar gzm_073;//燃油加热继执行器(PWM波)开路
+uchar gzm_074;//燃油升压执行器开路
+uchar gzm_075;//燃油升压执行器对电源短路
+uchar gzm_076;//燃油升压执行器对地短路
+uchar gzm_077;//油中有水传感器检测到油中有水
+uchar gzm_078;//总线接收油门信号超限
+uchar gzm_079;//CAN接收帧CM1数据量错误
+uchar gzm_080;//CAN接收帧CM1超时错误
+
+uchar gzm_081;//CAN接收帧DashDspl数据量错误
+uchar gzm_082;//CAN接收帧DashDspl超时错误
+uchar gzm_083;//CAN接收帧DEC1数据量错误
+uchar gzm_084;//DEC1报文接收超时
+uchar gzm_085;//CAN接收帧EBC1数据长度错误
+uchar gzm_086;//CAN接收帧EBC1超时错误
+uchar gzm_087;//数据长度错误
+uchar gzm_088;//超时错误
+uchar gzm_089;//CAN接收帧EGF1数据量错误
+uchar gzm_090;//CAN接收帧EGF1超时错误
+
+uchar gzm_091;//CAN接收帧EngTemp2数据量错误
+uchar gzm_092;//CAN接收帧EngTemp2超时错误
+uchar gzm_093;//CAN接收帧ERC1DR数据量错误
+uchar gzm_094;//CAN接收帧ERC1DR超时错误
+uchar gzm_095;//ETC1报文数据长度错误
+uchar gzm_096;//ETC1报文超时错误
+uchar gzm_097;//CAN接收帧ETC2数据量错误
+uchar gzm_098;//CAN接收帧ETC2超时错误
+uchar gzm_099;//CAN接收帧ETC7数据量错误
+uchar gzm_100;//CAN接收帧ETC7报文接收超时
+
+uchar gzm_101;//CAN接收帧HRVD数据量错误
+uchar gzm_102;//CAN接收帧HRVD超时错误
+uchar gzm_103;//总线接收远程油门信号超限
+uchar gzm_104;//RxCCVS报文数据长度错误
+uchar gzm_105;//RxCCVS报文接收超时
+uchar gzm_106;//CAN接收帧TRF1数据量错误
+uchar gzm_107;//CAN接收帧TRF1超时错误
+uchar gzm_108;//CAN接收帧TSC1AE数据量错误
+uchar gzm_109;//CAN接收帧TSC1AE超时错误
+uchar gzm_110;//CAN接收帧TSC1AR数据量错误
+
+uchar gzm_111;//CAN接收帧TSC1AR超时错误
+uchar gzm_112;//CAN接收帧TTSC1DE数据量错误
+uchar gzm_113;//CAN接收帧TTSC1DE超时错误
+uchar gzm_114;//CAN接收帧TSC1DR数据量错误
+uchar gzm_115;//CAN接收帧TSC1DR超时错误
+uchar gzm_116;//CANTOTSC1PE数据量错误
+uchar gzm_117;//CANTOTSC1PE通信错误
+uchar gzm_118;//CANTOTSC1TE数据量错误
+uchar gzm_119;//CANTOTSC1TE超时错误
+uchar gzm_120;//CAN TOTSC1TR数据量错误
+
+uchar gzm_121;//CAN TOTSC1TR超时错误
+uchar gzm_122;//CANTOTSC1VE 数据量错误
+uchar gzm_123;//CANTOTSC1VE超时错误
+uchar gzm_124;//CANTOTSC1VR 数据量错误
+uchar gzm_125;//CANTOTSC1VR 超时错误
+uchar gzm_126;//燃油温度传感器电压超出上限门槛值
+uchar gzm_127;//燃油温度传感器电压超出下限门槛值
+uchar gzm_128;//档位提升间隙时间过长
+uchar gzm_129;//(油中有水灯)指示灯短路
+uchar gzm_130;//(油中有水灯)指示灯电源短路
+
+
+uchar gzm_131;//(油中油水灯)指示灯地短路
+uchar gzm_132;//高压测试错误
+uchar gzm_133;//EEPROM读错误
+uchar gzm_134;//EEPROM写错误
+uchar gzm_135;//进气温度传感器电压超出上限门槛值
+uchar gzm_136;//进气温度传感器电压低于下限门槛值
+uchar gzm_137;//喷孔磨损程度持续20次大于20%
+uchar gzm_138;//喷孔磨损程度持续500ms介于5%到20%之间
+uchar gzm_139;//INJ driver IC初始化版本号错误
+uchar gzm_140;//INJ driver IC上电初始化错误
+
+uchar gzm_141;//喷孔磨损超过20%故障
+uchar gzm_142;//喷孔磨损在0～20%故障
+uchar gzm_143;//INJ driver IC再次上电错误
+uchar gzm_144;//喷油器1高端与电源短路
+uchar gzm_145;//喷油器1高端与地短路
+uchar gzm_146;//喷油器1低端与电源短路
+uchar gzm_147;//喷油器1低端与地短路
+uchar gzm_148;//喷油器1开路
+uchar gzm_149;//1缸喷油器错误
+uchar gzm_150;//同BANK中1缸和其他缸或者与弱电源短路
+
+uchar gzm_151;//1缸喷油器对电源短路
+uchar gzm_152;//1缸喷油器对地短路
+uchar gzm_153;//喷油器1高低端短路
+uchar gzm_154;//喷油器2高端与电源短路
+uchar gzm_155;//喷油器2高端与地短路
+uchar gzm_156;//喷油器2低端与电源短路
+uchar gzm_157;//喷油器2低端与地短路
+uchar gzm_158;//喷油器2开路
+uchar gzm_159;//2缸喷油器错误
+uchar gzm_160;//同Bank中2缸和其他缸开路或者与弱电源短路
+
+uchar gzm_161;//2缸喷油器对电源短路
+uchar gzm_162;//2缸喷油器对地短路
+uchar gzm_163;//喷油器2高低端短路
+uchar gzm_164;//喷油器3高端与电源短路
+uchar gzm_165;//喷油器3高端与地短路
+uchar gzm_166;//喷油器3低端与电源短路
+uchar gzm_167;//喷油器3低端与地短路
+uchar gzm_168;//喷油器3开路
+uchar gzm_169;//3缸喷油器错误
+uchar gzm_170;//同Bank中3缸和其他缸开路或者与弱电电源短路
+
+uchar gzm_171;//3缸喷油器对电源短路
+uchar gzm_172;//3缸喷油器对地短路
+uchar gzm_173;//喷油器3高低端短路
+uchar gzm_174;//喷油器4高端与电源短路
+uchar gzm_175;//喷油器4高端与地短路
+uchar gzm_176;//喷油器4低端与电源短路
+uchar gzm_177;//喷油器4低端与地短路
+uchar gzm_178;//喷油器4开路
+uchar gzm_179;//4缸喷油器错误
+uchar gzm_180;//同Bank中4缸和其他缸开路或者与弱电电源短路
+
+uchar gzm_181;//4缸喷油器对电源短路
+uchar gzm_182;//4缸喷油器对地短路
+uchar gzm_183;//喷油器4高低端短路
+uchar gzm_184;//喷油器5高端与电源短路
+uchar gzm_185;//喷油器5高端与地短路
+uchar gzm_186;//喷油器5低端与电源短路
+uchar gzm_187;//喷油器5低端与地短路
+uchar gzm_188;//喷油器5开路
+uchar gzm_189;//5缸喷油器错误
+uchar gzm_190;//同Bank中5缸和其他缸开路或者与弱电电源短路
+
+
+
+uchar gzm_191;//5缸喷油器对电源短路
+uchar gzm_192;//5缸喷油器对地短路
+uchar gzm_193;//喷油器5高低端短路
+uchar gzm_194;//喷油器6高端与电源短路
+uchar gzm_195;//喷油器6高端与地短路
+uchar gzm_196;//喷油器6低端与电源短路
+uchar gzm_197;//喷油器6低端与地短路
+uchar gzm_198;//喷油器6开路
+uchar gzm_199;//6缸喷油器错误
+uchar gzm_200;//同Bank中6缸和其他缸开路或者与弱电电源短路
+
+//
+
+uchar gzm_201;//6缸喷油器对电源短路
+uchar gzm_202;//6缸喷油器对地短路
+uchar gzm_203;//喷油器6高低端短路
+uchar gzm_204;//燃油计量器开路
+uchar gzm_205;//燃油计量器电源短路
+uchar gzm_206;//燃油计量器对地短路
+uchar gzm_207;//巡航信号不可靠(无效开关组合)
+uchar gzm_208;//OBD灯开路
+uchar gzm_209;//OBD灯与电源短路
+uchar gzm_210;//OBD灯与地短路
+
+
+uchar gzm_211;//1缸失火
+uchar gzm_212;//10缸失火
+uchar gzm_213;//11缸失火
+uchar gzm_214;//12缸失火
+uchar gzm_215;//2缸失火
+uchar gzm_216;//3缸失火
+uchar gzm_217;//4缸失火
+uchar gzm_218;//5缸失火
+uchar gzm_219;//6缸失火
+uchar gzm_220;//7缸失火
+
+uchar gzm_221;//8缸失火
+uchar gzm_222;//9缸失火
+uchar gzm_223;//失火总缸数超限
+uchar gzm_224;//多态开关信号不可信
+uchar gzm_225;//多态开关电压超上限
+uchar gzm_226;//多态开关电压超下限
+uchar gzm_227;//机油液位传感器信号不可靠
+uchar gzm_228;//机油液位传感器电压电压超出上限
+uchar gzm_229;//机油液位传感器电压电压超出下限
+uchar gzm_230;//机油压力过低
+
+uchar gzm_231;//机油压力过高或机油温度信号不可靠
+uchar gzm_232;//机油压力传感器电压电压超出上限
+uchar gzm_233;//机油压力传感器电压电压超出下限
+uchar gzm_234;//机油温度传感器信号不可靠
+uchar gzm_235;//机油温度传感器电压超出上限门槛值
+uchar gzm_236;//机油温度传感器电压低于下限门槛值
+uchar gzm_237;//机油温度与冷却水温度信号不可信
+uchar gzm_238;//PCV阀开路
+uchar gzm_239;//PCV阀对电源短路
+uchar gzm_240;//PCV阀对地短路
+
+
+//248 ，249 要注意一下
+uchar gzm_241;//压力波动时共轨泻压阀未打开
+uchar gzm_242;//共轨泻压阀打开次数超出技术要求的最大值
+uchar gzm_243;//共轨泻压阀打开
+uchar gzm_244;//限压阀打开时间超过限制
+uchar gzm_245;//轨压传感器电压超出最大偏差
+uchar gzm_246;//轨压传感器电压低于最小偏差
+uchar gzm_247;//轨压传感器电压超出上限门槛值
+uchar gzm_248;//中断采集方式轨压传感器电压超出上限门槛值
+uchar gzm_249;//轨压传感器电压低于下限门槛值
+uchar gzm_250;//中断采集方式轨压传感器电压低于下限门槛值
+
+uchar gzm_251;//轨压偏差超出上限门槛值
+uchar gzm_252;//燃油计量器中的油量超过门槛值
+uchar gzm_253;//轨压偏差超出门槛值并且燃油计量器中的油量超过门槛值
+uchar gzm_254;//轨压偏差超出上限门槛值并且喷油量超限
+uchar gzm_255;//轨压偏差低于下限门槛值并且喷油量低于门槛值
+uchar gzm_256;//轨压峰值低于下限门槛值
+uchar gzm_257;//轨压峰值超出上限门槛值
+uchar gzm_258;//轨压下降过快
+uchar gzm_259;//超速模式下的油量计量单元设定不可信
+uchar gzm_260;//低怠速下油量计量单元监控器错误
+
+uchar gzm_261;//远程油门踏板1输出电压值超出上限
+uchar gzm_262;//远程油门踏板1输出电压值低于下限
+uchar gzm_263;//远程油门踏板2输出电压值超出上限
+uchar gzm_264;//远程油门踏板2输出电压值低于下限
+uchar gzm_265;//传感器电源1电压超出上限门槛值
+uchar gzm_266;//传感器电源1电压低于下限门槛值
+uchar gzm_267;//传感器电源2电压超出上限门槛值
+uchar gzm_268;//传感器电源2电压低于下限门槛值
+uchar gzm_269;//传感器电源3电压超出上限门槛值
+uchar gzm_270;//传感器电源3电压低于下限门槛值
+
+uchar gzm_271;//空滤更换
+uchar gzm_272;//燃油沥青器更换
+uchar gzm_273;//锁车且执行锁车模式1
+uchar gzm_274;//锁车且执行锁车模式2
+uchar gzm_275;//机油更换
+uchar gzm_276;//机油滤清器更换
+uchar gzm_277;//起动电机继电器低端电源短路
+uchar gzm_278;//起动电机继电器低端对地短路
+uchar gzm_279;//起动电机继电器开路
+uchar gzm_280;//T50接通时间超限
+
+uchar gzm_281;//ECU 温度传感器电压低于下限门槛值
+uchar gzm_282;//ECU 温度传感器电压超出上限门槛值
+uchar gzm_283;//尿素回流管(泵到箱)加热继电器开路
+uchar gzm_284;//尿素回流管(泵到箱)加热继电器对电源短路
+uchar gzm_285;//尿素回流管(泵到箱)加热继电器对地短路
+uchar gzm_286;//尿素压力管(泵到嘴)加热继电器开路
+uchar gzm_287;//尿素压力管(泵到嘴)加热继电器对电源短路
+uchar gzm_288;//尿素压力管(泵到嘴)加热继电器对地短路
+uchar gzm_289;//尿素加热主继电器开路
+uchar gzm_290;//尿素加热主继电器对电源短路
+
+uchar gzm_291;//尿素加热主继电器对地短路
+uchar gzm_292;//尿素吸液管(箱到泵)加热继电器开路
+uchar gzm_293;//尿素吸液管(箱到泵)加热继电器对电源短路
+uchar gzm_294;//尿素吸液管(箱到泵)加热继电器对地短路
+uchar gzm_295;//尿素箱水加热电磁阀开路
+uchar gzm_296;//尿素箱水加热电磁阀对电源短路
+uchar gzm_297;//尿素箱水加热电磁阀对地短路
+uchar gzm_298;//车速1高于最大门槛值
+uchar gzm_299;//车速1月喷油量及发动机转速不可信
+uchar gzm_300;//车速3信号脉宽超过上限门槛值
+
+uchar gzm_301;//车速3信号脉宽低于下限门槛值
+uchar gzm_302;//车速信号平均周期小于门槛值
+uchar gzm_303;//报警灯开路
+uchar gzm_304;//报警灯电源短路
+uchar gzm_305;//报警灯对地短路
+uchar gzm_306;//油中有水传感器电压原始值超出上限门槛
+uchar gzm_307;//油中有水传感器电压原始值低于下限门槛
+uchar gzm_308;//CAN 通讯错误
+uchar gzm_309;//远程油门2倍关系不可信
+uchar gzm_310;//远程油门与刹车可信性校验
+
+uchar gzm_311;//key报文故障
+uchar gzm_312;//key报文超时
+/********************************************************************************************************************/
 
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
@@ -783,7 +1142,20 @@ void Widget::paintEvent(QPaintEvent *event)
 //                           pixBuff.load("./img2/42.png");//42.jpg
 //                           paintBuff.drawPixmap(280,535,255,50,pixBuff); //正下方图标闪烁
 
+
+                  {
                       ui->label_6->setText("yuv");
+                      //设置字号
+
+                      QFont ft;
+                      ft.setPointSize(32);
+                      ui->label_6->setFont(ft);
+
+//                      //设置颜色
+                      QPalette pa;
+                      pa.setColor(QPalette::WindowText,Qt::red);
+                      ui->label_6->setPalette(pa);
+                   }
                       break;
 
                       case 2:
