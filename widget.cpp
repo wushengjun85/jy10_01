@@ -12,6 +12,7 @@
 
 #include <QPalette>
 #include <QFont>
+#include<QTextCodec>
 
 //添加动态链接库
 #include"hwlib/devlib.h"
@@ -64,61 +65,61 @@ uchar j=0;
 uchar jflag = 0;
 uchar mm=0;
 uchar jjjflag = 0;
-unsigned char  mybufflag[15] = {0};
-unsigned char  myindex[15] = {0};
+unsigned char  mybufflag[150] = {0};//15
+unsigned char  myindex[150] = {0};//15
 
 
 unsigned char  countBuff = 0;
 
 
-unsigned char flagLeft = 0;  //左转
+unsigned char flagLeft = 1;  //左转
 unsigned char countLeft = 0; //左转
 
-unsigned char flagBattery = 0;//电瓶指示灯
+unsigned char flagBattery = 1;//电瓶指示灯
 unsigned char countBattery = 0;//电瓶指示灯
 
-unsigned char flagWidthlamp = 0; //示宽灯
+unsigned char flagWidthlamp = 1; //示宽灯
 unsigned char countWidthlamp = 0;//示宽灯
 
-unsigned char  flagYG = 0; //远光灯
+unsigned char  flagYG = 1; //远光灯
 unsigned char  countYG = 0;//远光灯
 
-unsigned char  flagSW  = 0; //水温
+unsigned char  flagSW  = 1; //水温
 unsigned char  countSW = 0; //水温
 
-unsigned char  flagJG = 0; //近光灯
+unsigned char  flagJG = 1; //近光灯
 unsigned char  countJG = 0; //近光灯
 
 
-unsigned char  flagJY = 0; //机油
+unsigned char  flagJY = 1; //机油
 unsigned char  countJY = 0; //机油
 
 
-unsigned char  flagLCM = 0; //粮仓满
+unsigned char  flagLCM = 1; //粮仓满
 unsigned char  countLCM = 0; //粮仓满
 
-unsigned char   flagFDJYR = 0; //发动机预热
+unsigned char   flagFDJYR = 1; //发动机预热
 unsigned char   countFDJYR = 0; //发动机预热
 
-unsigned char   flagGL = 0; //过滤
+unsigned char   flagGL = 1; //过滤
 unsigned char   countGL = 0; //过滤
 
-unsigned char   flagYL = 0; //油量
+unsigned char   flagYL = 1; //油量
 unsigned char    countYL = 0;//油量
 
-unsigned char  flagYeyayouwen = 0;//液压油温
+unsigned char  flagYeyayouwen = 1;//液压油温
 unsigned char  countYeyayouwen = 0; //液压油温
 
 unsigned char    flagECU = 0;//ecu
 unsigned char    countECU = 0;//ecu
 
-unsigned char    flagPark = 0;//停车
+unsigned char    flagPark = 1;//停车
 unsigned char    countPark = 0; //停车
 
-unsigned char   flagFDJGZ = 0; //发动机故障
+unsigned char   flagFDJGZ = 1; //发动机故障
 unsigned char   countFDJGZ = 0; //发动机故障
 
-unsigned char   flagRight = 0; //右转
+unsigned char   flagRight = 1; //右转
 unsigned char    countRight = 0;//右转
 
 
@@ -278,31 +279,31 @@ ushort jiyouwendu;//机油温度
 //故障码 标志定义
 //用于数据库存储
 
-uchar gzm_001;//空调压缩机开路
-uchar gzm_002;//空调压缩机对电源短路
-uchar gzm_003;//空调压缩机对地短路
-uchar gzm_004;//油门与刹车信号不可信
-uchar gzm_005;//空气质量流量传感器电压超上限
-uchar gzm_006;//空气质量流量传感器电压超下限
-uchar gzm_007;//进气加热常开故障
-uchar gzm_008;//油门踏板1与油门踏板2的两倍的信号关系不可信
-uchar gzm_009;//油门踏板1电压值高出上限门槛值
-uchar gzm_010;//油门踏板1电压值低于下限门槛值
+uchar gzm_001 = 1;//空调压缩机开路
+uchar gzm_002 = 1;//空调压缩机对电源短路
+uchar gzm_003 = 1;//空调压缩机对地短路
+uchar gzm_004 = 1;//油门与刹车信号不可信
+uchar gzm_005 = 1;//空气质量流量传感器电压超上限
+uchar gzm_006 = 1;//空气质量流量传感器电压超下限
+uchar gzm_007 = 1;//进气加热常开故障
+uchar gzm_008 = 1;//油门踏板1与油门踏板2的两倍的信号关系不可信
+uchar gzm_009 = 1;//油门踏板1电压值高出上限门槛值
+uchar gzm_010 = 1;//油门踏板1电压值低于下限门槛值
 
 
 
 
 
-uchar gzm_011;//油门踏板2与油门踏板1的1/2的信号关系不可信
-uchar gzm_012;//油门踏板2电压值高出上限门槛值
-uchar gzm_013;//油门踏板2电压值低于下限门槛值
-uchar gzm_014;//大气压力传感器信号不可信
-uchar gzm_015;//大气压力传感器电压高出上限门槛
-uchar gzm_016;//大气压力传感器电压低于下限门槛
-uchar gzm_017;//进气加热器开路
-uchar gzm_018;//进气加热器对电源开路
-uchar gzm_019;//进气加热器对地开路
-uchar gzm_020;//电池电压原始值低于下限门槛
+uchar gzm_011 = 1 ;//油门踏板2与油门踏板1的1/2的信号关系不可信
+uchar gzm_012 = 1;//油门踏板2电压值高出上限门槛值
+uchar gzm_013 = 1;//油门踏板2电压值低于下限门槛值
+uchar gzm_014 = 1;//大气压力传感器信号不可信
+uchar gzm_015 = 1;//大气压力传感器电压高出上限门槛
+uchar gzm_016 = 1;//大气压力传感器电压低于下限门槛
+uchar gzm_017 = 1;//进气加热器开路
+uchar gzm_018 = 1;//进气加热器对电源开路
+uchar gzm_019 = 1;//进气加热器对地开路
+uchar gzm_020 = 1;//电池电压原始值低于下限门槛
 
 uchar gzm_021;//电池电压原始值超出上限门槛
 uchar gzm_022;//进气压力传感器信号不可信
@@ -1022,7 +1023,7 @@ void Widget::paintEvent(QPaintEvent *event)
             }
 #endif
 
-
+#if 0
 
             /****************************************************************************************************/
                   //故障码解析  后期要单独解析 暂时先放到这。
@@ -1056,17 +1057,97 @@ void Widget::paintEvent(QPaintEvent *event)
                        flagQulunzhoufault = 1;
                   }
 
+#endif
+/*****************************************************************************************************/
+//故障码解析
+
+ if((spn==1351)&&(fmi==5))//空调压缩机开路
+ {
+    gzm_001 = 1;
+ }
+
+ if((spn==1351)&&(fmi==3)) //空调压缩机对电源短路
+ {
+     gzm_002 = 1;
+
+ }
+
+ if((spn==1351)&&(fmi==4))//空调压缩机对地短路
+ {
+    gzm_003 = 1;
+ }
+
+ if((spn==91)&&(fmi==7)) //油门与刹车信号不可信
+ {
+     gzm_004 = 1;
+
+ }
+
+ if((spn==132)&&(fmi==3))//空气质量流量传感器电压超上限
+ {
+    gzm_005 = 1;
+ }
+
+ if((spn==132)&&(fmi==4)) //空气质量流量传感器电压超下限
+ {
+     gzm_006 = 1;
+
+ }
+
+ if((spn==2898)&&(fmi==7))//进气加热常开故障
+ {
+    gzm_007 = 1;
+ }
+
+ if((spn==520252)&&(fmi==2)) //油门踏板1与油门踏板2的两倍的信号关系不可信
+ {
+     gzm_008 = 1;
+
+ }
+
+ if((spn==91)&&(fmi==3))//进气加热常开故障
+ {
+    gzm_009 = 1;
+ }
+
+ if((spn==91)&&(fmi==4)) //油门踏板1与油门踏板2的两倍的信号关系不可信
+ {
+     gzm_010 = 1;
+
+ }
 
 
-                  /*****************************************************************************************************/
-                  //正下方长方形图标显示
-                  //2016.7.16
+ QTextCodec::setCodecForTr(QTextCodec::codecForLocale());//汉字显示
+ //设置字号
+ QFont ft;
+ ft.setPointSize(32);
+ ui->label_6->setFont(ft);
+ //设置颜色
+ QPalette pa;
+ pa.setColor(QPalette::WindowText,Qt::red);
+ ui->label_6->setPalette(pa);
 
-                  QPainter paintBuff(this);
-                  QPixmap pixBuff;
+ QPainter paintBuff(this);
+ QPixmap pixBuff;
 
-                  /**********************************************************************************************************/
+ mybufflag[0] = gzm_001;
+ mybufflag[1] = gzm_002;
+ mybufflag[2] = gzm_003;
+ mybufflag[3] = gzm_004;
+ mybufflag[4] = gzm_005;
+ mybufflag[5] = gzm_006;
+ mybufflag[6] = gzm_007;
+ mybufflag[7] = gzm_008;
+ mybufflag[8] = gzm_009;
+ mybufflag[9] = gzm_010;
+ mybufflag[10] = gzm_011;
+ mybufflag[11] = gzm_012;
+/*****************************************************************************************************/
 
+#if 0
+
+                          QPainter paintBuff(this);
+                          QPixmap pixBuff;
                           //临时添加 做测试用
                           //2016.7.16
                           mybufflag[0] =   1;//flagSW;//水温报警
@@ -1092,9 +1173,9 @@ void Widget::paintEvent(QPaintEvent *event)
 
                           mybufflag[14] =  flagSwSenserfault;//水温传感器故障
 
-
+#endif
                           //建立索引 对mybufflag进行提取。
-                          for (mm = 0; mm < 15; mm++)
+                          for (mm = 0; mm < 150; mm++)
                           {
                               if(mybufflag[mm])
                               {
@@ -1104,13 +1185,11 @@ void Widget::paintEvent(QPaintEvent *event)
                               }
 
                           }
-                  /**********************************************************************************************************/
 
                   if(jflag == 0)
                   {
-                      memset(myindex,0,15);
+                      memset(myindex,0,150);//15
                   }
-
 
                   jjjflag = jflag;
                   jflag = 0;
@@ -1118,7 +1197,7 @@ void Widget::paintEvent(QPaintEvent *event)
               if (j >= jjjflag)
               {
                   j = 0;
-                  memset(myindex,0,15);
+                  memset(myindex,0,150);//15
               }
               countBuff++;
               if (countBuff>1)
@@ -1139,92 +1218,95 @@ void Widget::paintEvent(QPaintEvent *event)
                            break;
 
                       case 1:
-//                           pixBuff.load("./img2/42.png");//42.jpg
-//                           paintBuff.drawPixmap(280,535,255,50,pixBuff); //正下方图标闪烁
 
+                   {
+                      ui->label_6->setText(QObject::tr("空调压缩机开路"));
 
-                  {
-                      ui->label_6->setText("yuv");
-                      //设置字号
-
-                      QFont ft;
-                      ft.setPointSize(32);
-                      ui->label_6->setFont(ft);
-
-//                      //设置颜色
-                      QPalette pa;
-                      pa.setColor(QPalette::WindowText,Qt::red);
-                      ui->label_6->setPalette(pa);
                    }
                       break;
 
                       case 2:
-//                          pixBuff.load("./img2/43.png");//43.jpg
-//                          paintBuff.drawPixmap(280,535,255,50,pixBuff); //正下方图标闪烁
-                      ui->label_6->setText("wsj");
+
+                      ui->label_6->setText(QObject::tr("空调压缩机对电源短路"));
 
                       break;
 
                       case 3:
-                          pixBuff.load("./img2/44.png");//44.jpg
-                          paintBuff.drawPixmap(280,535,255,50,pixBuff); //正下方图标闪烁
+                        ui->label_6->setText(QObject::tr("空调压缩机对地短路"));
                       break;
 
                       case 4:
-                           pixBuff.load("./img2/45.png");//45.jpg
-                           paintBuff.drawPixmap(280,535,255,50,pixBuff); //正下方图标闪烁
+                         ui->label_6->setText(QObject::tr("油门与刹车信号不可信"));
                       break;
 
                       case 5:
-                           pixBuff.load("./img2/46.png");//46.jpg
-                           paintBuff.drawPixmap(280,535,255,50,pixBuff); //正下方图标闪烁
+                          ui->label_6->setText(QObject::tr("空气质量流量传感器电压超上限"));
                       break;
 
                       case 6:
-                          pixBuff.load("./img2/47.png");//47.jpg
-                          paintBuff.drawPixmap(280,535,255,50,pixBuff); //正下方图标闪烁
+                          ui->label_6->setText(QObject::tr("空气质量流量传感器电压超下限"));
                       break;
 
                       case 7:
-                          pixBuff.load("./img2/48.png");//48.jpg
-                          paintBuff.drawPixmap(280,535,255,50,pixBuff); //正下方图标闪烁
+                           ui->label_6->setText(QObject::tr("进气加热常开故障"));
                       break;
 
 
                       case 8:
-                           pixBuff.load("./img2/49.png");//49.jpg
-                           paintBuff.drawPixmap(280,535,255,50,pixBuff); //正下方图标闪烁
+                           ui->label_6->setText(QObject::tr("油门踏板1与油门踏板2的两倍的信号关系不可信"));
                       break;
 
                       case 9:
-                           pixBuff.load("./img2/50.png");//50.jpg
-                           paintBuff.drawPixmap(280,535,255,50,pixBuff); //正下方图标闪烁
+                           ui->label_6->setText(QObject::tr("油门踏板1电压值高出上限门槛值"));
                       break;
 
                       case 10:
-                          pixBuff.load("./img2/51.png");//51.jpg
-                          paintBuff.drawPixmap(280,535,255,50,pixBuff); //正下方图标闪烁
+                          ui->label_6->setText(QObject::tr("油门踏板1电压值低于下限门槛值"));
                       break;
 
                       case 11:
-                          pixBuff.load("./img2/52.png");//52.jpg
-                          paintBuff.drawPixmap(280,535,255,50,pixBuff); //正下方图标闪烁
+                             ui->label_6->setText(QObject::tr("油门踏板2与油门踏板1的1/2的信号关系不可信"));
                       break;
 
 
                       case 12:
-                           pixBuff.load("./img2/53.png");//53.jpg
-                           paintBuff.drawPixmap(280,535,255,50,pixBuff); //正下方图标闪烁
+                         ui->label_6->setText(QObject::tr("油门踏板2电压值高出上限门槛值"));
                       break;
 
                       case 13:
-                           pixBuff.load("./img2/54.png");//54.jpg
-                           paintBuff.drawPixmap(280,535,255,50,pixBuff); //正下方图标闪烁
+                         ui->label_6->setText(QObject::tr("油门踏板2电压值低于下限门槛值"));
                       break;
 
                       case 14:
-                          pixBuff.load("./img2/55.png");//55.jpg
-                          paintBuff.drawPixmap(280,535,255,50,pixBuff); //正下方图标闪烁
+                             ui->label_6->setText(QObject::tr("大气压力传感器信号不可信"));
+                      break;
+
+                      case 15:
+                            ui->label_6->setText(QObject::tr("大气压力传感器电压高出上限门槛"));
+                      break;
+
+                  case 16:
+                      ui->label_6->setText(QObject::tr("大气压力传感器电压低于下限门槛"));
+                      break;
+
+                  case 17:
+
+                      ui->label_6->setText(QObject::tr("进气加热器开路"));
+                      break;
+
+                  case 18:
+                      ui->label_6->setText(QObject::tr("进气加热器对电源开路"));
+                      break;
+
+                  case 19:
+                      ui->label_6->setText(QObject::tr("进气加热器对地开路"));
+                      break;
+
+                  case 20:
+                      ui->label_6->setText(QObject::tr("电池电压原始值低于下限门槛"));
+                      break;
+                  case 21:
+                      ui->label_6->setText(QObject::tr("电池电压原始值超出上限门槛"));
                       break;
 
                   }
@@ -1233,12 +1315,7 @@ void Widget::paintEvent(QPaintEvent *event)
               }
            /******************************************************************************************************/
 
-
-
-
-
         }
-
 
     #endif
 }
