@@ -30,6 +30,8 @@ private slots:
 
     void on_pushButton_timesetup_3_clicked();
 
+    void xiaoshiji();
+
 private:
     Ui::Widget *ui;
     Work *work;
@@ -38,6 +40,8 @@ private:
 
     //线程
     SignalCan *mycan;
+
+    QTimer *timer_xiaoshiji;
 
 
 

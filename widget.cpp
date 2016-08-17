@@ -30,6 +30,9 @@ bool flaglanguage = false; //中英文切换标志变量。
 //uchar numtmp = 0; //临时 测试所用。
 
 bool beep_flag = true;
+
+uint xiaoshiJi_m;//分钟
+float xiaoshiJi_h;//小时
 /***************************************************************************************************************/
 int num = 0;
 int numtmp = 0;
@@ -61,12 +64,12 @@ QString  Datesetup;
 //定义变量 控制图标闪烁。
 //
 /********************************************************************************************************************/
-uchar j=0;
-uchar jflag = 0;
-uchar mm=0;
-uchar jjjflag = 0;
-unsigned char  mybufflag[150] = {0};//15
-unsigned char  myindex[150] = {0};//15
+ushort j=0;
+ushort jflag = 0;
+ushort mm=0;
+ushort jjjflag = 0;
+unsigned char  mybufflag[312] = {0};//15
+unsigned char  myindex[312] = {0};//15
 
 
 unsigned char  countBuff = 0;
@@ -284,26 +287,26 @@ uchar gzm_002 = 1;//空调压缩机对电源短路
 uchar gzm_003 = 1;//空调压缩机对地短路
 uchar gzm_004 = 1;//油门与刹车信号不可信
 uchar gzm_005 = 1;//空气质量流量传感器电压超上限
-uchar gzm_006 = 1;//空气质量流量传感器电压超下限
-uchar gzm_007 = 1;//进气加热常开故障
-uchar gzm_008 = 1;//油门踏板1与油门踏板2的两倍的信号关系不可信
-uchar gzm_009 = 1;//油门踏板1电压值高出上限门槛值
-uchar gzm_010 = 1;//油门踏板1电压值低于下限门槛值
+uchar gzm_006;//空气质量流量传感器电压超下限
+uchar gzm_007;//进气加热常开故障
+uchar gzm_008;//油门踏板1与油门踏板2的两倍的信号关系不可信
+uchar gzm_009;//油门踏板1电压值高出上限门槛值
+uchar gzm_010;//油门踏板1电压值低于下限门槛值
 
 
 
 
 
-uchar gzm_011 = 1 ;//油门踏板2与油门踏板1的1/2的信号关系不可信
-uchar gzm_012 = 1;//油门踏板2电压值高出上限门槛值
-uchar gzm_013 = 1;//油门踏板2电压值低于下限门槛值
-uchar gzm_014 = 1;//大气压力传感器信号不可信
-uchar gzm_015 = 1;//大气压力传感器电压高出上限门槛
-uchar gzm_016 = 1;//大气压力传感器电压低于下限门槛
-uchar gzm_017 = 1;//进气加热器开路
-uchar gzm_018 = 1;//进气加热器对电源开路
-uchar gzm_019 = 1;//进气加热器对地开路
-uchar gzm_020 = 1;//电池电压原始值低于下限门槛
+uchar gzm_011;//油门踏板2与油门踏板1的1/2的信号关系不可信
+uchar gzm_012;//油门踏板2电压值高出上限门槛值
+uchar gzm_013;//油门踏板2电压值低于下限门槛值
+uchar gzm_014;//大气压力传感器信号不可信
+uchar gzm_015;//大气压力传感器电压高出上限门槛
+uchar gzm_016;//大气压力传感器电压低于下限门槛
+uchar gzm_017;//进气加热器开路
+uchar gzm_018;//进气加热器对电源开路
+uchar gzm_019;//进气加热器对地开路
+uchar gzm_020;//电池电压原始值低于下限门槛
 
 uchar gzm_021;//电池电压原始值超出上限门槛
 uchar gzm_022;//进气压力传感器信号不可信
@@ -658,13 +661,18 @@ Widget::Widget(QWidget *parent) :
     //resize(1024,600);
 
     QTimer *timer = new QTimer(this);   //声明一个定时器
-   //QTimer *timertst = new QTimer(this);
+    timer_xiaoshiji = new QTimer(this); //声明小时计定时器
 
     //update()会自动产生重绘消息，调用paintEvent()
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));  //连接信号槽，定时器超时触发窗体更新
     connect(timer, SIGNAL(timeout()), this, SLOT(diplaytime()));  //连接信号槽，定时器超时触发窗体更新
+
+    connect(timer_xiaoshiji,SIGNAL(timeout()),this,SLOT(xiaoshiji()));//小时计
+
     timer->start(500);   //启动定时器
     //timertst->start(1000);
+    timer_xiaoshiji->start(100); //启动小时计定时器
+
 
     //解析现象，当去掉 setWindowFlags(windowFlags()|Qt::FramelessWindowHint|Qt::WindowTitleHint); 这一句，在开发板子上能显示上方图标，但是不闪烁，
     //不注释则可以在板子上闪烁。
@@ -812,8 +820,8 @@ void Widget::paintEvent(QPaintEvent *event)
         ui->label_2->setText(QString::number(Yeyayouwen));//液压油油温（液压油油温）
         ui->label_3->setText(QString::number(SuiWen));//水温；
         ui->label_4->setText(QString::number(jiyouyali)); //机油压力
-        ui->label_5->setText(QString::number(XiaoshiJi));//小时计
-
+        //ui->label_5->setText(QString::number(XiaoshiJi));//小时计
+        //ui->label_5->setText( QString("%1").arg(xiaoshiJi_h));
     #endif
 
 
@@ -1140,8 +1148,352 @@ void Widget::paintEvent(QPaintEvent *event)
  mybufflag[7] = gzm_008;
  mybufflag[8] = gzm_009;
  mybufflag[9] = gzm_010;
+
  mybufflag[10] = gzm_011;
  mybufflag[11] = gzm_012;
+ mybufflag[12] = gzm_013;
+ mybufflag[13] = gzm_014;
+ mybufflag[14] = gzm_015;
+ mybufflag[15] = gzm_016;
+ mybufflag[16] = gzm_017;
+ mybufflag[17] = gzm_018;
+ mybufflag[18] = gzm_019;
+ mybufflag[19] = gzm_020;
+
+ mybufflag[20] = gzm_021;
+ mybufflag[21] = gzm_022;
+ mybufflag[22] = gzm_023;
+ mybufflag[23] = gzm_024;
+ mybufflag[24] = gzm_025;
+ mybufflag[25] = gzm_026;
+ mybufflag[26] = gzm_027;
+ mybufflag[27] = gzm_028;
+ mybufflag[28] = gzm_029;
+ mybufflag[29] = gzm_030;
+ mybufflag[30] = gzm_031;
+
+
+
+ mybufflag[31] = gzm_032;
+ mybufflag[32] = gzm_033;
+ mybufflag[33] = gzm_034;
+ mybufflag[34] = gzm_035;
+ mybufflag[35] = gzm_036;
+ mybufflag[36] = gzm_037;
+ mybufflag[37] = gzm_038;
+ mybufflag[38] = gzm_039;
+ mybufflag[39] = gzm_040;
+ mybufflag[40] = gzm_041;
+
+
+ mybufflag[41] = gzm_042;
+ mybufflag[42] = gzm_043;
+ mybufflag[43] = gzm_044;
+ mybufflag[44] = gzm_045;
+ mybufflag[45] = gzm_046;
+ mybufflag[46] = gzm_047;
+ mybufflag[47] = gzm_048;
+ mybufflag[48] = gzm_049;
+ mybufflag[49] = gzm_050;
+ mybufflag[50] = gzm_051;
+
+ mybufflag[51] = gzm_052;
+ mybufflag[52] = gzm_053;
+ mybufflag[53] = gzm_054;
+ mybufflag[54] = gzm_055;
+ mybufflag[55] = gzm_056;
+ mybufflag[56] = gzm_057;
+ mybufflag[57] = gzm_058;
+ mybufflag[58] = gzm_059;
+ mybufflag[59] = gzm_060;
+ mybufflag[60] = gzm_061;
+
+ mybufflag[61] = gzm_062;
+ mybufflag[62] = gzm_063;
+ mybufflag[63] = gzm_064;
+ mybufflag[64] = gzm_065;
+ mybufflag[65] = gzm_066;
+ mybufflag[66] = gzm_067;
+ mybufflag[67] = gzm_068;
+ mybufflag[68] = gzm_069;
+ mybufflag[69] = gzm_070;
+ mybufflag[70] = gzm_071;
+
+ mybufflag[71] = gzm_072;
+ mybufflag[72] = gzm_073;
+ mybufflag[73] = gzm_074;
+ mybufflag[74] = gzm_075;
+ mybufflag[75] = gzm_076;
+ mybufflag[76] = gzm_077;
+ mybufflag[77] = gzm_078;
+ mybufflag[78] = gzm_079;
+ mybufflag[79] = gzm_080;
+ mybufflag[80] = gzm_081;
+
+
+ mybufflag[81] = gzm_082;
+ mybufflag[82] = gzm_083;
+ mybufflag[83] = gzm_084;
+ mybufflag[84] = gzm_085;
+ mybufflag[85] = gzm_086;
+ mybufflag[86] = gzm_087;
+ mybufflag[87] = gzm_088;
+ mybufflag[88] = gzm_089;
+ mybufflag[89] = gzm_090;
+ mybufflag[90] = gzm_091;
+
+ mybufflag[91] = gzm_092;
+ mybufflag[92] = gzm_093;
+ mybufflag[93] = gzm_094;
+ mybufflag[94] = gzm_095;
+ mybufflag[95] = gzm_096;
+ mybufflag[96] = gzm_097;
+ mybufflag[97] = gzm_098;
+ mybufflag[98] = gzm_099;
+ mybufflag[99] = gzm_100;
+ mybufflag[100] = gzm_101;
+
+//100 分界线
+
+
+ mybufflag[101] = gzm_102;
+ mybufflag[102] = gzm_103;
+ mybufflag[103] = gzm_104;
+ mybufflag[104] = gzm_105;
+ mybufflag[105] = gzm_106;
+ mybufflag[106] = gzm_107;
+ mybufflag[107] = gzm_108;
+ mybufflag[108] = gzm_109;
+ mybufflag[109] = gzm_110;
+ mybufflag[110] = gzm_111;
+
+ mybufflag[111] = gzm_112;
+ mybufflag[112] = gzm_113;
+ mybufflag[113] = gzm_114;
+ mybufflag[114] = gzm_115;
+ mybufflag[115] = gzm_116;
+ mybufflag[116] = gzm_117;
+ mybufflag[117] = gzm_118;
+ mybufflag[118] = gzm_119;
+ mybufflag[119] = gzm_120;
+ mybufflag[120] = gzm_121;
+
+ mybufflag[121] = gzm_122;
+ mybufflag[122] = gzm_123;
+ mybufflag[123] = gzm_124;
+ mybufflag[124] = gzm_125;
+ mybufflag[125] = gzm_126;
+ mybufflag[126] = gzm_127;
+ mybufflag[127] = gzm_128;
+ mybufflag[128] = gzm_129;
+ mybufflag[129] = gzm_130;
+ mybufflag[130] = gzm_131;
+
+ mybufflag[131] = gzm_132;
+ mybufflag[132] = gzm_133;
+ mybufflag[133] = gzm_134;
+ mybufflag[134] = gzm_135;
+ mybufflag[135] = gzm_136;
+ mybufflag[136] = gzm_137;
+ mybufflag[137] = gzm_138;
+ mybufflag[138] = gzm_139;
+ mybufflag[139] = gzm_140;
+ mybufflag[140] = gzm_141;
+
+
+ mybufflag[141] = gzm_142;
+ mybufflag[142] = gzm_143;
+ mybufflag[143] = gzm_144;
+ mybufflag[144] = gzm_145;
+ mybufflag[145] = gzm_146;
+ mybufflag[146] = gzm_147;
+ mybufflag[147] = gzm_148;
+ mybufflag[148] = gzm_149;
+ mybufflag[149] = gzm_150;
+ mybufflag[150] = gzm_151;
+
+ mybufflag[151] = gzm_152;
+ mybufflag[152] = gzm_153;
+ mybufflag[153] = gzm_154;
+ mybufflag[154] = gzm_155;
+ mybufflag[155] = gzm_156;
+ mybufflag[156] = gzm_157;
+ mybufflag[157] = gzm_158;
+ mybufflag[158] = gzm_159;
+ mybufflag[159] = gzm_160;
+ mybufflag[160] = gzm_161;
+
+ mybufflag[161] = gzm_162;
+ mybufflag[162] = gzm_163;
+ mybufflag[163] = gzm_164;
+ mybufflag[164] = gzm_165;
+ mybufflag[165] = gzm_166;
+ mybufflag[166] = gzm_167;
+ mybufflag[167] = gzm_168;
+ mybufflag[168] = gzm_169;
+ mybufflag[169] = gzm_170;
+ mybufflag[170] = gzm_171;
+
+ mybufflag[171] = gzm_172;
+ mybufflag[172] = gzm_173;
+ mybufflag[173] = gzm_174;
+ mybufflag[174] = gzm_175;
+ mybufflag[175] = gzm_176;
+ mybufflag[176] = gzm_177;
+ mybufflag[177] = gzm_178;
+ mybufflag[178] = gzm_179;
+ mybufflag[179] = gzm_180;
+ mybufflag[180] = gzm_181;
+
+ mybufflag[181] = gzm_182;
+ mybufflag[182] = gzm_183;
+ mybufflag[183] = gzm_184;
+ mybufflag[184] = gzm_185;
+ mybufflag[185] = gzm_186;
+ mybufflag[186] = gzm_187;
+ mybufflag[187] = gzm_188;
+ mybufflag[188] = gzm_189;
+ mybufflag[189] = gzm_190;
+ mybufflag[190] = gzm_191;
+
+ mybufflag[191] = gzm_192;
+ mybufflag[192] = gzm_193;
+ mybufflag[193] = gzm_194;
+ mybufflag[194] = gzm_195;
+ mybufflag[195] = gzm_196;
+ mybufflag[196] = gzm_197;
+ mybufflag[197] = gzm_198;
+ mybufflag[198] = gzm_199;
+ mybufflag[199] = gzm_200;
+ mybufflag[200] = gzm_201;
+
+ //200分界线
+ mybufflag[201] = gzm_202;
+ mybufflag[202] = gzm_203;
+ mybufflag[203] = gzm_204;
+ mybufflag[204] = gzm_205;
+ mybufflag[205] = gzm_206;
+ mybufflag[206] = gzm_207;
+ mybufflag[207] = gzm_208;
+ mybufflag[208] = gzm_209;
+ mybufflag[209] = gzm_210;
+ mybufflag[210] = gzm_211;
+
+ mybufflag[211] = gzm_212;
+ mybufflag[212] = gzm_213;
+ mybufflag[213] = gzm_214;
+ mybufflag[214] = gzm_215;
+ mybufflag[215] = gzm_216;
+ mybufflag[216] = gzm_217;
+ mybufflag[217] = gzm_218;
+ mybufflag[218] = gzm_219;
+ mybufflag[219] = gzm_220;
+ mybufflag[220] = gzm_221;
+
+ mybufflag[221] = gzm_222;
+ mybufflag[222] = gzm_223;
+ mybufflag[223] = gzm_224;
+ mybufflag[224] = gzm_225;
+ mybufflag[225] = gzm_226;
+ mybufflag[226] = gzm_227;
+ mybufflag[227] = gzm_228;
+ mybufflag[228] = gzm_229;
+ mybufflag[229] = gzm_230;
+ mybufflag[230] = gzm_231;
+
+ mybufflag[231] = gzm_232;
+ mybufflag[232] = gzm_233;
+ mybufflag[233] = gzm_234;
+ mybufflag[234] = gzm_235;
+ mybufflag[235] = gzm_236;
+ mybufflag[236] = gzm_237;
+ mybufflag[237] = gzm_238;
+ mybufflag[238] = gzm_239;
+ mybufflag[239] = gzm_240;
+ mybufflag[240] = gzm_241;
+
+
+ mybufflag[241] = gzm_242;
+ mybufflag[242] = gzm_243;
+ mybufflag[243] = gzm_244;
+ mybufflag[244] = gzm_245;
+ mybufflag[245] = gzm_246;
+ mybufflag[246] = gzm_247;
+ mybufflag[247] = gzm_248;
+ mybufflag[248] = gzm_249;
+ mybufflag[249] = gzm_250;
+ mybufflag[250] = gzm_251;
+
+ mybufflag[251] = gzm_252;
+ mybufflag[252] = gzm_253;
+ mybufflag[253] = gzm_254;
+ mybufflag[254] = gzm_255;
+ mybufflag[255] = gzm_256;
+ mybufflag[256] = gzm_257;
+ mybufflag[257] = gzm_258;
+ mybufflag[258] = gzm_259;
+ mybufflag[259] = gzm_260;
+ mybufflag[260] = gzm_261;
+
+ mybufflag[261] = gzm_262;
+ mybufflag[262] = gzm_263;
+ mybufflag[263] = gzm_264;
+ mybufflag[264] = gzm_265;
+ mybufflag[265] = gzm_266;
+ mybufflag[266] = gzm_267;
+ mybufflag[267] = gzm_268;
+ mybufflag[268] = gzm_269;
+ mybufflag[269] = gzm_270;
+ mybufflag[270] = gzm_271;
+
+ mybufflag[271] = gzm_272;
+ mybufflag[272] = gzm_273;
+ mybufflag[273] = gzm_274;
+ mybufflag[274] = gzm_275;
+ mybufflag[275] = gzm_276;
+ mybufflag[276] = gzm_277;
+ mybufflag[277] = gzm_278;
+ mybufflag[278] = gzm_279;
+ mybufflag[279] = gzm_280;
+ mybufflag[280] = gzm_281;
+
+ mybufflag[281] = gzm_282;
+ mybufflag[282] = gzm_283;
+ mybufflag[283] = gzm_284;
+ mybufflag[284] = gzm_285;
+ mybufflag[285] = gzm_286;
+ mybufflag[286] = gzm_287;
+ mybufflag[287] = gzm_288;
+ mybufflag[288] = gzm_289;
+ mybufflag[289] = gzm_290;
+ mybufflag[290] = gzm_291;
+
+ mybufflag[291] = gzm_292;
+ mybufflag[292] = gzm_293;
+ mybufflag[293] = gzm_294;
+ mybufflag[294] = gzm_295;
+ mybufflag[295] = gzm_296;
+ mybufflag[296] = gzm_297;
+ mybufflag[297] = gzm_298;
+ mybufflag[298] = gzm_299;
+ mybufflag[299] = gzm_300;
+ mybufflag[300] = gzm_301;
+
+ //300分界线
+
+ mybufflag[301] = gzm_302;
+ mybufflag[302] = gzm_303;
+ mybufflag[303] = gzm_304;
+ mybufflag[304] = gzm_305;
+ mybufflag[305] = gzm_306;
+ mybufflag[306] = gzm_307;
+ mybufflag[307] = gzm_308;
+ mybufflag[308] = gzm_309;
+ mybufflag[309] = gzm_310;
+ mybufflag[310] = gzm_311;
+
+ mybufflag[311] = gzm_312;
+
 /*****************************************************************************************************/
 
 #if 0
@@ -1175,7 +1527,7 @@ void Widget::paintEvent(QPaintEvent *event)
 
 #endif
                           //建立索引 对mybufflag进行提取。
-                          for (mm = 0; mm < 150; mm++)
+                          for (mm = 0; mm < 312; mm++)
                           {
                               if(mybufflag[mm])
                               {
@@ -1188,7 +1540,7 @@ void Widget::paintEvent(QPaintEvent *event)
 
                   if(jflag == 0)
                   {
-                      memset(myindex,0,150);//15
+                      memset(myindex,0,312);//15
                   }
 
                   jjjflag = jflag;
@@ -1197,7 +1549,7 @@ void Widget::paintEvent(QPaintEvent *event)
               if (j >= jjjflag)
               {
                   j = 0;
-                  memset(myindex,0,150);//15
+                  memset(myindex,0,312);//15
               }
               countBuff++;
               if (countBuff>1)
@@ -1267,7 +1619,7 @@ void Widget::paintEvent(QPaintEvent *event)
                       case 11:
                              ui->label_6->setText(QObject::tr("油门踏板2与油门踏板1的1/2的信号关系不可信"));
                       break;
-
+#if 1
 
                       case 12:
                          ui->label_6->setText(QObject::tr("油门踏板2电压值高出上限门槛值"));
@@ -1308,7 +1660,7 @@ void Widget::paintEvent(QPaintEvent *event)
                   case 21:
                       ui->label_6->setText(QObject::tr("电池电压原始值超出上限门槛"));
                       break;
-
+#endif
                   }
                   j++;
                   break;
@@ -1371,4 +1723,16 @@ void Widget::on_pushButton_timesetup_3_clicked()//喇叭按钮
         qDebug()<<"beep_flag = "<<beep_flag<<endl;
     }
 #endif
+}
+
+
+//小时计 槽函数
+void Widget::xiaoshiji()
+{
+
+    xiaoshiJi_m++;
+    xiaoshiJi_h = (xiaoshiJi_m/60)*10 + ((xiaoshiJi_m%60)/10);
+    xiaoshiJi_h /= 10;
+
+     ui->label_5->setText( QString("%1").arg(xiaoshiJi_h));
 }
