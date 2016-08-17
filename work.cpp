@@ -27,6 +27,8 @@ extern  bool beep_flag;// 蜂鸣器标志
 uint matchine[7] = {0}; //保存风机，复托器，升运器，等转速
 
 extern ushort jiyouwendu;//机油温度
+
+extern float xiaoshiJi_h;//小时计
 /***************************************************************************************************************/
 
 
@@ -364,7 +366,8 @@ void Work::paintEvent(QPaintEvent *event)
                 ui->label->setText("6"); //r/min
 
                 ui->label_2->setText("88");// k/mh
-                ui->label_3->setText(QString::number(XiaoshiJi));//小时计
+                ui->label_3->setText( QString("%1").arg(xiaoshiJi_h));
+
                 ui->label_4->setText(QString::number(SuiWen));//水温
                 ui->label_5->setText(QString::number(Yeyayouwen));//液压油油温（液压油油温）
                 ui->label_6->setText(QString::number(jiyouwendu));//机油温度

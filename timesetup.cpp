@@ -73,7 +73,13 @@ void Timesetup::on_pushButton_16_clicked()//一键设定
     system("rm my.db");
     QTextCodec::setCodecForTr(QTextCodec::codecForLocale());//汉字显示
 
-   QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+    QSqlDatabase db;
+    if(QSqlDatabase::contains("qt_sql_default_connection"))
+      db = QSqlDatabase::database("qt_sql_default_connection");
+    else
+      db = QSqlDatabase::addDatabase("QSQLITE");
+
+//   QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
    db.setDatabaseName("my.db");
    if (!db.open())
    {

@@ -14,6 +14,8 @@
 #include <QFont>
 #include<QTextCodec>
 
+#include <QtSql>
+
 //添加动态链接库
 #include"hwlib/devlib.h"
 
@@ -33,6 +35,9 @@ bool beep_flag = true;
 
 uint xiaoshiJi_m;//分钟
 float xiaoshiJi_h;//小时
+
+
+int fff;
 /***************************************************************************************************************/
 int num = 0;
 int numtmp = 0;
@@ -1619,7 +1624,7 @@ void Widget::paintEvent(QPaintEvent *event)
                       case 11:
                              ui->label_6->setText(QObject::tr("油门踏板2与油门踏板1的1/2的信号关系不可信"));
                       break;
-#if 1
+
 
                       case 12:
                          ui->label_6->setText(QObject::tr("油门踏板2电压值高出上限门槛值"));
@@ -1660,7 +1665,6 @@ void Widget::paintEvent(QPaintEvent *event)
                   case 21:
                       ui->label_6->setText(QObject::tr("电池电压原始值超出上限门槛"));
                       break;
-#endif
                   }
                   j++;
                   break;
@@ -1729,10 +1733,84 @@ void Widget::on_pushButton_timesetup_3_clicked()//喇叭按钮
 //小时计 槽函数
 void Widget::xiaoshiji()
 {
-
+   #if 0
     xiaoshiJi_m++;
     xiaoshiJi_h = (xiaoshiJi_m/60)*10 + ((xiaoshiJi_m%60)/10);
     xiaoshiJi_h /= 10;
+    ui->label_5->setText( QString("%1").arg(xiaoshiJi_h));
+    #endif
 
-     ui->label_5->setText( QString("%1").arg(xiaoshiJi_h));
+    //system("rm my.db");
+    QTextCodec::setCodecForTr(QTextCodec::codecForLocale());//汉字显示
+
+
+    QSqlDatabase db;
+    if(QSqlDatabase::contains("qt_sql_default_connection"))
+      db = QSqlDatabase::database("qt_sql_default_connection");
+    else
+      db = QSqlDatabase::addDatabase("QSQLITE");
+
+
+   //QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+   db.setDatabaseName("my6.db");
+   if (!db.open())
+   {
+       qDebug()<<"open database failed ---"<<db.lastError().text()<<"/n";
+   }
+   QSqlQuery query;
+//   bool ok = query.exec("CREATE TABLE IF NOT EXISTS  myjy10 (id INTEGER PRIMARY KEY AUTOINCREMENT,"
+//                                      "name VARCHAR(20) NOT NULL,"
+//                                      "age INTEGER NULL)");
+
+   #if 0
+   bool ok = query.exec("create table myjy10(id INTEGER,name varchar,age INTEGER)");
+   if (ok)
+   {
+       qDebug()<<"ceate table partition success"<<endl;
+   }
+   else
+   {
+       qDebug()<<"ceate table partition failed"<<endl;
+   }
+   #endif
+
+   query.exec("select id, name, age from myjy10");
+   while (query.next())
+   {
+
+     // qDebug()<<"id("<<query.value(0).toInt()<<")  name:"<<query.value(1).toString()<<"  age:"<<query.value(2).toInt();
+     xiaoshiJi_m = query.value(2).toInt();
+
+   }
+    xiaoshiJi_m++;
+
+    xiaoshiJi_h = (xiaoshiJi_m/60)*10 + ((xiaoshiJi_m%60)/10);
+    xiaoshiJi_h /= 10;
+    ui->label_5->setText( QString("%1").arg(xiaoshiJi_h));
+
+
+
+          //query.prepare("INSERT INTO myjy10 (id, name, age) VALUES (:id, :name, :age)");
+
+          query.prepare("update myjy10 set age = :age where id = :id");
+
+          //query.prepare(update_sql);
+          query.bindValue(":id",1);
+          //query.bindValue(":name", QObject::tr("小时计"));
+          query.bindValue(":age", xiaoshiJi_m);
+          query.exec();
+
+
+
+        query.exec("select id, name, age from myjy10");
+        while (query.next())
+        {
+
+           qDebug()<<"id("<<query.value(0).toInt()<<")  name:"<<query.value(1).toString()<<"  age:"<<query.value(2).toInt();
+        }
+
+        query.exec(QObject::tr("drop myjy10"));
+
+/*******************************************************************/
+
 }
