@@ -112,7 +112,7 @@ extern ushort fadongzhuansu; //发动机转速
 
 //18FECA00
 //故障报文
-extern ulong guzhangbaowen; //故障报文
+//extern ulong guzhangbaowen; //故障报文
 extern uint  spn;//spn 码
 extern uchar fmi;//fmi 码
 

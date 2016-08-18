@@ -14,6 +14,16 @@ extern unsigned short int speed = 0;
 extern unsigned char daoche = 0;
 
 extern ushort jiyouwendu;
+
+uchar PackGZM[4][8] = {{0,0}};
+uchar Packend = 0; //结束标志
+uchar Packcount = 0;//接收到的包数
+
+uchar gzmend = 0;
+uchar gzmi = 0;
+uchar gzmj = 0;
+
+
 /********************************************************************************************************************/
 
 
@@ -84,9 +94,19 @@ extern ushort fadongzhuansu; //发动机转速
 
 //18FECA00
 //故障报文
-extern ulong guzhangbaowen; //故障报文
+//extern ulong guzhangbaowen; //故障报文
 extern uint  spn;//spn 码
 extern uchar fmi;//fmi 码
+
+
+extern uint  spn2;//spn 码
+extern uchar fmi2;//fmi 码
+
+extern uint  spn3;//spn 码
+extern uchar fmi3;//fmi 码
+
+extern uint  spn4;//spn 码
+extern uchar fmi4;//fmi 码
 
 
 //预热指示灯
@@ -609,17 +629,96 @@ void Canread::shutdownfd(int fd)
            //故障报文
            //memcpy  dai chuli
            //guzhangbaowen = frdup.data[]; //故障报文
-        case 0x18FECA00:
+        case 0x18FECA00://单包故障
            fmi = frdup.data[4]&0x1f; //Byte5 的 5-1 位为fmi 码；
 
            spn = frdup.data[4]&0xe0;
            spn = spn<<8;
-           spn = spn|frdup.data[4];
-           spn = spn<<8;
            spn = spn|frdup.data[3];
+           spn = spn<<8;
+           spn = spn|frdup.data[2];
 
            break;
+        case 0x18ECFF00://多包故障码
+           Packcount = frdup.data[3];
 
+            break;
+
+       case 0x18EBFF00://多包故障码
+
+           if (Packcount>0&&(Packend == 1))
+           {
+                Packcount--;
+                gzmi=frdup.data[0];
+                 for(gzmj = 0; gzmj < 8; gzmj++)
+                    {
+                        PackGZM[gzmi-1][gzmj] = frdup.data[gzmj];
+                    }
+
+            }
+           else if ((Packcount==0)&&(Packend == 1))
+           {
+                gzmend = 1;
+                Packcount = 0;
+           }
+
+           //解析故障码
+           if (gzmend == 1)
+           {
+               /***********SPN1************/
+               if(PackGZM[0][0] == 0x01)
+               {
+                   spn=PackGZM[0][5]>>5;
+                   spn=PackGZM[0][4]|spn<<8;
+                   spn=PackGZM[0][3]|spn<<8;
+                   fmi=PackGZM[0][5]&0x1f;
+               }
+               else
+               {
+                   fmi = 0;
+                   spn = 0;
+               }
+
+
+
+               /***********SPN2 SPN3************/
+
+               if((PackGZM[0][0] == 0x01)&&(PackGZM[1][0] == 0x02))
+               {
+                 spn2=PackGZM[2][2]>>5;
+                 spn2=PackGZM[2][1]|spn2<<8;
+                 spn2=PackGZM[1][7]|spn2<<8;
+                 fmi2=PackGZM[2][2]&0x1f;
+
+                 spn3=PackGZM[2][6]>>5;
+                 spn3=PackGZM[2][5]|spn3<<8;
+                 spn3=PackGZM[2][4]|spn3<<8;
+                 fmi3=PackGZM[2][6]&0x1f;
+               }
+               else
+               {
+                 spn2=0;
+                 fmi2=0;
+                 spn3=0;
+                 fmi3=0;
+               }
+               /***********SPN4************/
+               if(PackGZM[2][0]==0x03)
+               {
+                 spn4=PackGZM[3][3]>>5;
+                 spn4=PackGZM[3][2]|spn4<<8;
+                 spn4=PackGZM[3][1]|spn4<<8;
+                 fmi4=PackGZM[3][3]&0x1f;
+               }
+               else
+               {
+                 spn4=0;
+                 fmi4=0;
+               }
+           }
+
+
+           break;
 
            //预热指示灯
            //18FEE400
