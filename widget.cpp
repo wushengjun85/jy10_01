@@ -6988,9 +6988,1181 @@ void Widget::paintEvent(QPaintEvent *event)
                   case 20:
                       ui->label_6->setText(QObject::tr("电池电压原始值低于下限门槛"));
                       break;
+
                   case 21:
                       ui->label_6->setText(QObject::tr("电池电压原始值超出上限门槛"));
                       break;
+
+
+                  case 22:
+                      ui->label_6->setText(QObject::tr("进气压力传感器信号不可信"));
+                      break;
+
+                  case 23:
+                      ui->label_6->setText(QObject::tr("进气压力传感器电压超出上限门槛值"));
+                      break;
+
+                  case 24:
+                      ui->label_6->setText(QObject::tr("进气压力传感器电压低于下限门槛值"));
+                      break;
+
+                  case 25:
+                      ui->label_6->setText(QObject::tr("巡航控制要求的识别错误，使得故障灯常亮"));
+                      break;
+
+                  case 26:
+                      ui->label_6->setText(QObject::tr("制动踏板踩下前，巡航控制抑制错误"));
+                      break;
+
+                  case 27:
+                      ui->label_6->setText(QObject::tr("刹车信号不可信"));
+                      break;
+
+                  case 28:
+                      ui->label_6->setText(QObject::tr("刹车信号错误"));
+                      break;
+
+                  case 29:
+                      ui->label_6->setText(QObject::tr("冷却水温在一定时间内上升幅度没有达到最小值"));
+                      break;
+
+                  case 30:
+                      ui->label_6->setText(QObject::tr("冷却水温在一定时间内没有达到最小值"));
+                      break;
+
+                  case 31:
+                      ui->label_6->setText(QObject::tr("水温信号不可用"));
+                      break;
+
+                  case 32:
+                      ui->label_6->setText(QObject::tr("发动机转速信号不可用"));
+                      break;
+
+                  case 33:
+                      ui->label_6->setText(QObject::tr("离合器状态信号不可用"));
+                      break;
+
+                  case 34:
+                      ui->label_6->setText(QObject::tr("OBD扭矩限制激活错误"));
+                      break;
+
+                  case 35:
+                      ui->label_6->setText(QObject::tr("冷启动指示灯开路"));
+                      break;
+
+                  case 36:
+                      ui->label_6->setText(QObject::tr("冷启动指示灯对电源短路"));
+                      break;
+
+                  case 37:
+                      ui->label_6->setText(QObject::tr("冷启动指示灯对地短路"));
+                      break;
+
+                  case 38:
+                      ui->label_6->setText(QObject::tr("冷却水温度与机油温度信号不可信"));
+                      break;
+
+                  case 39:
+                      ui->label_6->setText(QObject::tr("水温传感器工作正常但水温超出门槛值"));
+                      break;
+
+                  case 40:
+                      ui->label_6->setText(QObject::tr("冷却水温度传感器电压超出上限门槛"));
+                      break;
+
+                  case 41:
+                      ui->label_6->setText(QObject::tr("冷却水温度传感器电压低于下限门槛"));
+                      break;
+
+                  case 42:
+                      ui->label_6->setText(QObject::tr("车下启动/停止按钮卡住"));
+                      break;
+
+                  case 43:
+                      ui->label_6->setText(QObject::tr("只有凸轮轴信号，进入跛形回家状态"));
+                      break;
+
+                  case 44:
+                      ui->label_6->setText(QObject::tr("凸轮轴信号缺失"));
+                      break;
+
+                  case 45:
+                      ui->label_6->setText(QObject::tr("凸轮轴周期错误"));
+                      break;
+
+                  case 46:
+                      ui->label_6->setText(QObject::tr("凸轮轴同步错误"));
+                      break;
+
+                  case 47:
+                      ui->label_6->setText(QObject::tr("凸轮轴与曲轴同步错误"));
+                      break;
+
+                  case 48:
+                      ui->label_6->setText(QObject::tr("曲轴信号缺失"));
+                      break;
+
+                  case 49:
+                      ui->label_6->setText(QObject::tr("曲轴同步错误"));
+                      break;
+
+                  case 50:
+                      ui->label_6->setText(QObject::tr("曲轴齿数错误"));
+                      break;
+
+                  case 51:
+                      ui->label_6->setText(QObject::tr("曲轴齿周期错误"));
+                      break;
+
+                  case 52:
+                      ui->label_6->setText(QObject::tr("齿数与凸轮轴信号偏差超出门槛值"));
+                      break;
+
+                  case 53:
+                      ui->label_6->setText(QObject::tr("发动机转速超限"));
+                      break;
+
+                  case 54:
+                      ui->label_6->setText(QObject::tr("发动机转速信号开路"));
+                      break;
+
+                  case 55:
+                      ui->label_6->setText(QObject::tr("发动机转速信号对电源短路"));
+                      break;
+
+                  case 56:
+                      ui->label_6->setText(QObject::tr("发动机转速信号对地短路"));
+                      break;
+                  case 57:
+                      ui->label_6->setText(QObject::tr("排气制动蝶阀开路"));
+                      break;
+
+                  case 58:
+                      ui->label_6->setText(QObject::tr("排气制动蝶阀对电源短路"));
+                      break;
+
+                  case 59:
+                      ui->label_6->setText(QObject::tr("排气制动蝶阀对地短路"));
+                      break;
+
+                  case 60:
+                      ui->label_6->setText(QObject::tr("风扇执行器（PWM波）开路"));
+                      break;
+
+                  case 61:
+                      ui->label_6->setText(QObject::tr("风扇执行器(PWM波)对电源短路"));
+                      break;
+
+                  case 62:
+                      ui->label_6->setText(QObject::tr("风扇执行器(PWM波)对地短路"));
+                      break;
+
+                  case 63:
+                      ui->label_6->setText(QObject::tr("风扇执行器(数字信号)开路"));
+                      break;
+
+                  case 64:
+                      ui->label_6->setText(QObject::tr("风扇执行器(数字信号)对电源短路"));
+                      break;
+
+                  case 65:
+                      ui->label_6->setText(QObject::tr("风扇执行器(数字信号)对地短路"));
+                      break;
+
+                  case 66:
+                      ui->label_6->setText(QObject::tr("冷却风扇速度高出上限门槛值"));
+                      break;
+
+                  case 67:
+                      ui->label_6->setText(QObject::tr("冷却风扇速度低于下限门槛值"));
+                      break;
+
+                  case 68:
+                      ui->label_6->setText(QObject::tr("燃油加热继电器(数字信号)开路"));
+                      break;
+
+                  case 69:
+                      ui->label_6->setText(QObject::tr("燃油加热继电器(数字信号)对电源短路"));
+                      break;
+
+                  case 70:
+                      ui->label_6->setText(QObject::tr("燃油加热继电器(数字信号)对地短路"));
+                      break;
+
+                  case 71:
+                      ui->label_6->setText(QObject::tr("燃油加热继执行器(PWM波)对地短路"));
+                      break;
+
+                  case 72:
+                      ui->label_6->setText(QObject::tr("燃油加热继执行器(PWM波)对电源短路"));
+                      break;
+
+                  case 73:
+                      ui->label_6->setText(QObject::tr("燃油加热继执行器(PWM波)开路"));
+                      break;
+
+                  case 74:
+                      ui->label_6->setText(QObject::tr("燃油升压执行器开路"));
+                      break;
+
+                  case 75:
+                      ui->label_6->setText(QObject::tr("燃油升压执行器对电源短路"));
+                      break;
+
+                  case 76:
+                      ui->label_6->setText(QObject::tr("燃油升压执行器对地短路"));
+                      break;
+
+                  case 77:
+                      ui->label_6->setText(QObject::tr("油中有水传感器检测到油中有水"));
+                      break;
+
+                  case 78:
+                      ui->label_6->setText(QObject::tr("总线接收油门信号超限"));
+                      break;
+
+                  case 79:
+                      ui->label_6->setText(QObject::tr("CAN接收帧CM1数据量错误"));
+                      break;
+
+                  case 80:
+                      ui->label_6->setText(QObject::tr("CAN接收帧CM1超时错误"));
+                      break;
+
+                  case 81:
+                      ui->label_6->setText(QObject::tr("CAN接收帧DashDspl数据量错误"));
+                      break;
+
+                  case 82:
+                      ui->label_6->setText(QObject::tr("CAN接收帧DashDspl超时错误"));
+                      break;
+
+                  case 83:
+                      ui->label_6->setText(QObject::tr("CAN接收帧DEC1数据量错误"));
+                      break;
+
+                  case 84:
+                      ui->label_6->setText(QObject::tr("DEC1报文接收超时"));
+                      break;
+
+                  case 85:
+                      ui->label_6->setText(QObject::tr("CAN接收帧EBC1数据长度错误"));
+                      break;
+
+                  case 86:
+                      ui->label_6->setText(QObject::tr("CAN接收帧EBC1超时错误"));
+                      break;
+
+                  case 87:
+                      ui->label_6->setText(QObject::tr("数据长度错误"));
+                      break;
+
+                  case 88:
+                      ui->label_6->setText(QObject::tr("超时错误"));
+                      break;
+
+                  case 89:
+                      ui->label_6->setText(QObject::tr("CAN接收帧EGF1数据量错误"));
+                      break;
+
+                  case 90:
+                      ui->label_6->setText(QObject::tr("CAN接收帧EGF1超时错误"));
+                      break;
+
+                  case 91:
+                      ui->label_6->setText(QObject::tr("CAN接收帧EngTemp2数据量错误"));
+                      break;
+
+                  case 92:
+                      ui->label_6->setText(QObject::tr("CAN接收帧EngTemp2超时错误"));
+                      break;
+
+                  case 93:
+                      ui->label_6->setText(QObject::tr("CAN接收帧ERC1DR数据量错误"));
+                      break;
+
+                  case 94:
+                      ui->label_6->setText(QObject::tr("CAN接收帧ERC1DR超时错误"));
+                      break;
+
+                  case 95:
+                      ui->label_6->setText(QObject::tr("ETC1报文数据长度错误"));
+                      break;
+                  case 96:
+                      ui->label_6->setText(QObject::tr("ETC1报文超时错误"));
+                      break;
+                  case 97:
+                      ui->label_6->setText(QObject::tr("CAN接收帧ETC2数据量错误"));
+                      break;
+                  case 98:
+                      ui->label_6->setText(QObject::tr("CAN接收帧ETC2超时错误"));
+                      break;
+                  case 99:
+                      ui->label_6->setText(QObject::tr("CAN接收帧ETC7数据量错误"));
+                      break;
+
+                  case 100:
+                      ui->label_6->setText(QObject::tr("CAN接收帧ETC7报文接收超时"));
+                      break;
+
+                  case 101:
+                      ui->label_6->setText(QObject::tr("CAN接收帧HRVD数据量错误"));
+                      break;
+
+                  case 102:
+                      ui->label_6->setText(QObject::tr("CAN接收帧HRVD超时错误"));
+                      break;
+
+                  case 103:
+                      ui->label_6->setText(QObject::tr("总线接收远程油门信号超限"));
+                      break;
+
+                  case 104:
+                      ui->label_6->setText(QObject::tr("RxCCVS报文数据长度错误"));
+                      break;
+
+                  case 105:
+                      ui->label_6->setText(QObject::tr("RxCCVS报文接收超时"));
+                      break;
+
+                  case 106:
+                      ui->label_6->setText(QObject::tr("CAN接收帧TRF1数据量错误"));
+                      break;
+
+
+                  case 107:
+                      ui->label_6->setText(QObject::tr("CAN接收帧TRF1超时错误"));
+                      break;
+
+                  case 108:
+                      ui->label_6->setText(QObject::tr("CAN接收帧TSC1AE数据量错误"));
+                      break;
+
+                  case 109:
+                      ui->label_6->setText(QObject::tr("CAN接收帧TSC1AE超时错误"));
+                      break;
+
+                  case 110:
+                      ui->label_6->setText(QObject::tr("CAN接收帧TSC1AR数据量错误"));
+                      break;
+
+                  case 111:
+                      ui->label_6->setText(QObject::tr("CAN接收帧TSC1AR超时错误"));
+                      break;
+
+                  case 112:
+                      ui->label_6->setText(QObject::tr("CAN接收帧TTSC1DE数据量错误"));
+                      break;
+
+                  case 113:
+                      ui->label_6->setText(QObject::tr("CAN接收帧TTSC1DE超时错误"));
+                      break;
+
+                  case 114:
+                      ui->label_6->setText(QObject::tr("CAN接收帧TSC1DR数据量错误"));
+                      break;
+
+                  case 115:
+                      ui->label_6->setText(QObject::tr("CAN接收帧TSC1DR超时错误"));
+                      break;
+
+                  case 116:
+                      ui->label_6->setText(QObject::tr("CANTOTSC1PE数据量错误"));
+                      break;
+
+                  case 117:
+                      ui->label_6->setText(QObject::tr("CANTOTSC1PE通信错误"));
+                      break;
+
+                  case 118:
+                      ui->label_6->setText(QObject::tr("CANTOTSC1TE数据量错误"));
+                      break;
+
+                  case 119:
+                      ui->label_6->setText(QObject::tr("CANTOTSC1TE超时错误"));
+                      break;
+
+                  case 120:
+                      ui->label_6->setText(QObject::tr("CAN TOTSC1TR数据量错误"));
+                      break;
+
+                  case 121:
+                      ui->label_6->setText(QObject::tr("CAN TOTSC1TR超时错误"));
+                      break;
+
+                  case 122:
+                      ui->label_6->setText(QObject::tr("CANTOTSC1VE 数据量错误"));
+                      break;
+
+                  case 123:
+                      ui->label_6->setText(QObject::tr("CANTOTSC1VE超时错误"));
+                      break;
+
+                  case 124:
+                      ui->label_6->setText(QObject::tr("CANTOTSC1VR 数据量错误"));
+                      break;
+
+                  case 125:
+                      ui->label_6->setText(QObject::tr("CANTOTSC1VR 超时错误"));
+                      break;
+                  case 126:
+                      ui->label_6->setText(QObject::tr("燃油温度传感器电压超出上限门槛值"));
+                      break;
+
+                  case 127:
+                      ui->label_6->setText(QObject::tr("燃油温度传感器电压超出下限门槛值"));
+                      break;
+
+                  case 128:
+                      ui->label_6->setText(QObject::tr("档位提升间隙时间过长"));
+                      break;
+
+                  case 129:
+                      ui->label_6->setText(QObject::tr("(油中有水灯)指示灯短路"));
+                      break;
+
+                  case 130:
+                      ui->label_6->setText(QObject::tr("(油中有水灯)指示灯电源短路"));
+                      break;
+
+                  case 131:
+                      ui->label_6->setText(QObject::tr("(油中油水灯)指示灯地短路"));
+                      break;
+
+                  case 132:
+                      ui->label_6->setText(QObject::tr("高压测试错误"));
+                      break;
+
+                  case 133:
+                      ui->label_6->setText(QObject::tr("EEPROM读错误"));
+                      break;
+
+                  case 134:
+                      ui->label_6->setText(QObject::tr("EEPROM写错误"));
+                      break;
+
+                  case 135:
+                      ui->label_6->setText(QObject::tr("进气温度传感器电压超出上限门槛值"));
+                      break;
+
+                  case 136:
+                      ui->label_6->setText(QObject::tr("进气温度传感器电压低于下限门槛值"));
+                      break;
+
+                  case 137:
+                      ui->label_6->setText(QObject::tr("喷孔磨损程度持续20次大于20%"));
+                      break;
+
+                  case 138:
+                      ui->label_6->setText(QObject::tr("喷孔磨损程度持续500ms介于5%到20%之间"));
+                      break;
+
+                  case 139:
+                      ui->label_6->setText(QObject::tr("INJ driver IC初始化版本号错误"));
+                      break;
+
+                  case 140:
+                      ui->label_6->setText(QObject::tr("INJ driver IC上电初始化错误"));
+                      break;
+
+                  case 141:
+                      ui->label_6->setText(QObject::tr("喷孔磨损超过20%故障"));
+                      break;
+
+                  case 142:
+                      ui->label_6->setText(QObject::tr("喷孔磨损在0～20%故障"));
+                      break;
+
+                  case 143:
+                      ui->label_6->setText(QObject::tr("INJ driver IC再次上电错误"));
+                      break;
+
+                  case 144:
+                      ui->label_6->setText(QObject::tr("喷油器1高端与电源短路"));
+                      break;
+
+                  case 145:
+                      ui->label_6->setText(QObject::tr("喷油器1高端与地短路"));
+                      break;
+
+                  case 146:
+                      ui->label_6->setText(QObject::tr("喷油器1低端与电源短路"));
+                      break;
+
+                  case 147:
+                      ui->label_6->setText(QObject::tr("喷油器1低端与地短路"));
+                      break;
+
+                  case 148:
+                      ui->label_6->setText(QObject::tr("喷油器1开路"));
+                      break;
+
+                  case 149:
+                      ui->label_6->setText(QObject::tr("1缸喷油器错误"));
+                      break;
+
+                  case 150:
+                      ui->label_6->setText(QObject::tr("同BANK中1缸和其他缸或者与弱电源短路"));
+                      break;
+
+                  case 151:
+                      ui->label_6->setText(QObject::tr("1缸喷油器对电源短路"));
+                      break;
+
+                  case 152:
+                      ui->label_6->setText(QObject::tr("1缸喷油器对地短路"));
+                      break;
+
+                  case 153:
+                      ui->label_6->setText(QObject::tr("喷油器1高低端短路"));
+                      break;
+
+                  case 154:
+                      ui->label_6->setText(QObject::tr("喷油器2高端与电源短路"));
+                      break;
+
+                  case 155:
+                      ui->label_6->setText(QObject::tr("喷油器2高端与地短路"));
+                      break;
+
+                  case 156:
+                      ui->label_6->setText(QObject::tr("喷油器2低端与电源短路"));
+                      break;
+
+                  case 157:
+                      ui->label_6->setText(QObject::tr("喷油器2低端与地短路"));
+                      break;
+
+                  case 158:
+                      ui->label_6->setText(QObject::tr("喷油器2开路"));
+                      break;
+
+                  case 159:
+                      ui->label_6->setText(QObject::tr("2缸喷油器错误"));
+                      break;
+
+                  case 160:
+                      ui->label_6->setText(QObject::tr("同Bank中2缸和其他缸开路或者与弱电源短路"));
+                      break;
+
+                  case 161:
+                      ui->label_6->setText(QObject::tr("2缸喷油器对电源短路"));
+                      break;
+
+                  case 162:
+                      ui->label_6->setText(QObject::tr("2缸喷油器对地短路"));
+                      break;
+
+                  case 163:
+                      ui->label_6->setText(QObject::tr("喷油器2高低端短路"));
+                      break;
+
+                  case 164:
+                      ui->label_6->setText(QObject::tr("喷油器3高端与电源短路"));
+                      break;
+
+                  case 165:
+                      ui->label_6->setText(QObject::tr("喷油器3高端与地短路"));
+                      break;
+
+                  case 166:
+                      ui->label_6->setText(QObject::tr("喷油器3低端与电源短路"));
+                      break;
+
+                  case 167:
+                      ui->label_6->setText(QObject::tr("喷油器3低端与地短路"));
+                      break;
+
+                  case 168:
+                      ui->label_6->setText(QObject::tr("喷油器3开路"));
+                      break;
+
+                  case 169:
+                      ui->label_6->setText(QObject::tr("3缸喷油器错误"));
+                      break;
+
+                  case 170:
+                      ui->label_6->setText(QObject::tr("同Bank中3缸和其他缸开路或者与弱电电源短路"));
+                      break;
+
+                  case 171:
+                      ui->label_6->setText(QObject::tr("3缸喷油器对电源短路"));
+                      break;
+
+                  case 172:
+                      ui->label_6->setText(QObject::tr("3缸喷油器对地短路"));
+                      break;
+
+                  case 173:
+                      ui->label_6->setText(QObject::tr("喷油器3高低端短路"));
+                      break;
+
+                  case 174:
+                      ui->label_6->setText(QObject::tr("喷油器4高端与电源短路"));
+                      break;
+
+                  case 175:
+                      ui->label_6->setText(QObject::tr("喷油器4高端与地短路"));
+                      break;
+
+                  case 176:
+                      ui->label_6->setText(QObject::tr("喷油器4低端与电源短路"));
+                      break;
+
+                  case 177:
+                      ui->label_6->setText(QObject::tr("喷油器4低端与地短路"));
+                      break;
+
+                  case 178:
+                      ui->label_6->setText(QObject::tr("喷油器4开路"));
+                      break;
+
+                  case 179:
+                      ui->label_6->setText(QObject::tr("4缸喷油器错误"));
+                      break;
+
+                  case 180:
+                      ui->label_6->setText(QObject::tr("同Bank中4缸和其他缸开路或者与弱电电源短路"));
+                      break;
+
+                  case 181:
+                      ui->label_6->setText(QObject::tr("4缸喷油器对电源短路"));
+                      break;
+
+                  case 182:
+                      ui->label_6->setText(QObject::tr("4缸喷油器对地短路"));
+                      break;
+
+                  case 183:
+                      ui->label_6->setText(QObject::tr("喷油器4高低端短路"));
+                      break;
+
+
+                  case 184:
+                      ui->label_6->setText(QObject::tr("喷油器5高端与电源短路"));
+                      break;
+
+                  case 185:
+                      ui->label_6->setText(QObject::tr("喷油器5高端与地短路"));
+                      break;
+
+
+                  case 186:
+                      ui->label_6->setText(QObject::tr("喷油器5低端与电源短路"));
+                      break;
+
+                  case 187:
+                      ui->label_6->setText(QObject::tr("喷油器5低端与地短路"));
+                      break;
+
+
+                  case 188:
+                      ui->label_6->setText(QObject::tr("喷油器5开路"));
+                      break;
+
+                  case 189:
+                      ui->label_6->setText(QObject::tr("5缸喷油器错误"));
+                      break;
+
+                  case 190:
+                      ui->label_6->setText(QObject::tr("同Bank中5缸和其他缸开路或者与弱电电源短路"));
+                      break;
+
+                  case 191:
+                      ui->label_6->setText(QObject::tr("5缸喷油器对电源短路"));
+                      break;
+
+                  case 192:
+                      ui->label_6->setText(QObject::tr("5缸喷油器对地短路"));
+                      break;
+
+                  case 193:
+                      ui->label_6->setText(QObject::tr("喷油器5高低端短路"));
+                      break;
+
+                  case 194:
+                      ui->label_6->setText(QObject::tr("喷油器6高端与电源短路"));
+                      break;
+
+                  case 195:
+                      ui->label_6->setText(QObject::tr("喷油器6高端与地短路"));
+                      break;
+
+                  case 196:
+                      ui->label_6->setText(QObject::tr("喷油器6低端与电源短路"));
+                      break;
+
+                  case 197:
+                      ui->label_6->setText(QObject::tr("喷油器6低端与地短路"));
+                      break;
+
+                  case 198:
+                      ui->label_6->setText(QObject::tr("喷油器6开路"));
+                      break;
+
+                  case 199:
+                      ui->label_6->setText(QObject::tr("6缸喷油器错误"));
+                      break;
+
+                  case 200:
+                      ui->label_6->setText(QObject::tr("同Bank中6缸和其他缸开路或者与弱电电源短路"));
+                      break;
+
+
+                  case 201:
+                      ui->label_6->setText(QObject::tr("6缸喷油器对电源短路"));
+                      break;
+
+                  case 202:
+                      ui->label_6->setText(QObject::tr("6缸喷油器对地短路"));
+                      break;
+
+                  case 203:
+                      ui->label_6->setText(QObject::tr("喷油器6高低端短路"));
+                      break;
+
+                  case 204:
+                      ui->label_6->setText(QObject::tr("燃油计量器开路"));
+                      break;
+
+                  case 205:
+                      ui->label_6->setText(QObject::tr("燃油计量器电源短路"));
+                      break;
+
+                  case 206:
+                      ui->label_6->setText(QObject::tr("燃油计量器对地短路"));
+                      break;
+
+
+                  case 207:
+                      ui->label_6->setText(QObject::tr("巡航信号不可靠(无效开关组合)"));
+                      break;
+
+                  case 208:
+                      ui->label_6->setText(QObject::tr("OBD灯开路"));
+                      break;
+
+                  case 209:
+                      ui->label_6->setText(QObject::tr("OBD灯与电源短路"));
+                      break;
+
+                  case 210:
+                      ui->label_6->setText(QObject::tr("OBD灯与地短路"));
+                      break;
+
+                  case 211:
+                      ui->label_6->setText(QObject::tr("1缸失火"));
+                      break;
+
+                  case 212:
+                      ui->label_6->setText(QObject::tr("10缸失火"));
+                      break;
+
+                  case 213:
+                      ui->label_6->setText(QObject::tr("11缸失火"));
+                      break;
+
+                  case 214:
+                      ui->label_6->setText(QObject::tr("12缸失火"));
+                      break;
+
+                  case 215:
+                      ui->label_6->setText(QObject::tr("2缸失火"));
+                      break;
+
+                  case 216:
+                      ui->label_6->setText(QObject::tr("3缸失火"));
+                      break;
+
+                  case 217:
+                      ui->label_6->setText(QObject::tr("4缸失火"));
+                      break;
+
+                  case 218:
+                      ui->label_6->setText(QObject::tr("5缸失火"));
+                      break;
+
+                  case 219:
+                      ui->label_6->setText(QObject::tr("6缸失火"));
+                      break;
+
+                  case 220:
+                      ui->label_6->setText(QObject::tr("7缸失火"));
+                      break;
+
+                  case 221:
+                      ui->label_6->setText(QObject::tr("8缸失火"));
+                      break;
+
+                  case 222:
+                      ui->label_6->setText(QObject::tr("9缸失火"));
+                      break;
+
+                  case 223:
+                      ui->label_6->setText(QObject::tr("失火总缸数超限"));
+                      break;
+
+                  case 224:
+                      ui->label_6->setText(QObject::tr("多态开关信号不可信"));
+                      break;
+
+                  case 225:
+                      ui->label_6->setText(QObject::tr("多态开关电压超上限"));
+                      break;
+                  case 226:
+                      ui->label_6->setText(QObject::tr("多态开关电压超下限"));
+                      break;
+
+                  case 227:
+                      ui->label_6->setText(QObject::tr("机油液位传感器信号不可靠"));
+                      break;
+
+                  case 228:
+                      ui->label_6->setText(QObject::tr("机油液位传感器电压电压超出上限"));
+                      break;
+
+                  case 229:
+                      ui->label_6->setText(QObject::tr("机油液位传感器电压电压超出下限"));
+                      break;
+
+                  case 230:
+                      ui->label_6->setText(QObject::tr("机油压力过低"));
+                      break;
+
+                  case 231:
+                      ui->label_6->setText(QObject::tr("机油压力过高或机油温度信号不可靠"));
+                      break;
+
+                  case 232:
+                      ui->label_6->setText(QObject::tr("机油压力传感器电压电压超出上限"));
+                      break;
+
+                  case 233:
+                      ui->label_6->setText(QObject::tr("机油压力传感器电压电压超出下限"));
+                      break;
+
+                  case 234:
+                      ui->label_6->setText(QObject::tr("机油温度传感器信号不可靠"));
+                      break;
+
+                  case 235:
+                      ui->label_6->setText(QObject::tr("机油温度传感器电压超出上限门槛值"));
+                      break;
+
+                  case 236:
+                      ui->label_6->setText(QObject::tr("机油温度传感器电压低于下限门槛值"));
+                      break;
+
+                  case 237:
+                      ui->label_6->setText(QObject::tr("机油温度与冷却水温度信号不可信"));
+                      break;
+
+                  case 238:
+                      ui->label_6->setText(QObject::tr("PCV阀开路"));
+                      break;
+
+                  case 239:
+                      ui->label_6->setText(QObject::tr("PCV阀对电源短路"));
+                      break;
+
+                  case 240:
+                      ui->label_6->setText(QObject::tr("PCV阀对地短路"));
+                      break;
+
+                  case 241:
+                      ui->label_6->setText(QObject::tr("压力波动时共轨泻压阀未打开"));
+                      break;
+
+                  case 242:
+                      ui->label_6->setText(QObject::tr("共轨泻压阀打开次数超出技术要求的最大值"));
+                      break;
+
+                  case 243:
+                      ui->label_6->setText(QObject::tr("共轨泻压阀打开"));
+                      break;
+
+                  case 244:
+                      ui->label_6->setText(QObject::tr("限压阀打开时间超过限制"));
+                      break;
+
+                  case 245:
+                      ui->label_6->setText(QObject::tr("轨压传感器电压超出最大偏差"));
+                      break;
+
+                  case 246:
+                      ui->label_6->setText(QObject::tr("轨压传感器电压低于最小偏差"));
+                      break;
+
+                  case 247:
+                      ui->label_6->setText(QObject::tr("轨压传感器电压超出上限门槛值"));
+                      break;
+
+                  case 248:
+                      ui->label_6->setText(QObject::tr("中断采集方式轨压传感器电压超出上限门槛值"));
+                      break;
+
+                  case 249:
+                      ui->label_6->setText(QObject::tr("轨压传感器电压低于下限门槛值"));
+                      break;
+
+                  case 250:
+                      ui->label_6->setText(QObject::tr("中断采集方式轨压传感器电压低于下限门槛值"));
+                      break;
+
+                  case 251:
+                      ui->label_6->setText(QObject::tr("轨压偏差超出上限门槛值"));
+                      break;
+
+                  case 252:
+                      ui->label_6->setText(QObject::tr("燃油计量器中的油量超过门槛值"));
+                      break;
+
+                  case 253:
+                      ui->label_6->setText(QObject::tr("轨压偏差超出门槛值并且燃油计量器中的油量超过门槛值"));
+                      break;
+
+                  case 254:
+                      ui->label_6->setText(QObject::tr("轨压偏差超出上限门槛值并且喷油量超限"));
+                      break;
+
+                  case 255:
+                      ui->label_6->setText(QObject::tr("轨压偏差低于下限门槛值并且喷油量低于门槛值"));
+                      break;
+
+                  case 256:
+                      ui->label_6->setText(QObject::tr("轨压峰值低于下限门槛值"));
+                      break;
+
+                  case 257:
+                      ui->label_6->setText(QObject::tr("轨压峰值超出上限门槛值"));
+                      break;
+
+                  case 258:
+                      ui->label_6->setText(QObject::tr("轨压下降过快"));
+                      break;
+
+                  case 259:
+                      ui->label_6->setText(QObject::tr("超速模式下的油量计量单元设定不可信"));
+                      break;
+
+                  case 260:
+                      ui->label_6->setText(QObject::tr("低怠速下油量计量单元监控器错误"));
+                      break;
+
+                  case 261:
+                      ui->label_6->setText(QObject::tr("远程油门踏板1输出电压值超出上限"));
+                      break;
+
+                  case 262:
+                      ui->label_6->setText(QObject::tr("远程油门踏板1输出电压值低于下限"));
+                      break;
+
+                  case 263:
+                      ui->label_6->setText(QObject::tr("远程油门踏板2输出电压值超出上限"));
+                      break;
+
+                  case 264:
+                      ui->label_6->setText(QObject::tr("远程油门踏板2输出电压值低于下限"));
+                      break;
+
+                  case 265:
+                      ui->label_6->setText(QObject::tr("传感器电源1电压超出上限门槛值"));
+                      break;
+
+                  case 266:
+                      ui->label_6->setText(QObject::tr("传感器电源1电压低于下限门槛值"));
+                      break;
+
+                  case 267:
+                      ui->label_6->setText(QObject::tr("传感器电源2电压超出上限门槛值"));
+                      break;
+
+                  case 268:
+                      ui->label_6->setText(QObject::tr("传感器电源2电压低于下限门槛值"));
+                      break;
+
+                  case 269:
+                      ui->label_6->setText(QObject::tr("传感器电源3电压超出上限门槛值"));
+                      break;
+
+                  case 270:
+                      ui->label_6->setText(QObject::tr("传感器电源3电压低于下限门槛值"));
+                      break;
+
+                  case 271:
+                      ui->label_6->setText(QObject::tr("空滤更换"));
+                      break;
+
+                  case 272:
+                      ui->label_6->setText(QObject::tr("燃油沥青器更换"));
+                      break;
+
+                  case 273:
+                      ui->label_6->setText(QObject::tr("锁车且执行锁车模式1"));
+                      break;
+
+                  case 274:
+                      ui->label_6->setText(QObject::tr("锁车且执行锁车模式2"));
+                      break;
+
+                  case 275:
+                      ui->label_6->setText(QObject::tr("机油更换"));
+                      break;
+
+                  case 276:
+                      ui->label_6->setText(QObject::tr("机油滤清器更换"));
+                      break;
+
+                  case 277:
+                      ui->label_6->setText(QObject::tr("起动电机继电器低端电源短路"));
+                      break;
+
+                  case 278:
+                      ui->label_6->setText(QObject::tr("起动电机继电器低端对地短路"));
+                      break;
+
+                  case 279:
+                      ui->label_6->setText(QObject::tr("起动电机继电器开路"));
+                      break;
+
+                  case 280:
+                      ui->label_6->setText(QObject::tr("T50接通时间超限"));
+                      break;
+
+                  case 281:
+                      ui->label_6->setText(QObject::tr("ECU 温度传感器电压低于下限门槛值"));
+                      break;
+
+                  case 282:
+                      ui->label_6->setText(QObject::tr("ECU 温度传感器电压超出上限门槛值"));
+                      break;
+
+                  case 283:
+                      ui->label_6->setText(QObject::tr("尿素回流管(泵到箱)加热继电器开路"));
+                      break;
+
+
+                  case 284:
+                      ui->label_6->setText(QObject::tr("尿素回流管(泵到箱)加热继电器对电源短路"));
+                      break;
+
+                  case 285:
+                      ui->label_6->setText(QObject::tr("尿素回流管(泵到箱)加热继电器对地短路"));
+                      break;
+
+
+                  case 286:
+                      ui->label_6->setText(QObject::tr("尿素压力管(泵到嘴)加热继电器开路"));
+                      break;
+
+                  case 287:
+                      ui->label_6->setText(QObject::tr("尿素压力管(泵到嘴)加热继电器对电源短路"));
+                      break;
+
+
+                  case 288:
+                      ui->label_6->setText(QObject::tr("尿素压力管(泵到嘴)加热继电器对地短路"));
+                      break;
+
+                  case 289:
+                      ui->label_6->setText(QObject::tr("尿素加热主继电器开路"));
+                      break;
+
+                  case 290:
+                      ui->label_6->setText(QObject::tr("尿素加热主继电器对电源短路"));
+                      break;
+
+                  case 291:
+                      ui->label_6->setText(QObject::tr("尿素加热主继电器对地短路"));
+                      break;
+
+                  case 292:
+                      ui->label_6->setText(QObject::tr("尿素吸液管(箱到泵)加热继电器开路"));
+                      break;
+
+                  case 293:
+                      ui->label_6->setText(QObject::tr("尿素吸液管(箱到泵)加热继电器对电源短路"));
+                      break;
+
+                  case 294:
+                      ui->label_6->setText(QObject::tr("尿素吸液管(箱到泵)加热继电器对地短路"));
+                      break;
+
+                  case 295:
+                      ui->label_6->setText(QObject::tr("尿素箱水加热电磁阀开路"));
+                      break;
+
+                  case 296:
+                      ui->label_6->setText(QObject::tr("尿素箱水加热电磁阀对电源短路"));
+                      break;
+
+                  case 297:
+                      ui->label_6->setText(QObject::tr("尿素箱水加热电磁阀对地短路"));
+                      break;
+
+                  case 298:
+                      ui->label_6->setText(QObject::tr("车速1高于最大门槛值"));
+                      break;
+
+                  case 299:
+                      ui->label_6->setText(QObject::tr("车速1月喷油量及发动机转速不可信"));
+                      break;
+
+                  case 300:
+                      ui->label_6->setText(QObject::tr("车速3信号脉宽超过上限门槛值"));
+                      break;
+
+                  case 301:
+                      ui->label_6->setText(QObject::tr("车速3信号脉宽低于下限门槛值"));
+                      break;
+
+                  case 302:
+                      ui->label_6->setText(QObject::tr("车速信号平均周期小于门槛值"));
+                      break;
+
+                  case 303:
+                      ui->label_6->setText(QObject::tr("报警灯开路"));
+                      break;
+
+                  case 304:
+                      ui->label_6->setText(QObject::tr("报警灯电源短路"));
+                      break;
+
+                  case 305:
+                      ui->label_6->setText(QObject::tr("报警灯对地短路"));
+                      break;
+
+                  case 306:
+                      ui->label_6->setText(QObject::tr("油中有水传感器电压原始值超出上限门槛"));
+                      break;
+
+
+                  case 307:
+                      ui->label_6->setText(QObject::tr("油中有水传感器电压原始值低于下限门槛"));
+                      break;
+
+                  case 308:
+                      ui->label_6->setText(QObject::tr("CAN 通讯错误"));
+                      break;
+
+                  case 309:
+                      ui->label_6->setText(QObject::tr("远程油门2倍关系不可信"));
+                      break;
+
+                  case 310:
+                      ui->label_6->setText(QObject::tr("远程油门与刹车可信性校验"));
+                      break;
+
+                  case 311:
+                      ui->label_6->setText(QObject::tr("key报文故障"));
+                      break;
+
+                  case 312:
+                      ui->label_6->setText(QObject::tr("key报文超时"));
+                      break;
+
+
+
                   }
                   j++;
                   break;
