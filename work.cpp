@@ -495,11 +495,6 @@ void Work::paintEvent(QPaintEvent *event)
                         }
 
 
-
-
-
-
-
                         //读取数据库信息
                         //
                         QTextCodec::setCodecForTr(QTextCodec::codecForLocale());//汉字显示
@@ -519,7 +514,7 @@ void Work::paintEvent(QPaintEvent *event)
                     //   bool ok = query.exec("CREATE TABLE IF NOT EXISTS  myjy10 (id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     //                                      "name VARCHAR(20) NOT NULL,"
                     //                                      "age INTEGER NULL)");
-
+#if 0
                        bool ok = query.exec("create table myjy10(id INTEGER,name varchar,age INTEGER)");
                        if (ok)
                        {
@@ -529,7 +524,7 @@ void Work::paintEvent(QPaintEvent *event)
                        {
                            qDebug()<<"ceate table partition failed"<<endl;
                        }
-
+#endif
                             query.prepare("INSERT INTO myjy10 (id, name, age) VALUES (:id, :name, :age)");
 
                             uchar i = 0;
@@ -542,6 +537,7 @@ void Work::paintEvent(QPaintEvent *event)
 
                                 matchine[i++] = query.value(2).toInt();
                             }
+#if 0
 
                             i = 0;
                             for (i = 0; i < 7; i++)
@@ -549,7 +545,7 @@ void Work::paintEvent(QPaintEvent *event)
                                     qDebug()<<matchine[i]<<endl;
                                 }
                             i = 0;
-
+#endif
                             query.exec(QObject::tr("drop myjy10"));
 
 

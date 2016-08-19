@@ -21,7 +21,7 @@
 
 
 
-#include"mylib.h"
+//#include"mylib.h"
 
 
 
@@ -38,6 +38,9 @@ float xiaoshiJi_h;//小时
 
 
 int fff;
+
+uchar jun[6] = {1,2,3,4,5,6};
+uchar iiii;
 /***************************************************************************************************************/
 int num = 0;
 int numtmp = 0;
@@ -69,12 +72,12 @@ QString  Datesetup;
 //定义变量 控制图标闪烁。
 //
 /********************************************************************************************************************/
-ushort j=0;
-ushort jflag = 0;
+uchar j=0;
+uchar jflag = 0;
 ushort mm=0;
-ushort jjjflag = 0;
-unsigned char  mybufflag[312] = {0};//15
-unsigned char  myindex[312] = {0};//15
+uchar jjjflag = 0;
+ushort  mybufflag[312] = {0};//15
+ushort  myindex[312] = {0};//15
 
 
 unsigned char  countBuff = 0;
@@ -296,12 +299,12 @@ ushort jiyouwendu;//机油温度
 //故障码 标志定义
 //用于数据库存储
 
-uchar gzm_001 = 1;//空调压缩机开路
-uchar gzm_002 = 1;//空调压缩机对电源短路
-uchar gzm_003 = 1;//空调压缩机对地短路
-uchar gzm_004 = 1;//油门与刹车信号不可信
-uchar gzm_005 = 1;//空气质量流量传感器电压超上限
-uchar gzm_006 = 1;//空气质量流量传感器电压超下限
+uchar gzm_001;//空调压缩机开路
+uchar gzm_002;//空调压缩机对电源短路
+uchar gzm_003;//空调压缩机对地短路
+uchar gzm_004;//油门与刹车信号不可信
+uchar gzm_005;//空气质量流量传感器电压超上限
+uchar gzm_006;//空气质量流量传感器电压超下限
 uchar gzm_007;//进气加热常开故障
 uchar gzm_008;//油门踏板1与油门踏板2的两倍的信号关系不可信
 uchar gzm_009;//油门踏板1电压值高出上限门槛值
@@ -685,7 +688,7 @@ Widget::Widget(QWidget *parent) :
 
     timer->start(500);   //启动定时器
     //timertst->start(1000);
-    timer_xiaoshiji->start(100); //启动小时计定时器
+    timer_xiaoshiji->start(1000); //启动小时计定时器
 
 
     //解析现象，当去掉 setWindowFlags(windowFlags()|Qt::FramelessWindowHint|Qt::WindowTitleHint); 这一句，在开发板子上能显示上方图标，但是不闪烁，
@@ -860,7 +863,6 @@ void Widget::paintEvent(QPaintEvent *event)
     //闪烁不同步问题解决办法。
     //利用消息队列 和 for 循环解决。
     //2016.7.25
-    #if 1
 
         QPainter paintShanshuo(this);
         QPixmap pixShanshuo;
@@ -946,10 +948,11 @@ void Widget::paintEvent(QPaintEvent *event)
                     paintShanshuo.drawPixmap(980,0,44,46,pixShanshuo);
                 }
 
-
-
                 break;
             }
+
+
+         }//end if(1)
 
             //不用闪烁
             if(flagWidthlamp)//示宽灯
@@ -6469,16 +6472,16 @@ void Widget::paintEvent(QPaintEvent *event)
  QPainter paintBuff(this);
  QPixmap pixBuff;
 
- mybufflag[0] = gzm_001;
- mybufflag[1] = gzm_002;
+ mybufflag[0] = 1;//gzm_001
+ mybufflag[1] = 1;//gzm_002
  mybufflag[2] = gzm_003;
  mybufflag[3] = gzm_004;
  mybufflag[4] = gzm_005;
  mybufflag[5] = gzm_006;
  mybufflag[6] = gzm_007;
  mybufflag[7] = gzm_008;
- mybufflag[8] = gzm_009;
- mybufflag[9] = gzm_010;
+ mybufflag[8] = 1;//gzm_009
+ mybufflag[9] = 1;//gzm_010
 
  mybufflag[10] = gzm_011;
  mybufflag[11] = gzm_012;
@@ -6807,8 +6810,11 @@ void Widget::paintEvent(QPaintEvent *event)
  mybufflag[296] = gzm_297;
  mybufflag[297] = gzm_298;
  mybufflag[298] = gzm_299;
- mybufflag[299] = gzm_300;
- mybufflag[300] = gzm_301;
+ mybufflag[299] = 1;//gzm_300
+ mybufflag[300] = 1;//gzm_301
+
+
+ //update();
 
  //300分界线
 
@@ -6821,11 +6827,13 @@ void Widget::paintEvent(QPaintEvent *event)
  mybufflag[307] = gzm_308;
  mybufflag[308] = gzm_309;
  mybufflag[309] = gzm_310;
- mybufflag[310] = gzm_311;
+ mybufflag[310] = gzm_311;//gzm_311
 
- mybufflag[311] = gzm_312;
+ mybufflag[311] = gzm_312;//gzm_312
 
 /*****************************************************************************************************/
+
+
 
 #if 0
 
@@ -6860,18 +6868,19 @@ void Widget::paintEvent(QPaintEvent *event)
                           //建立索引 对mybufflag进行提取。
                           for (mm = 0; mm < 312; mm++)
                           {
-                              if(mybufflag[mm])
+                              if(mybufflag[mm] == 1)
                               {
-                                  myindex[jflag] = mm;
+                                  myindex[jflag] = mm+1;
                                   jflag++;
 
                               }
 
                           }
 
+
                   if(jflag == 0)
                   {
-                      memset(myindex,0,312);//15
+                      memset(myindex,0,624);//15
                   }
 
                   jjjflag = jflag;
@@ -6880,38 +6889,39 @@ void Widget::paintEvent(QPaintEvent *event)
               if (j >= jjjflag)
               {
                   j = 0;
-                  memset(myindex,0,312);//15
+                  memset(myindex,0,624);//15
               }
+
+              //update();
+
+              usleep(300000);
+
               countBuff++;
               if (countBuff>1)
                   countBuff = 0;
-              switch(countBuff)
+
+              switch(countBuff)//countBuff
               {
+
                 case 1:
                  // printf("===== flagyeyayouwen:: %d,midex[j] = %d\r\n",flagYeyayouwen,myindex[j]);
                   switch(myindex[j])
                   {
-                      //qDebug()<<"flagyeyayouwen::"<<flagYeyayouwen<<"  myindex[j]:"<<myindex[j]<<endl;
-                      case 0:
-                           if (flagSW)
-                           {
-                               pixBuff.load("./img2/41.png");//41.jpg
-                               paintBuff.drawPixmap(280,535,255,50,pixBuff); //正下方图标闪烁
-                            }
-                           break;
 
                       case 1:
-
-                   {
                       ui->label_6->setText(QObject::tr("空调压缩机开路"));
 
-                   }
+//                      pixBuff.load("./imagejy/01.png");//14.jpg
+//                      paintBuff.drawPixmap(300,300,44,46,pixBuff);
+
                       break;
 
                       case 2:
 
                       ui->label_6->setText(QObject::tr("空调压缩机对电源短路"));
 
+//                      pixBuff.load("./imagejy/09.png");//14.jpg
+//                      paintBuff.drawPixmap(500,500,44,46,pixBuff);
                       break;
 
                       case 3:
@@ -8160,18 +8170,22 @@ void Widget::paintEvent(QPaintEvent *event)
                   case 312:
                       ui->label_6->setText(QObject::tr("key报文超时"));
                       break;
-
-
-
+                  default:
+                      break;
                   }
+
                   j++;
                   break;
+
+              default:
+                  break;
               }
+
+
            /******************************************************************************************************/
 
-        }
 
-    #endif
+
 }
 
 void Widget::on_pushButton_timesetup_clicked() //设置按钮
@@ -8286,7 +8300,35 @@ void Widget::xiaoshiji()
     xiaoshiJi_h /= 10;
     ui->label_5->setText( QString("%1").arg(xiaoshiJi_h));
 
+#if 0
+    switch(jun[iiii])
+    {
+        case 1:
+         ui->label_6->setText(QObject::tr("1"));
+         break;
+    case 2:
+         ui->label_6->setText(QObject::tr("2"));
+         break;
+    case 3:
+         ui->label_6->setText(QObject::tr("3"));
+         break;
 
+    case 4:
+         ui->label_6->setText(QObject::tr("4"));
+         break;
+    case 5:
+         ui->label_6->setText(QObject::tr("5"));
+         break;
+    case 6:
+         ui->label_6->setText(QObject::tr("6"));
+         break;
+    }
+    iiii++;
+    if (iiii >= 6)
+        iiii = 0;
+#endif
+
+    //ui->label_6->setText(QObject::tr("远程油门2倍关系不可信"));
 
           //query.prepare("INSERT INTO myjy10 (id, name, age) VALUES (:id, :name, :age)");
 
