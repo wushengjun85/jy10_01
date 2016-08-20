@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'work.ui'
 **
-** Created: Sat Aug 20 09:51:49 2016
+** Created: Sat Aug 20 15:19:27 2016
 **      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -44,10 +44,10 @@ public:
     QLabel *label_13;
     QLabel *label_14;
     QLCDNumber *lcdNumber;
-    QLCDNumber *lcdNumber_2;
     QLabel *show_label1;
     QLabel *label_16;
     QLabel *label_15;
+    QLCDNumber *lcdNumber_2;
 
     void setupUi(QDialog *Work)
     {
@@ -128,17 +128,11 @@ public:
         label_14->setStyleSheet(QString::fromUtf8("font: 22pt \"Ubuntu\";"));
         lcdNumber = new QLCDNumber(Work);
         lcdNumber->setObjectName(QString::fromUtf8("lcdNumber"));
-        lcdNumber->setGeometry(QRect(10, 570, 131, 21));
+        lcdNumber->setGeometry(QRect(20, 570, 101, 31));
         lcdNumber->setStyleSheet(QString::fromUtf8("color: rgb(255, 0, 0);"));
         lcdNumber->setFrameShape(QFrame::NoFrame);
         lcdNumber->setDigitCount(8);
         lcdNumber->setSegmentStyle(QLCDNumber::Filled);
-        lcdNumber_2 = new QLCDNumber(Work);
-        lcdNumber_2->setObjectName(QString::fromUtf8("lcdNumber_2"));
-        lcdNumber_2->setGeometry(QRect(10, 531, 111, 20));
-        lcdNumber_2->setFrameShape(QFrame::NoFrame);
-        lcdNumber_2->setDigitCount(10);
-        lcdNumber_2->setSegmentStyle(QLCDNumber::Filled);
         show_label1 = new QLabel(Work);
         show_label1->setObjectName(QString::fromUtf8("show_label1"));
         show_label1->setGeometry(QRect(317, 74, 390, 228));
@@ -148,6 +142,14 @@ public:
         label_15 = new QLabel(Work);
         label_15->setObjectName(QString::fromUtf8("label_15"));
         label_15->setGeometry(QRect(190, 536, 481, 51));
+        lcdNumber_2 = new QLCDNumber(Work);
+        lcdNumber_2->setObjectName(QString::fromUtf8("lcdNumber_2"));
+        lcdNumber_2->setGeometry(QRect(0, 540, 141, 31));
+        lcdNumber_2->setAutoFillBackground(false);
+        lcdNumber_2->setStyleSheet(QString::fromUtf8("color: rgb(255, 0, 0);"));
+        lcdNumber_2->setFrameShape(QFrame::NoFrame);
+        lcdNumber_2->setSmallDecimalPoint(false);
+        lcdNumber_2->setNumDigits(10);
 
         retranslateUi(Work);
 

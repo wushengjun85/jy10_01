@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'timesetup.ui'
 **
-** Created: Sat Aug 20 08:54:42 2016
+** Created: Sat Aug 20 15:23:22 2016
 **      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -16,6 +16,7 @@
 #include <QtGui/QButtonGroup>
 #include <QtGui/QDialog>
 #include <QtGui/QHeaderView>
+#include <QtGui/QLCDNumber>
 #include <QtGui/QLabel>
 #include <QtGui/QPushButton>
 
@@ -49,6 +50,8 @@ public:
     QPushButton *pushButton_17;
     QLabel *label_7;
     QPushButton *pushButton_18;
+    QLCDNumber *lcdNumber;
+    QLCDNumber *lcdNumber_2;
 
     void setupUi(QDialog *Timesetup)
     {
@@ -155,6 +158,21 @@ public:
         pushButton_18->setObjectName(QString::fromUtf8("pushButton_18"));
         pushButton_18->setGeometry(QRect(730, 182, 26, 29));
         pushButton_18->setStyleSheet(QString::fromUtf8("font: 22pt \"Ubuntu\";"));
+        lcdNumber = new QLCDNumber(Timesetup);
+        lcdNumber->setObjectName(QString::fromUtf8("lcdNumber"));
+        lcdNumber->setGeometry(QRect(20, 570, 101, 31));
+        lcdNumber->setStyleSheet(QString::fromUtf8("color: rgb(255, 0, 0);"));
+        lcdNumber->setFrameShape(QFrame::NoFrame);
+        lcdNumber->setDigitCount(8);
+        lcdNumber->setSegmentStyle(QLCDNumber::Filled);
+        lcdNumber_2 = new QLCDNumber(Timesetup);
+        lcdNumber_2->setObjectName(QString::fromUtf8("lcdNumber_2"));
+        lcdNumber_2->setGeometry(QRect(0, 540, 141, 31));
+        lcdNumber_2->setAutoFillBackground(false);
+        lcdNumber_2->setStyleSheet(QString::fromUtf8("color: rgb(255, 0, 0);"));
+        lcdNumber_2->setFrameShape(QFrame::NoFrame);
+        lcdNumber_2->setSmallDecimalPoint(false);
+        lcdNumber_2->setNumDigits(10);
 
         retranslateUi(Timesetup);
 

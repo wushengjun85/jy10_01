@@ -14,6 +14,9 @@ TimesetupTrue::TimesetupTrue(QWidget *parent) :
     QTimer *tm_set = new QTimer(this);
    // connect(tm, SIGNAL(timeout()), this, SLOT(funsetuptime()));  //连接信号槽，定时器超时触发窗体更新
     //connect(ui->dateEdit,SIGNAL(dateChanged(QDate)),this,SLOT(funsetuptime()));
+
+
+    connect(tm_set, SIGNAL(timeout()), this, SLOT(update()));  //连接信号槽，定时器超时触发窗体更新
     tm_set->start(500);
 
 }
@@ -31,11 +34,22 @@ void TimesetupTrue::on_pushButton_clicked()//返回上一界面按钮
 
 void TimesetupTrue::paintEvent(QPaintEvent *)
 {
-    QTime time = QTime::currentTime();   //获取当前的时间
+   // QTime time = QTime::currentTime();   //获取当前的时间
     QPainter painter(this);
     QPixmap pix;
     pix.load("./imagejy/beijingtu.bmp");
     painter.drawPixmap(0,0,1024,600,pix);
+
+
+    /**************************************************************************************************************/
+    //显示时间 。2016.7.12
+        QString timeStr1= QTime::currentTime().toString();     //绘制当前的时间
+        QString dateStr1 = QDate::currentDate().toString("yyyy-MM-dd");
+
+        ui->lcdNumber_4->display(dateStr1);//dateStr1
+        ui->lcdNumber_3->display(timeStr1);
+    /**************************************************************************************************************/
+
 
 
 }

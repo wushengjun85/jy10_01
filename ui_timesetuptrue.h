@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'timesetuptrue.ui'
 **
-** Created: Sat Aug 20 08:54:42 2016
+** Created: Sat Aug 20 15:36:44 2016
 **      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -33,6 +33,8 @@ public:
     QDateTimeEdit *dateTimeEdit;
     QLCDNumber *lcdNumber;
     QLCDNumber *lcdNumber_2;
+    QLCDNumber *lcdNumber_3;
+    QLCDNumber *lcdNumber_4;
 
     void setupUi(QDialog *TimesetupTrue)
     {
@@ -75,6 +77,21 @@ public:
         lcdNumber_2->setObjectName(QString::fromUtf8("lcdNumber_2"));
         lcdNumber_2->setGeometry(QRect(280, 120, 161, 41));
         lcdNumber_2->setDigitCount(10);
+        lcdNumber_3 = new QLCDNumber(TimesetupTrue);
+        lcdNumber_3->setObjectName(QString::fromUtf8("lcdNumber_3"));
+        lcdNumber_3->setGeometry(QRect(20, 570, 101, 31));
+        lcdNumber_3->setStyleSheet(QString::fromUtf8("color: rgb(255, 0, 0);"));
+        lcdNumber_3->setFrameShape(QFrame::NoFrame);
+        lcdNumber_3->setDigitCount(8);
+        lcdNumber_3->setSegmentStyle(QLCDNumber::Filled);
+        lcdNumber_4 = new QLCDNumber(TimesetupTrue);
+        lcdNumber_4->setObjectName(QString::fromUtf8("lcdNumber_4"));
+        lcdNumber_4->setGeometry(QRect(0, 540, 141, 31));
+        lcdNumber_4->setAutoFillBackground(false);
+        lcdNumber_4->setStyleSheet(QString::fromUtf8("color: rgb(255, 0, 0);"));
+        lcdNumber_4->setFrameShape(QFrame::NoFrame);
+        lcdNumber_4->setSmallDecimalPoint(false);
+        lcdNumber_4->setNumDigits(10);
 
         retranslateUi(TimesetupTrue);
 

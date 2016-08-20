@@ -674,7 +674,7 @@ Work::Work(QWidget *parent) :
 
        connect(this,SIGNAL(camerastartsignal()),this,SLOT(start_thread()));//摄像头程序打开
 
-    dialogtime->start(500);
+    dialogtime->start(200);
 
 }
 
@@ -729,16 +729,16 @@ void Work::paintEvent(QPaintEvent *event)
     /**************************************************************************************************************/
     //显示时间 。2016.7.12
         QString timeStr1= QTime::currentTime().toString();     //绘制当前的时间
-        QString dateStr1 = QDate::currentDate().toString("yyyy-mm_work-dd");
+        QString dateStr1 = QDate::currentDate().toString("yyyy-MM-dd");
 
-        ui->lcdNumber_2->display(dateStr1);
+        ui->lcdNumber_2->display(dateStr1);//dateStr1
         ui->lcdNumber->display(timeStr1);
     /**************************************************************************************************************/
 
     /**************************************************************************************************************/
         //测试摄像头直接采集图像并显示
         //
-        #if 0
+        #if 1
             if ((ok == true)&&(numjy == 0))
             {
                  numjy = 1;
@@ -6480,16 +6480,16 @@ void Work::paintEvent(QPaintEvent *event)
                  QPainter paintBuff(this);
                  QPixmap pixBuff;
 
-                 mybufflag_w[0] = 1;//gzm_001
-                 mybufflag_w[1] = 1;//gzm_002
+                 mybufflag_w[0] = gzm_001;//gzm_001
+                 mybufflag_w[1] = gzm_002;//gzm_002
                  mybufflag_w[2] = gzm_003;
                  mybufflag_w[3] = gzm_004;
                  mybufflag_w[4] = gzm_005;
                  mybufflag_w[5] = gzm_006;
                  mybufflag_w[6] = gzm_007;
                  mybufflag_w[7] = gzm_008;
-                 mybufflag_w[8] = 1;//gzm_009
-                 mybufflag_w[9] = 1;//gzm_010
+                 mybufflag_w[8] = gzm_009;//gzm_009
+                 mybufflag_w[9] = gzm_010;//gzm_010
 
                  mybufflag_w[10] = gzm_011;
                  mybufflag_w[11] = gzm_012;
@@ -6818,8 +6818,8 @@ void Work::paintEvent(QPaintEvent *event)
                  mybufflag_w[296] = gzm_297;
                  mybufflag_w[297] = gzm_298;
                  mybufflag_w[298] = gzm_299;
-                 mybufflag_w[299] = 1;//gzm_300
-                 mybufflag_w[300] = 1;//gzm_301
+                 mybufflag_w[299] = gzm_300;//gzm_300
+                 mybufflag_w[300] = gzm_301;//gzm_301
 
 
                  //update();
@@ -6903,9 +6903,9 @@ void Work::paintEvent(QPaintEvent *event)
                               /*****************************************************/
                               //usleep 调节休眠时间，用于update()函数优化带来的坑。
                               /*****************************************************/
-                              update();
-                              //usleep(500000);
-                              sleep(1);
+                              //update();
+                              //usleep(300000);
+                              //sleep(1);
                               /*****************************************************/
 
 
@@ -6916,25 +6916,29 @@ void Work::paintEvent(QPaintEvent *event)
                               switch(countBuff_w)//countBuff
                               {
 
+//                                case 0:
+//                                  ui->label_15->setText(QObject::tr(""));
+//                                  break;
+
                                 case 1:
                                  // printf("===== flagyeyayouwen:: %d,midex[j] = %d\r\n",flagYeyayouwen,myindex_w[j]);
                                   switch(myindex_w[j_w])
                                   {
 
                                       case 1:
-                                      ui->label_15->setText(QObject::tr("空调压缩机开路"));
+                                      //ui->label_15->setText(QObject::tr("空调压缩机开路"));
 
-                //                      pixBuff.load("./imagejy/01.png");//14.jpg
-                //                      paintBuff.drawPixmap(300,300,44,46,pixBuff);
+                                      pixBuff.load("./imagejy/01.png");//14.jpg
+                                      paintBuff.drawPixmap(300,300,44,46,pixBuff);
 
                                       break;
 
                                       case 2:
 
-                                      ui->label_15->setText(QObject::tr("空调压缩机对电源短路"));
+                                     // ui->label_15->setText(QObject::tr("空调压缩机对电源短路"));
 
-                //                      pixBuff.load("./imagejy/09.png");//14.jpg
-                //                      paintBuff.drawPixmap(500,500,44,46,pixBuff);
+                                      pixBuff.load("./imagejy/09.png");//14.jpg
+                                      paintBuff.drawPixmap(500,500,44,46,pixBuff);
                                       break;
 
                                       case 3:

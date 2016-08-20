@@ -69,6 +69,10 @@ FindLook::FindLook(QWidget *parent) :
 
     FindLook::move(0,0);//回到原来主窗口的位置
     setWindowFlags(windowFlags()|Qt::FramelessWindowHint|Qt::WindowTitleHint);//删除 最小化、最大化、关闭按钮
+
+    QTimer *tmf = new QTimer(this);
+    connect(tmf, SIGNAL(timeout()), this, SLOT(update()));  //连接信号槽，定时器超时触发窗体更新
+    tmf->start(500);
 }
 
 FindLook::~FindLook()
@@ -88,6 +92,17 @@ void FindLook::paintEvent(QPaintEvent *)
     QPixmap pix;
     pix.load("./imagejy/findlook.bmp");
     painter.drawPixmap(0,0,1024,600,pix);
+
+
+    /**************************************************************************************************************/
+    //显示时间 。2016.7.12
+        QString timeStr1= QTime::currentTime().toString();     //绘制当前的时间
+        QString dateStr1 = QDate::currentDate().toString("yyyy-MM-dd");
+
+        ui->lcdNumber_2->display(dateStr1);//dateStr1
+        ui->lcdNumber->display(timeStr1);
+    /**************************************************************************************************************/
+
 
 
     /**********************************************************************************************************************/

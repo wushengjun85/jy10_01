@@ -35,6 +35,9 @@ Timesetup::Timesetup(QWidget *parent) :
 
 
     QTimer *tm = new QTimer(this);
+
+    connect(tm, SIGNAL(timeout()), this, SLOT(update()));  //连接信号槽，定时器超时触发窗体更新
+
     tm->start(500);
 }
 
@@ -51,6 +54,15 @@ void Timesetup::paintEvent(QPaintEvent *)
     QPixmap pix;
     pix.load("./imagejy/setup.bmp");
     painter.drawPixmap(0,0,1024,600,pix);
+
+    /**************************************************************************************************************/
+    //显示时间 。2016.7.12
+        QString timeStr1= QTime::currentTime().toString();     //绘制当前的时间
+        QString dateStr1 = QDate::currentDate().toString("yyyy-MM-dd");
+
+        ui->lcdNumber_2->display(dateStr1);//dateStr1
+        ui->lcdNumber->display(timeStr1);
+    /**************************************************************************************************************/
 }
 
 void Timesetup::on_pushButton_clicked()//返回按钮

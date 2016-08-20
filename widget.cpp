@@ -299,8 +299,8 @@ ushort jiyouwendu;//机油温度
 //故障码 标志定义
 //用于数据库存储
 
-uchar gzm_001;//空调压缩机开路
-uchar gzm_002;//空调压缩机对电源短路
+uchar gzm_001 =1;//空调压缩机开路
+uchar gzm_002 =1;//空调压缩机对电源短路
 uchar gzm_003;//空调压缩机对地短路
 uchar gzm_004;//油门与刹车信号不可信
 uchar gzm_005;//空气质量流量传感器电压超上限
@@ -718,7 +718,7 @@ Widget::~Widget()
 
 void Widget::paintEvent(QPaintEvent *event)
 {
-    QTime time = QTime::currentTime();   //获取当前的时间
+    //QTime time = QTime::currentTime();   //获取当前的时间
     QPainter painter(this);
     QPixmap pix;
 
@@ -6472,16 +6472,16 @@ void Widget::paintEvent(QPaintEvent *event)
  QPainter paintBuff(this);
  QPixmap pixBuff;
 
- mybufflag[0] = 1;//gzm_001
- mybufflag[1] = 1;//gzm_002
+ mybufflag[0] = gzm_001;//gzm_001
+ mybufflag[1] = gzm_002;//gzm_002
  mybufflag[2] = gzm_003;
  mybufflag[3] = gzm_004;
  mybufflag[4] = gzm_005;
  mybufflag[5] = gzm_006;
  mybufflag[6] = gzm_007;
  mybufflag[7] = gzm_008;
- mybufflag[8] = 1;//gzm_009
- mybufflag[9] = 1;//gzm_010
+ mybufflag[8] = gzm_009;//gzm_009
+ mybufflag[9] = gzm_010;//gzm_010
 
  mybufflag[10] = gzm_011;
  mybufflag[11] = gzm_012;
@@ -6810,8 +6810,8 @@ void Widget::paintEvent(QPaintEvent *event)
  mybufflag[296] = gzm_297;
  mybufflag[297] = gzm_298;
  mybufflag[298] = gzm_299;
- mybufflag[299] = 1;//gzm_300
- mybufflag[300] = 1;//gzm_301
+ mybufflag[299] = gzm_300;//gzm_300
+ mybufflag[300] = gzm_301;//gzm_301
 
 
  //update();
@@ -6896,15 +6896,21 @@ void Widget::paintEvent(QPaintEvent *event)
               //usleep 调节休眠时间，用于update()函数优化带来的坑。
               /*****************************************************/
               //update();
-              usleep(300000);
+              //usleep(300000);
               /*****************************************************/
 
               countBuff++;
               if (countBuff>1)
                   countBuff = 0;
 
+
+
               switch(countBuff)//countBuff
               {
+
+                case 0:
+                    ui->label_6->setText(QObject::tr(""));
+                    //break;
 
                 case 1:
                  // printf("===== flagyeyayouwen:: %d,midex[j] = %d\r\n",flagYeyayouwen,myindex[j]);
@@ -8174,6 +8180,7 @@ void Widget::paintEvent(QPaintEvent *event)
                       ui->label_6->setText(QObject::tr("key报文超时"));
                       break;
                   default:
+                      ui->label_6->setText(QObject::tr(""));
                       break;
                   }
 
@@ -8181,6 +8188,7 @@ void Widget::paintEvent(QPaintEvent *event)
                   break;
 
               default:
+                  ui->label_6->setText(QObject::tr(""));
                   break;
               }
 

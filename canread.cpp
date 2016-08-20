@@ -529,6 +529,15 @@ void Canread::shutdownfd(int fd)
      case  0x18FF21F6:
 
            shisu = frdup.data[7]<<8|frdup.data[6];//时速
+           if(shisu>30)
+           {
+                shisu = 30;
+           }
+           else if(shisu<1)
+           {
+                shisu = 0;
+           }
+
            guoqiaozhuansu = frdup.data[5]<<8|frdup.data[4];////过桥转速；
 
            fengjizhuansu =  frdup.data[3]<<8|frdup.data[2];//风机转速
@@ -536,14 +545,14 @@ void Canread::shutdownfd(int fd)
 
             break;
 
-            //频率量
-            //18FF03F6
-       case 0x18FF03F6:
-            shengyunqi = frdup.data[1]<<8|frdup.data[0];
-            futuoqi  = frdup.data[3]<<8|frdup.data[2];
-            zhouliuguntong = frdup.data[5]<<8|frdup.data[4];
-            shisu = frdup.data[7]<<8|frdup.data[6];
-            break;
+//            //频率量
+//            //18FF03F6
+//       case 0x18FF03F6:
+//            shengyunqi = frdup.data[1]<<8|frdup.data[0];
+//            futuoqi  = frdup.data[3]<<8|frdup.data[2];
+//            zhouliuguntong = frdup.data[5]<<8|frdup.data[4];
+//            shisu = frdup.data[7]<<8|frdup.data[6];
+//            break;
 
            //模拟量 18FF31F6
        case 0x18FF31F6:
