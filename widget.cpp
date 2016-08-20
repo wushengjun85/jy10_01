@@ -6473,15 +6473,15 @@ void Widget::paintEvent(QPaintEvent *event)
  QPixmap pixBuff;
 
  mybufflag[0] = 1;//gzm_001
- mybufflag[1] = 0;//gzm_002
+ mybufflag[1] = 1;//gzm_002
  mybufflag[2] = gzm_003;
  mybufflag[3] = gzm_004;
  mybufflag[4] = gzm_005;
  mybufflag[5] = gzm_006;
  mybufflag[6] = gzm_007;
  mybufflag[7] = gzm_008;
- mybufflag[8] = 0;//gzm_009
- mybufflag[9] = 0;//gzm_010
+ mybufflag[8] = 1;//gzm_009
+ mybufflag[9] = 1;//gzm_010
 
  mybufflag[10] = gzm_011;
  mybufflag[11] = gzm_012;
@@ -6810,8 +6810,8 @@ void Widget::paintEvent(QPaintEvent *event)
  mybufflag[296] = gzm_297;
  mybufflag[297] = gzm_298;
  mybufflag[298] = gzm_299;
- mybufflag[299] = 0;//gzm_300
- mybufflag[300] = 0;//gzm_301
+ mybufflag[299] = 1;//gzm_300
+ mybufflag[300] = 1;//gzm_301
 
 
  //update();
@@ -6896,7 +6896,7 @@ void Widget::paintEvent(QPaintEvent *event)
               //usleep 调节休眠时间，用于update()函数优化带来的坑。
               /*****************************************************/
               //update();
-              usleep(200000);
+              usleep(300000);
               /*****************************************************/
 
               countBuff++;
@@ -6905,12 +6905,6 @@ void Widget::paintEvent(QPaintEvent *event)
 
               switch(countBuff)//countBuff
               {
-                case 0:
-                  if(jjjflag==1)
-                  {
-                    ui->label_6->setText(QObject::tr(""));
-                  }
-                  break;
 
                 case 1:
                  // printf("===== flagyeyayouwen:: %d,midex[j] = %d\r\n",flagYeyayouwen,myindex[j]);

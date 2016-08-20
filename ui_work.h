@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'work.ui'
 **
-** Created: Wed Aug 17 17:39:55 2016
+** Created: Sat Aug 20 09:51:49 2016
 **      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -47,6 +47,7 @@ public:
     QLCDNumber *lcdNumber_2;
     QLabel *show_label1;
     QLabel *label_16;
+    QLabel *label_15;
 
     void setupUi(QDialog *Work)
     {
@@ -127,14 +128,14 @@ public:
         label_14->setStyleSheet(QString::fromUtf8("font: 22pt \"Ubuntu\";"));
         lcdNumber = new QLCDNumber(Work);
         lcdNumber->setObjectName(QString::fromUtf8("lcdNumber"));
-        lcdNumber->setGeometry(QRect(180, 550, 191, 41));
+        lcdNumber->setGeometry(QRect(10, 570, 131, 21));
         lcdNumber->setStyleSheet(QString::fromUtf8("color: rgb(255, 0, 0);"));
         lcdNumber->setFrameShape(QFrame::NoFrame);
         lcdNumber->setDigitCount(8);
         lcdNumber->setSegmentStyle(QLCDNumber::Filled);
         lcdNumber_2 = new QLCDNumber(Work);
         lcdNumber_2->setObjectName(QString::fromUtf8("lcdNumber_2"));
-        lcdNumber_2->setGeometry(QRect(0, 550, 191, 41));
+        lcdNumber_2->setGeometry(QRect(10, 531, 111, 20));
         lcdNumber_2->setFrameShape(QFrame::NoFrame);
         lcdNumber_2->setDigitCount(10);
         lcdNumber_2->setSegmentStyle(QLCDNumber::Filled);
@@ -144,6 +145,9 @@ public:
         label_16 = new QLabel(Work);
         label_16->setObjectName(QString::fromUtf8("label_16"));
         label_16->setGeometry(QRect(320, 390, 371, 121));
+        label_15 = new QLabel(Work);
+        label_15->setObjectName(QString::fromUtf8("label_15"));
+        label_15->setGeometry(QRect(190, 536, 481, 51));
 
         retranslateUi(Work);
 
@@ -173,6 +177,7 @@ public:
         label_14->setText(QApplication::translate("Work", "55", 0, QApplication::UnicodeUTF8));
         show_label1->setText(QApplication::translate("Work", "TextLabel", 0, QApplication::UnicodeUTF8));
         label_16->setText(QApplication::translate("Work", "TextLabel2", 0, QApplication::UnicodeUTF8));
+        label_15->setText(QApplication::translate("Work", "TextLabel", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

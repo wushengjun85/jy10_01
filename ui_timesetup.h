@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'timesetup.ui'
 **
-** Created: Wed Aug 17 17:39:55 2016
+** Created: Sat Aug 20 08:54:42 2016
 **      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
